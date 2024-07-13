@@ -68,7 +68,7 @@
         document.getElementById("sdate").value;
     }
 
-    function execute() {
+    async function execute() {
       const sdate = document.getElementById("sdate").value;
       const edate = document.getElementById("edate").value;
       const rpMth = document.getElementById("rpMth").value;
@@ -82,15 +82,22 @@
       while (cnt) {
         let teiUrl = `${url}&page=${page}`;
         console.log(teiUrl);
-        makeGetRequest(teiUrl, headers).then((teis) => {
-          if (teis["instances"].length > 0) {
-            ptData = ptData.concat(teis["instances"]);
-            page = page + 1;
-            cnt = false;
-          } else {
-            cnt = false;
-          }
-        });
+        teis = await makeGetRequest(teiUrl, headers);
+        if (teis["instances"].length > 0) {
+          ptData = ptData.concat(teis["instances"]);
+          page = page + 1;
+        } else {
+          cnt = false;
+        }
+        // makeGetRequest(teiUrl, headers).then((teis) => {
+        //   if (teis["instances"].length > 0) {
+        //     ptData = ptData.concat(teis["instances"]);
+        //     page = page + 1;
+        //     cnt = false;
+        //   } else {
+        //     cnt = false;
+        //   }
+        // });
       }
       console.log(ptData);
     }
