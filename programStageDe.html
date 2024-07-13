@@ -119,7 +119,7 @@
     }
 
     function sortJson(obj) {
-      Object.keys(obj)
+      return Object.keys(obj)
         .sort()
         .reduce((accumulator, currentValue) => {
           accumulator[currentValue] = obj[currentValue];
