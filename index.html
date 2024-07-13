@@ -132,10 +132,10 @@
 
     function execute() {
       // Usage example:
-      const username = document.getElementById("username");
-      const password = document.getElementById("password");
-      const tei = document.getElementById("tei");
-      const domain = document.getElementById("host");
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const tei = document.getElementById("tei").value;
+      const domain = document.getElementById("host").value;
       const url = `${domain}/api/tracker/trackedEntities/${tei}.json?fields=*`;
 
       const headers = generateHeaders(username, password);
