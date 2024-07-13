@@ -15,11 +15,57 @@
 
   <body>
     <div class="container">
-      <h1 class="mb-4">Functions</h1>
-      <div class="row">
-        <a href="./tei.html">Individual patient data</a>
-        <a href="./programStageDe.html">Program stage sections</a>
-      </div>
+      <h1 class="mb-4">View Data from MIS</h1>
+      <form id="misForm">
+        <div class="form-group">
+          <label for="host">Host URL:</label>
+          <input
+            type="url"
+            class="form-control"
+            name="host"
+            id="host"
+            placeholder="Enter host URL"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Enter password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="tei">TEI:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tei"
+            id="tei"
+            placeholder="Enter TEI"
+            required
+          />
+        </div>
+        <button type="button" class="btn btn-primary" onclick="execute()">
+          Get Data
+        </button>
+      </form>
+      <p id="data"></p>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
