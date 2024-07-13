@@ -50,7 +50,7 @@
             required
           />
         </div>
-        <button type="button" class="btn btn-primary" onclick="execute()">
+        <button type="button" class="btn btn-primary" onclick="execute1()">
           Get Data
         </button>
       </form>
@@ -62,5 +62,9 @@
       crossorigin="anonymous"
     ></script>
   </body>
-  <script type="module" src="./js/login.js"></script>
+  <script type="module" src="./js/login.js">
+    function execute1(){
+      execute();
+    }
+  </script>
 </html>
