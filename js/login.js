@@ -1,4 +1,4 @@
-import * as funcs from "../js/functions";
+import * as funcs from "../js/functions.js";
 
 function execute() {
   // Usage example:
