@@ -157,6 +157,7 @@
         tea.innerText = patientIder[ptIderId];
         ptIderDiv.appendChild(tea);
       });
+      dataDiv.appendChild(ptIderDiv);
       makeGetRequest(url, headers)
         .then((data) => {
           console.log(data);
