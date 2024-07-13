@@ -1,5 +1,7 @@
 import * as funcs from "../js/functions.js";
 
+console.log("This is from login.js");
+
 export function execute() {
   // Usage example:
   const username = document.getElementById("username").value;
