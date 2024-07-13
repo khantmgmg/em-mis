@@ -81,10 +81,11 @@
       let page = 1;
       while (cnt) {
         let teiUrl = `${url}&page=${page}`;
+        console.log(teiUrl);
         makeGetRequest(teiUrl, headers).then((teis) => {
           if (teis["instances"].length > 0) {
             ptData = ptData.concat(teis["instances"]);
-            page += 1;
+            page = page + 1;
           } else {
             cnt = false;
           }
