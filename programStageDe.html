@@ -136,7 +136,27 @@
       const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
 
       const headers = generateHeaders(username, password);
-
+      let dataDiv = document.getElementById("data");
+      let patientIder = {
+        HAZ7VQ730yn: "Serial Number",
+        NXazwhBRpfA: "MAL- System Case ID",
+        PFpmOsgBCif: "Patient Name",
+        B6TnnFMgmCk: "Age (years)",
+        oindugucx72: "Sex",
+        XN0145qZ7kH: "Address (permanent)",
+      };
+      let ptIderIds = Object.keys(patientIder);
+      let ptIderDiv = document.createElement("div");
+      ptIderDiv.id = "ptIder";
+      let ptIderHeading = document.createElement("h3");
+      ptIderHeading.innerHTML = "Patient Identifier";
+      ptIderDiv.appendChild(ptIderHeading);
+      ptIderIds.forEach((ptIderId) => {
+        let tea = document.createElement("div");
+        tea.id = ptIderId;
+        tea.innerText = patientIder[ptIderId];
+        ptIderDiv.appendChild(tea);
+      });
       makeGetRequest(url, headers)
         .then((data) => {
           console.log(data);
@@ -154,7 +174,6 @@
           console.log(pss);
           keys = Object.keys(pss);
           console.log(keys);
-          let dataDiv = document.getElementById("data");
           keys.forEach((key) => {
             console.log(pss[key]);
             let div = document.createElement("div");
