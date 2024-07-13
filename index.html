@@ -1,10 +1,78 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base target="_top">
+    <base target="_top" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>View data from MIS</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
   </head>
+
   <body>
-    <h1>Hello user</h1>
+    <h1>View data from MIS</h1>
+    <div class="container">
+      <h1 class="mb-4">View Data from MIS</h1>
+      <form id="misForm">
+        <div class="form-group">
+          <label for="host">Host URL:</label>
+          <input
+            type="url"
+            class="form-control"
+            name="host"
+            id="host"
+            placeholder="Enter host URL"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Enter password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="tei">TEI:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tei"
+            id="tei"
+            placeholder="Enter TEI"
+            required
+          />
+        </div>
+        <button type="button" class="btn btn-primary" onclick="execute()">
+          Get Data
+        </button>
+      </form>
+      <p id="data"></p>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
   </body>
   <script>
     function generateHeaders(username, password) {
@@ -17,8 +85,8 @@
 
       // Construct headers object
       const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': authHeader
+        "Content-Type": "application/json",
+        Authorization: authHeader,
       };
       return headers;
     }
@@ -26,9 +94,9 @@
     async function makePostRequest(url, payload, headers) {
       try {
         const response = await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: headers,
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         });
 
         if (!response.ok) {
@@ -38,7 +106,7 @@
         const data = await response.json();
         return data;
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
         throw error;
       }
     }
@@ -46,8 +114,8 @@
     async function makeGetRequest(url, headers) {
       try {
         const response = await fetch(url, {
-          method: 'GET',
-          headers: headers
+          method: "GET",
+          headers: headers,
         });
 
         if (!response.ok) {
@@ -57,25 +125,27 @@
         const data = await response.json();
         return data;
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
         throw error;
       }
     }
 
-    // Usage example:
-    const username = 'central.urc.ygn.admin';
-    const password = 'District1#';
-    const url = 'https://mis-dev.pmi-em.org/api/resources';
-    // const payload = {
-    //   key1: 'value1',
-    //   key2: 'value2'
-    // };
+    function execute() {
+      // Usage example:
+      const username = document.getElementById("username");
+      const password = document.getElementById("password");
+      const tei = document.getElementById("tei");
+      const domain = document.getElementById("host");
+      const url = `${domain}/api/tracker/trackedEntities/${tei}.json?fields=*`;
 
-    const headers = generateHeaders(username, password);
+      const headers = generateHeaders(username, password);
 
-    makeGetRequest(url, headers)
-      .then(data => console.log(data))
-      .catch(error => console.error('Request failed', error));
-
+      makeGetRequest(url, headers)
+        .then((data) => {
+          console.log(data);
+          document.getElementById("data").innerText = JSON.stringify(data);
+        })
+        .catch((error) => console.error("Request failed", error));
+    }
   </script>
 </html>
