@@ -1,6 +1,6 @@
 import * as funcs from "../js/functions.js";
 
-function execute() {
+export function execute() {
   // Usage example:
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
