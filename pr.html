@@ -101,6 +101,7 @@
           events.forEach((event) => {
             event["enrollment"] = enrollmentId;
             event["trackedEntity"] = trackedEntity;
+            event["attributes"] = enrollment["attributes"];
             let eventId = event["event"];
             let occurredAt = event["occurredAt"];
             let reportingMonth = occurredAt.substring(0, 10);
@@ -114,6 +115,7 @@
                 if (!(personCode in finaldata[reportingMonth])) {
                   finaldata[reportingMonth][personCode] = [];
                 }
+                console.log(event);
                 finaldata[reportingMonth][personCode].push(event);
                 return false;
               }
