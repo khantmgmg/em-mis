@@ -164,7 +164,7 @@
             heading.innerHTML = pss[key]["name"];
             div.appendChild(heading);
 
-            let deList = key["de"];
+            let deList = pss[key]["de"];
             deIds = Object.keys(deList);
             deIds.forEach((deId) => {
               let de = document.createElement("div");
