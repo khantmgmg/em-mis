@@ -12,6 +12,20 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <style>
+      .tree ul {
+        list-style-type: none;
+      }
+
+      .tree ul li {
+        margin-left: 20px;
+        cursor: pointer;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
 
   <body>
@@ -104,7 +118,7 @@
             event["attributes"] = enrollment["attributes"];
             let eventId = event["event"];
             let occurredAt = event["occurredAt"];
-            let reportingMonth = occurredAt.substring(0, 10);
+            let reportingMonth = occurredAt.substring(0, 7);
             if (!(reportingMonth in finaldata)) {
               finaldata[reportingMonth] = {};
             }
@@ -126,78 +140,42 @@
         });
       });
       console.log(finaldata);
+      let htmlData = document.getElementById("data");
+      let tree = createTree(finaldata);
+      htmlData.appendChild(tree);
     }
 
-    function execute1() {
-      // Usage example:
-      //   const username = document.getElementById("username").value;
-      //   const password = document.getElementById("password").value;
-      //   const domain = document.getElementById("host").value;
-      const domain = sessionStorage.getItem("domain");
-      const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
+    function createTreeElement(key, value) {
+      const li = document.createElement("li");
 
-      const token = sessionStorage.getItem("token");
-      const headers = generateHeaders(token);
-      let dataDiv = document.getElementById("data");
-      let patientIder = {
-        HAZ7VQ730yn: "Serial Number",
-        NXazwhBRpfA: "MAL- System Case ID",
-        PFpmOsgBCif: "Patient Name",
-        B6TnnFMgmCk: "Age (years)",
-        oindugucx72: "Sex",
-        XN0145qZ7kH: "Address (permanent)",
-      };
-      let ptIderIds = Object.keys(patientIder);
-      let ptIderDiv = document.createElement("div");
-      ptIderDiv.id = "ptIder";
-      let ptIderHeading = document.createElement("h3");
-      ptIderHeading.innerHTML = "Patient Identifier";
-      ptIderDiv.appendChild(ptIderHeading);
-      ptIderIds.forEach((ptIderId) => {
-        let tea = document.createElement("div");
-        tea.id = ptIderId;
-        tea.innerText = patientIder[ptIderId];
-        ptIderDiv.appendChild(tea);
-      });
-      dataDiv.appendChild(ptIderDiv);
-      makeGetRequest(url, headers)
-        .then((data) => {
-          console.log(data);
-          let pss = {};
-          data["programStageSections"].forEach((section) => {
-            pss[section["sortOrder"]] = {};
-            pss[section["sortOrder"]]["id"] = section["id"];
-            pss[section["sortOrder"]]["name"] = section["name"];
-            pss[section["sortOrder"]]["de"] = {};
-            section["dataElements"].forEach((de) => {
-              pss[section["sortOrder"]]["de"][de["id"]] = de["name"];
-            });
-          });
-          pss = sortJson(pss);
-          console.log(pss);
-          keys = Object.keys(pss);
-          console.log(keys);
-          keys.forEach((key) => {
-            console.log(pss[key]);
-            let div = document.createElement("div");
-            div.id = pss[key]["id"];
+      if (typeof value === "object" && value !== null) {
+        li.textContent = key;
+        li.appendChild(createTree(value));
+        li.addEventListener("click", function (event) {
+          event.stopPropagation();
+          const children = this.querySelector("ul");
+          if (children) {
+            children.classList.toggle("hidden");
+          }
+        });
+      } else {
+        li.textContent = `${key}: ${value}`;
+      }
 
-            let heading = document.createElement("h3");
-            heading.innerHTML = pss[key]["name"];
-            div.appendChild(heading);
+      return li;
+    }
 
-            let deList = pss[key]["de"];
-            deIds = Object.keys(deList);
-            deIds.forEach((deId) => {
-              let de = document.createElement("div");
-              de.id = deId;
-              de.innerText = deList[deId];
-              div.appendChild(de);
-            });
-            dataDiv.appendChild(div);
-          });
-        })
-        .catch((error) => console.error("Request failed", error));
+    function createTree(json) {
+      const ul = document.createElement("ul");
+
+      for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+          const li = createTreeElement(key, json[key]);
+          ul.appendChild(li);
+        }
+      }
+
+      return ul;
     }
   </script>
 </html>
