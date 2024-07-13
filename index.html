@@ -82,23 +82,5 @@
         throw error;
       }
     }
-
-    function execute() {
-      // Usage example:
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const tei = document.getElementById("tei").value;
-      const domain = document.getElementById("host").value;
-      const url = `${domain}/api/tracker/trackedEntities/${tei}.json?fields=*`;
-
-      const headers = generateHeaders(username, password);
-
-      makeGetRequest(url, headers)
-        .then((data) => {
-          console.log(data);
-          document.getElementById("data").innerText = JSON.stringify(data);
-        })
-        .catch((error) => console.error("Request failed", error));
-    }
   </script>
 </html>

@@ -134,9 +134,14 @@
       makeGetRequest(url, headers)
         .then((data) => {
           console.log(data);
-          document.getElementById("data").innerText = JSON.stringify(data);
+          document.getElementById(
+            "data"
+          ).innerText = `${token} ||| ${data["name"]}`;
         })
-        .catch((error) => console.error("Request failed", error));
+        .catch((error) => {
+          console.error("Request failed", error);
+          alert("Domain or Username or password incorrect");
+        });
     }
   </script>
 </html>
