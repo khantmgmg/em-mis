@@ -111,7 +111,7 @@
             dataValues.every((dataValue) => {
               if (dataValue["dataElement"] == "AS3g1pCXG7z") {
                 let personCode = dataValue["value"];
-                if (!finaldata[reportingMonth][personCode]) {
+                if (!(personCode in finaldata[reportingMonth])) {
                   finaldata[reportingMonth][personCode] = [];
                 }
                 finaldata[reportingMonth][personCode].push(event);
