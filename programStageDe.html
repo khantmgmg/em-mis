@@ -123,7 +123,7 @@
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       const domain = document.getElementById("host").value;
-      const url = `${domain}/api/programStageSections.json?fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]`;
+      const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
 
       const headers = generateHeaders(username, password);
 
