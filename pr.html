@@ -109,17 +109,19 @@
               finaldata[reportingMonth] = {};
             }
             let dataValues = event["dataValues"];
-            dataValues.every((dataValue) => {
+            for (let i = 0; i < dataValues.length; i++) {
+              let dataValue = dataValues[i];
               if (dataValue["dataElement"] == "AS3g1pCXG7z") {
                 let personCode = dataValue["value"];
+                console.log(personCode);
                 if (!(personCode in finaldata[reportingMonth])) {
                   finaldata[reportingMonth][personCode] = [];
                 }
                 console.log(event);
                 finaldata[reportingMonth][personCode].push(event);
-                return false;
+                break;
               }
-            });
+            }
           });
         });
       });
