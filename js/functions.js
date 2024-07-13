@@ -1,4 +1,4 @@
-export function generateToken(username, password) {
+function generateToken(username, password) {
   // Concatenate username and password with a colon
   const credentials = `${username}:${password}`;
   // Encode the credentials using base64
@@ -6,7 +6,7 @@ export function generateToken(username, password) {
   return encodedCredentials;
 }
 
-export function generateHeaders(token) {
+function generateHeaders(token) {
   // Construct the Authorization header value
   const authHeader = `Basic ${token}`;
   // Construct headers object
@@ -17,7 +17,7 @@ export function generateHeaders(token) {
   return headers;
 }
 
-export async function makePostRequest(url, payload, headers) {
+async function makePostRequest(url, payload, headers) {
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -37,7 +37,7 @@ export async function makePostRequest(url, payload, headers) {
   }
 }
 
-export async function makeGetRequest(url, headers) {
+async function makeGetRequest(url, headers) {
   try {
     const response = await fetch(url, {
       method: "GET",
