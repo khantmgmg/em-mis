@@ -65,64 +65,9 @@
       crossorigin="anonymous"
     ></script>
   </body>
+  <script src="./js/functions.js"></script>
   <script>
     execute();
-
-    function generateHeaders(username, password) {
-      // Concatenate username and password with a colon
-      const credentials = `${username}:${password}`;
-      // Encode the credentials using base64
-      const encodedCredentials = btoa(credentials);
-      // Construct the Authorization header value
-      const authHeader = `Basic ${encodedCredentials}`;
-
-      // Construct headers object
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: authHeader,
-      };
-      return headers;
-    }
-
-    async function makePostRequest(url, payload, headers) {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
-      }
-    }
-
-    async function makeGetRequest(url, headers) {
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: headers,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
-      }
-    }
-
     function sortJson(obj) {
       return Object.keys(obj)
         .sort()
@@ -139,8 +84,8 @@
       const domain = sessionStorage.getItem("domain");
       const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
 
-      //   const headers = generateHeaders(username, password);
-      const headers = sessionStorage.getItem("headers");
+      const token = sessionStorage.getItem("token");
+      const headers = generateHeaders(token);
       let dataDiv = document.getElementById("data");
       let patientIder = {
         HAZ7VQ730yn: "Serial Number",
