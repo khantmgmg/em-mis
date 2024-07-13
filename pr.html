@@ -150,7 +150,9 @@
 
       if (typeof value === "object" && value !== null) {
         li.textContent = key;
-        li.appendChild(createTree(value));
+        const childTree = createTree(value);
+        childTree.classList.add("hidden"); // Add 'hidden' class to hide by default
+        li.appendChild(childTree);
         li.addEventListener("click", function (event) {
           event.stopPropagation();
           const children = this.querySelector("ul");
