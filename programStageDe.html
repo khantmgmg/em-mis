@@ -118,6 +118,14 @@
       }
     }
 
+    function sortJson(obj) {
+      Object.keys(obj)
+        .sort()
+        .reduce((accumulator, currentValue) => {
+          accumulator[currentValue] = obj[currentValue];
+          return accumulator;
+        }, {});
+    }
     function execute() {
       // Usage example:
       const username = document.getElementById("username").value;
@@ -130,8 +138,21 @@
       makeGetRequest(url, headers)
         .then((data) => {
           console.log(data);
+          let pss = {};
+          data["programStageSections"].forEach((section) => {
+            pss[section["sortOrder"]] = {};
+            pss[section["sortOrder"]]["id"] = section["id"];
+            pss[section["sortOrder"]]["name"] = section["name"];
+            pss[section["sortOrder"]]["de"] = {};
+            section["dataElements"].forEach((de) => {
+              pss[section["sortOrder"]]["de"][de["id"]] = de["name"];
+            });
+          });
+          console.log(pss);
+          pss = sortJson(pss);
+          console.log(pss);
           document.getElementById("data").innerText = JSON.stringify(
-            data,
+            pss,
             null,
             4
           );
