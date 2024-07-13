@@ -130,7 +130,11 @@
       makeGetRequest(url, headers)
         .then((data) => {
           console.log(data);
-          document.getElementById("data").innerText = JSON.stringify(data);
+          document.getElementById("data").innerText = JSON.stringify(
+            data,
+            null,
+            4
+          );
         })
         .catch((error) => console.error("Request failed", error));
     }
