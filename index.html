@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <h1>Hello user</h1>
+  </body>
+  <script>
+    function generateHeaders(username, password) {
+      // Concatenate username and password with a colon
+      const credentials = `${username}:${password}`;
+      // Encode the credentials using base64
+      const encodedCredentials = btoa(credentials);
+      // Construct the Authorization header value
+      const authHeader = `Basic ${encodedCredentials}`;
+
+      // Construct headers object
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': authHeader
+      };
+      return headers;
+    }
+
+    async function makePostRequest(url, payload, headers) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
+
+    async function makeGetRequest(url, headers) {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: headers
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
+
+    // Usage example:
+    const username = 'yourUsername';
+    const password = 'yourPassword';
+    const url = 'https://mis-dev.pmi-em.org/api/resources';
+    // const payload = {
+    //   key1: 'value1',
+    //   key2: 'value2'
+    // };
+
+    const headers = generateHeaders(username, password);
+
+    makeGetRequest(url, headers)
+      .then(data => console.log(data))
+      .catch(error => console.error('Request failed', error));
+
+  </script>
+</html>
