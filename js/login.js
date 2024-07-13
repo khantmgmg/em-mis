@@ -1,4 +1,4 @@
-import * as funcs from "functions.js";
+import * as funcs from "./functions.js";
 // function generateToken(username, password) {
 //   // Concatenate username and password with a colon
 //   const credentials = `${username}:${password}`;
