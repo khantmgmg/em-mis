@@ -54,7 +54,7 @@
           Get Data
         </button>
       </form>
-      <p id="data"></p>
+      <div id="data"></div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -148,22 +148,34 @@
               pss[section["sortOrder"]]["de"][de["id"]] = de["name"];
             });
           });
-          console.log(pss);
-          console.log(
-            Object.keys(pss)
-              .sort()
-              .reduce((accumulator, currentValue) => {
-                accumulator[currentValue] = pss[currentValue];
-                return accumulator;
-              }, {})
-          );
           pss = sortJson(pss);
+          keys = Object.keys(pss);
+
+          let dataDiv = document.getElementById("data");
+          keys.forEach((key) => {
+            let div = document.createElement("div");
+            div.id = pss[key]["id"];
+
+            let heading = document.createElement("h3");
+            heading.innerHTML = pss[key]["name"];
+            div.appendChild(heading);
+
+            let deList = key["de"];
+            deIds = Object.keys(deList);
+            deIds.forEach((deId) => {
+              let de = document.createElement("div");
+              de.id = deId;
+              de.innerText = deList[deId];
+              div.appendChild(de);
+            });
+            dataDiv.appendChild(div);
+          });
           console.log(pss);
-          document.getElementById("data").innerText = JSON.stringify(
-            pss,
-            null,
-            4
-          );
+          //   document.getElementById("data").innerText = JSON.stringify(
+          //     pss,
+          //     null,
+          //     4
+          //   );
         })
         .catch((error) => console.error("Request failed", error));
     }
