@@ -89,17 +89,39 @@
         } else {
           cnt = false;
         }
-        // makeGetRequest(teiUrl, headers).then((teis) => {
-        //   if (teis["instances"].length > 0) {
-        //     ptData = ptData.concat(teis["instances"]);
-        //     page = page + 1;
-        //     cnt = false;
-        //   } else {
-        //     cnt = false;
-        //   }
-        // });
       }
       console.log(ptData);
+      finaldata = {};
+      ptData.forEach((tei) => {
+        let trackedEntity = tei["trackedEntity"];
+        let enrollments = tei["enrollments"];
+        enrollments.forEach((enrollment) => {
+          let enrollmentId = enrollment["enrollment"];
+          let events = enrollment["events"];
+          events.forEach((event) => {
+            event["enrollment"] = enrollmentId;
+            event["trackedEntity"] = trackedEntity;
+            let eventId = event["event"];
+            let occurredAt = event["occurredAt"];
+            let reportingMonth = occurredAt.substring(0, 10);
+            if (!(reportingMonth in finaldata)) {
+              finaldata[reportingMonth] = {};
+            }
+            let dataValues = event["dataValues"];
+            dataValues.every((dataValue) => {
+              if (dataValue["dataElement"] == "AS3g1pCXG7z") {
+                let personCode = dataValue["value"];
+                if (!finaldata[reportingMonth][personCode]) {
+                  finaldata[reportingMonth][personCode] = [];
+                }
+                finaldata[reportingMonth][personCode].push(event);
+                return false;
+              }
+            });
+          });
+        });
+      });
+      console.log(finaldata);
     }
 
     function execute1() {
