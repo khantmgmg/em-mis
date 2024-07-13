@@ -66,6 +66,8 @@
     ></script>
   </body>
   <script>
+    execute();
+
     function generateHeaders(username, password) {
       // Concatenate username and password with a colon
       const credentials = `${username}:${password}`;
@@ -131,12 +133,14 @@
     }
     function execute() {
       // Usage example:
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const domain = document.getElementById("host").value;
+      //   const username = document.getElementById("username").value;
+      //   const password = document.getElementById("password").value;
+      //   const domain = document.getElementById("host").value;
+      const domain = sessionStorage.getItem("domain");
       const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
 
-      const headers = generateHeaders(username, password);
+      //   const headers = generateHeaders(username, password);
+      const headers = sessionStorage.getItem("headers");
       let dataDiv = document.getElementById("data");
       let patientIder = {
         HAZ7VQ730yn: "Serial Number",
@@ -195,11 +199,6 @@
             });
             dataDiv.appendChild(div);
           });
-          //   document.getElementById("data").innerText = JSON.stringify(
-          //     pss,
-          //     null,
-          //     4
-          //   );
         })
         .catch((error) => console.error("Request failed", error));
     }
