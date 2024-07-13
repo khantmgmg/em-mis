@@ -149,6 +149,14 @@
             });
           });
           console.log(pss);
+          console.log(
+            Object.keys(pss)
+              .sort()
+              .reduce((accumulator, currentValue) => {
+                accumulator[currentValue] = pss[currentValue];
+                return accumulator;
+              }, {})
+          );
           pss = sortJson(pss);
           console.log(pss);
           document.getElementById("data").innerText = JSON.stringify(
