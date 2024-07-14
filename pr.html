@@ -145,20 +145,21 @@
               }
             }
             let cblPeriod = `${cblMth}-${cblYr}`;
-            console.log(`${personCode} - ${cblPeriod} - ${cblPage}`)
+            console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
             if (!(personCode in finaldata[reportingMonth])){
               finaldata[reportingMonth][personCode] = {};
             }
-            console.log(Object.keys(finaldata[reportingMonth]))
+            console.log(Object.keys(finaldata[reportingMonth]));
             if (!(cblPeriod in finaldata[reportingMonth][personCode])){
               finaldata[reportingMonth][personCode][cblPeriod] = {};
             }
-            console.log(Object.keys(finaldata[reportingMonth][personCode]))
+            console.log(Object.keys(finaldata[reportingMonth][personCode]));
             if (!(cblPage in finaldata[reportingMonth][personCode][cblPeriod])){
               finaldata[reportingMonth][personCode][cblPeriod][cblPage] = [];
             }
-            console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]))
-            finaldata[reportingMonth][persnCode][cblPeriod][cblPage].push(event);
+            console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
+            console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
+            finaldata[reportingMonth][personCode][cblPeriod][cblPage].push(event);
           });
         });
       });
