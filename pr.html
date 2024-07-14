@@ -145,6 +145,7 @@
               }
             }
             let cblPeriod = `${cblMth}-${cblYr}`;
+            console.log(`${personCode} - ${cblPeriod} - ${cblPage}`)
             if (!(personCode in finaldata[reportingMonth])){
               finaldata[reportingMonth][personCode] = {};
             }
