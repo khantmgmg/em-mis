@@ -123,19 +123,38 @@
               finaldata[reportingMonth] = {};
             }
             let dataValues = event["dataValues"];
+
+            let persnCode = "";
+            let cblMth = "";
+            let cblYr = "";
+            let cblPage = "";
+
             for (let i = 0; i < dataValues.length; i++) {
               let dataValue = dataValues[i];
               if (dataValue["dataElement"] == "AS3g1pCXG7z") {
-                let personCode = dataValue["value"];
-                console.log(personCode);
-                if (!(personCode in finaldata[reportingMonth])) {
-                  finaldata[reportingMonth][personCode] = [];
-                }
-                console.log(event);
-                finaldata[reportingMonth][personCode].push(event);
-                break;
+                personCode = dataValue["value"];
+              }
+              else if (dataValue["dataElement"] == "n3Bkq0yjIa7") {
+                cblMth = dataValue["value"];
+              }
+              else if (dataValue["dataElement"] == "mHmqOLqzXB2") {
+                cblYr = dataValue["value"];
+              }
+              else if (dataValue["dataElement"] == "m7sW6eVhXqz") {
+                cblPage = dataValue["value"];
               }
             }
+            let cblPeriod = `${cblMth}-${cblYr}`;
+            if (!(personCode in finaldata[reportingMonth])){
+              finaldata[reportingMonth][personCode] = {};
+            }
+            if (!(cblPeriod in finaldata[reportingMonth][personCode])){
+              finaldata[reportingMonth][personCode][cblPeriod] = {};
+            }
+            if (!(cblPage in finaldata[reportingMonth][personCode][cblPeriod])){
+              finaldata[reportingMonth][personCode][cblPeriod][cblPage] = [];
+            }
+            finaldata[reportingMonth][persnCode][cblPeriod][cblPage].push(event);
           });
         });
       });
