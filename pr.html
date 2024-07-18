@@ -233,9 +233,13 @@
           const li = createTreeElement(key, json[key], valueType);
           console.log(li);
           console.log(li.children);
-          li.children.forEach(child => {
-            ul.appendChild(child);
-          })
+          for (let x = 0; x < li.children.length; x++){
+            console.log(li.children[x]);
+            ul.appendChild(li.children[x]);
+          }
+          // li.children.forEach(child => {
+          //   ul.appendChild(child);
+          // })
           // ul.appendChild(li);
         }
       }
