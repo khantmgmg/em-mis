@@ -172,12 +172,12 @@
     }
 
     function createTreeElement(key, value, vType) {
-      const div = document.createElement("div")
+      const div = document.createElement("div");
       if (vType === "object") {        
         const li = document.createElement("li");
         li.textContent = key;
         const childTree = createTree(value);
-        childTree.classList.add("hidden"); // Add 'hidden' class to hide by default
+        childTree.classList.add("hidden");
         li.appendChild(childTree);
         li.addEventListener("click", function (event) {
           event.stopPropagation();
@@ -186,7 +186,7 @@
             children.classList.toggle("hidden");
           }
         });
-        div.appendChild(li)
+        div.appendChild(li);
       } 
       else if (vType === "array"){
         let ptName = "";
@@ -220,8 +220,6 @@
         })
       }
       return div;
-
-      
     }
 
     function createTree(json) {
@@ -231,16 +229,9 @@
         if (json.hasOwnProperty(key)) {
           const valueType = checkValueType(json[key]);
           const li = createTreeElement(key, json[key], valueType);
-          console.log(li);
-          console.log(li.children);
           for (let x = 0; x < li.children.length; x++){
-            console.log(li.children[x]);
             ul.appendChild(li.children[x]);
           }
-          // li.children.forEach(child => {
-          //   ul.appendChild(child);
-          // })
-          // ul.appendChild(li);
         }
       }
 
