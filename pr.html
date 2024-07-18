@@ -52,7 +52,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="host">First date of reporting month:</label>
           <input
             type="date"
@@ -61,7 +61,7 @@
             id="rpMth"
             required
           />
-        </div>
+        </div> -->
         <button type="button" class="btn btn-primary" onclick="execute()">
           Get Data
         </button>
@@ -85,7 +85,7 @@
     async function execute() {
       const sdate = document.getElementById("sdate").value;
       const edate = document.getElementById("edate").value;
-      const rpMth = document.getElementById("rpMth").value;
+      // const rpMth = document.getElementById("rpMth").value;
       const domain = sessionStorage.getItem("domain");
       const token = sessionStorage.getItem("token");
       const headers = generateHeaders(token);
@@ -145,20 +145,20 @@
               }
             }
             let cblPeriod = `${cblMth}-${cblYr}`;
-            console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
+            // console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
             if (!(personCode in finaldata[reportingMonth])){
               finaldata[reportingMonth][personCode] = {};
             }
-            console.log(Object.keys(finaldata[reportingMonth]));
+            // console.log(Object.keys(finaldata[reportingMonth]));
             if (!(cblPeriod in finaldata[reportingMonth][personCode])){
               finaldata[reportingMonth][personCode][cblPeriod] = {};
             }
-            console.log(Object.keys(finaldata[reportingMonth][personCode]));
+            // console.log(Object.keys(finaldata[reportingMonth][personCode]));
             if (!(cblPage in finaldata[reportingMonth][personCode][cblPeriod])){
               finaldata[reportingMonth][personCode][cblPeriod][cblPage] = [];
             }
-            console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
-            console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
+            // console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
+            // console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
             finaldata[reportingMonth][personCode][cblPeriod][cblPage].push(event);
           });
         });
