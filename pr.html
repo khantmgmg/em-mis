@@ -231,6 +231,8 @@
         if (json.hasOwnProperty(key)) {
           const valueType = checkValueType(json[key]);
           const li = createTreeElement(key, json[key], valueType);
+          console.log(li);
+          console.log(li.children);
           li.children.forEach(child => {
             ul.appendChild(child);
           })
