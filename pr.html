@@ -172,6 +172,7 @@
     }
 
     function createTreeElement(key, value, vType) {
+      const div = document.createElement("div")
       if (vType === "object") {        
         const li = document.createElement("li");
         li.textContent = key;
@@ -185,11 +186,40 @@
             children.classList.toggle("hidden");
           }
         });
-        return li;
+        div.appendChild(li)
       } 
-      // else if (vType === "array"){        
-      //   li.textContent = `${key}: ${value}`;
-      // }
+      else if (vType === "array"){
+        let ptName = "";
+        let ptAge = "";
+        let ptSex = "";
+        let testResult = "";
+        value.forEach(val => {
+          let attr = val["attributes"];
+          let dVal = val["dataValues"];
+          attr.forEach(attribute => {
+            if (attribute["attribute"] == "PFpmOsgBCif"){
+              ptName = attribute["value"];
+            }
+            else if (attribute["attribute"] == "oindugucx72"){
+              ptSex = attribute["value"];
+            }
+          })
+
+          dVal.forEach(dataValue => {
+            if (dataValue["dataElement"] == "ECVGASvuHV3"){
+              ptAge = dataValue["value"];
+            }
+            else if (dataValue["dataElement"] == "vGxpKVMkmaW"){
+              testResult = dataValue["value"];
+            }
+          })
+          let text = `${ptName}, ${ptAge}, ${ptSex}, ${testResult}`;
+          let ptLi = document.createElement("li");
+          ptLi.innerText = text;
+          div.appendChild(ptLi);
+        })
+      }
+      return div;
 
       
     }
@@ -201,7 +231,10 @@
         if (json.hasOwnProperty(key)) {
           const valueType = checkValueType(json[key]);
           const li = createTreeElement(key, json[key], valueType);
-          ul.appendChild(li);
+          li.children.forEach(child => {
+            ul.appendChild(child);
+          })
+          // ul.appendChild(li);
         }
       }
 
