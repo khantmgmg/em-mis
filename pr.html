@@ -171,10 +171,9 @@
       htmlData.appendChild(tree);
     }
 
-    function createTreeElement(key, value) {
-      const li = document.createElement("li");
-
-      if (typeof value === "object" && value !== null) {
+    function createTreeElement(key, value, vType) {
+      if (vType === "object") {        
+        const li = document.createElement("li");
         li.textContent = key;
         const childTree = createTree(value);
         childTree.classList.add("hidden"); // Add 'hidden' class to hide by default
@@ -186,9 +185,10 @@
             children.classList.toggle("hidden");
           }
         });
-      } else {
-        li.textContent = `${key}: ${value}`;
-      }
+      } 
+      // else if (vType === "array"){        
+      //   li.textContent = `${key}: ${value}`;
+      // }
 
       return li;
     }
@@ -198,12 +198,25 @@
 
       for (const key in json) {
         if (json.hasOwnProperty(key)) {
-          const li = createTreeElement(key, json[key]);
+          const valueType = checkValueType(json[key]);
+          const li = createTreeElement(key, json[key], valueType);
           ul.appendChild(li);
         }
       }
 
       return ul;
     }
+
+    function checkValueType(value) {
+      if (typeof value === "object") {
+        if (Array.isArray(value)) {
+          return "array";
+        } else if (value !== null) {
+          return "object";
+        }
+      }
+      return "other";
+    }
+
   </script>
 </html>
