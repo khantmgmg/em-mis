@@ -123,87 +123,89 @@
           console.log(keys);
           let formDiv = document.createElement("form");
           keys.forEach((key) => {
-            console.log(pss[key]);
-            let div = document.createElement("div");
-            div.id = pss[key]["id"];
+            if (pss[key]["id"] != "R1xV2flpzL1") {
+              console.log(pss[key]);
+              let div = document.createElement("div");
+              div.id = pss[key]["id"];
 
-            let heading = document.createElement("h3");
-            heading.innerHTML = pss[key]["name"];
-            div.appendChild(heading);
-            formDiv.appendChild(div);
+              let heading = document.createElement("h3");
+              heading.innerHTML = pss[key]["name"];
+              div.appendChild(heading);
+              formDiv.appendChild(div);
 
-            let deList = pss[key]["de"];
-            deIds = Object.keys(deList);
-            deIds.forEach((deId) => {
-              let formGroup = document.createElement("div");
-              formGroup.className = "form-group row my-2";
-              let formLabel = document.createElement("label");
-              formLabel.for = deId;
-              formLabel.className = "col-sm-2 col-form-label";
-              formLabel.innerText = deList[deId]["name"];
-              formGroup.appendChild(formLabel);
-              let inputDiv = document.createElement("div");
-              inputDiv.className = "col-sm-10";
+              let deList = pss[key]["de"];
+              deIds = Object.keys(deList);
+              deIds.forEach((deId) => {
+                let formGroup = document.createElement("div");
+                formGroup.className = "form-group row my-2";
+                let formLabel = document.createElement("label");
+                formLabel.for = deId;
+                formLabel.className = "col-sm-2 col-form-label";
+                formLabel.innerText = deList[deId]["name"];
+                formGroup.appendChild(formLabel);
+                let inputDiv = document.createElement("div");
+                inputDiv.className = "col-sm-10";
 
-              if (deList[deId]["optionSetValue"]) {
-                let select = document.createElement("select");
-                select.className = "form-control";
-                select.id = deId;
-                let options = deList[deId]["optionSet"]["options"];
-                options.forEach((option) => {
-                  let opt = document.createElement("option");
-                  opt.value = option["code"];
-                  opt.innerText = option["name"];
-                  select.appendChild(opt);
-                });
-                inputDiv.appendChild(select);
-              } else {
-                let inputNode = document.createElement("input");
-                switch (deList[deId]["valueType"]) {
-                  case "TEXT":
-                    inputNode.type = "text";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    break;
-                  case "NUMBER":
-                    inputNode.type = "number";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    inputNode.min = "0";
-                    inputNode.step = "0.01";
-                    break;
-                  case "INTEGER_ZERO_OR_POSITIVE":
-                    inputNode.type = "number";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    inputNode.min = "0";
-                    inputNode.step = "1";
-                    break;
-                  case "DATE":
-                    inputNode.type = "date";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    break;
-                  case "TIME":
-                    inputNode.type = "time";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    break;
-                  default:
-                    inputNode.type = "text";
-                    inputNode.className = "form-control";
-                    inputNode.id = deId;
-                    inputNode.value = deList[deId]["valueType"];
+                if (deList[deId]["optionSetValue"]) {
+                  let select = document.createElement("select");
+                  select.className = "form-control";
+                  select.id = deId;
+                  let options = deList[deId]["optionSet"]["options"];
+                  options.forEach((option) => {
+                    let opt = document.createElement("option");
+                    opt.value = option["code"];
+                    opt.innerText = option["name"];
+                    select.appendChild(opt);
+                  });
+                  inputDiv.appendChild(select);
+                } else {
+                  let inputNode = document.createElement("input");
+                  switch (deList[deId]["valueType"]) {
+                    case "TEXT":
+                      inputNode.type = "text";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      break;
+                    case "NUMBER":
+                      inputNode.type = "number";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      inputNode.min = "0";
+                      inputNode.step = "0.01";
+                      break;
+                    case "INTEGER_ZERO_OR_POSITIVE":
+                      inputNode.type = "number";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      inputNode.min = "0";
+                      inputNode.step = "1";
+                      break;
+                    case "DATE":
+                      inputNode.type = "date";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      break;
+                    case "TIME":
+                      inputNode.type = "time";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      break;
+                    default:
+                      inputNode.type = "text";
+                      inputNode.className = "form-control";
+                      inputNode.id = deId;
+                      inputNode.value = deList[deId]["valueType"];
+                  }
+                  inputDiv.appendChild(inputNode);
                 }
-                inputDiv.appendChild(inputNode);
-              }
-              formGroup.appendChild(inputDiv);
-              formDiv.appendChild(formGroup);
-              // de.id = deId;
-              // de.innerText = deList[deId]["name"];
-              // div.appendChild(de);
-            });
-            dataDiv.appendChild(formDiv);
+                formGroup.appendChild(inputDiv);
+                formDiv.appendChild(formGroup);
+                // de.id = deId;
+                // de.innerText = deList[deId]["name"];
+                // div.appendChild(de);
+              });
+              dataDiv.appendChild(formDiv);
+            }
           });
         })
         .catch((error) => console.error("Request failed", error));
