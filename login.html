@@ -82,9 +82,9 @@
           document.getElementById(
             "data"
           ).innerText = `${token} ||| ${data["name"]}`;
-          sessionStorage.setItem("domain", domain);
-          sessionStorage.setItem("token", token);
-          sessionStorage.setItem("user", data["name"]);
+          localStorage.setItem("domain", domain);
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", data["name"]);
           window.location.href = "./";
         })
         .catch((error) => {

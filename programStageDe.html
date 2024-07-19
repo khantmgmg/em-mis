@@ -77,14 +77,10 @@
         }, {});
     }
     function execute() {
-      // Usage example:
-      //   const username = document.getElementById("username").value;
-      //   const password = document.getElementById("password").value;
-      //   const domain = document.getElementById("host").value;
-      const domain = sessionStorage.getItem("domain");
+      const domain = localStorage.getItem("domain");
       const url = `${domain}/api/programStageSections.json?filter=programStage.id:eq:hYyB7FUS5eR&fields=id,name,sortOrder,programStage[id,name],dataElements[id,name]&paging=false`;
 
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = generateHeaders(token);
       let dataDiv = document.getElementById("data");
       let patientIder = {
