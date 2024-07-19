@@ -140,6 +140,7 @@
               let formLabel = document.createElement("label");
               formLabel.for = deId;
               formLabel.className = "col-sm-2 col-form-label";
+              formLabel.innerText = deList[deId]["name"];
               formGroup.appendChild(formLabel);
               let inputDiv = document.createElement("div");
               inputDiv.className = "col-sm-10";
