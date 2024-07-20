@@ -153,10 +153,10 @@
       let mainRowDiv = document.createElement("div");
       mainRowDiv.className = "row";
 
-      let rpMthCol = createSelectBox("rpMth");
-      let personCodeCol = createSelectBox("personCode");
-      let cblPeriodCol = createSelectBox("cblPeriod");
-      let cblPageCol = createSelectBox("cblPage");
+      let rpMthCol = createSelectBox("rpMth", rpMthChange());
+      let personCodeCol = createSelectBox("personCode", personCodeChange());
+      let cblPeriodCol = createSelectBox("cblPeriod", cblPeriodChange());
+      let cblPageCol = createSelectBox("cblPage", "");
 
       mainRowDiv.appendChild(rpMthCol);
       mainRowDiv.appendChild(personCodeCol);
@@ -174,9 +174,9 @@
         rpMthSelect.appendChild(rpMthOption);
       });
 
-      document.getElementById("rpMth").onchange = "rpMthChange();";
-      document.getElementById("personCode").onchange = "personCodeChange();";
-      document.getElementById("cblPeriod").onchange = "cblPeriodChange();";
+      // document.getElementById("rpMth").onchange = "rpMthChange();";
+      // document.getElementById("personCode").onchange = "personCodeChange();";
+      // document.getElementById("cblPeriod").onchange = "cblPeriodChange();";
     }
 
     function rpMthChange() {
@@ -227,7 +227,7 @@
       });
     }
 
-    function createSelectBox(id) {
+    function createSelectBox(id, jsFunction) {
       let col = document.createElement("div");
       col.className = "col-3";
       let label = document.createElement("label");
@@ -236,6 +236,7 @@
       let select = document.createElement("select");
       select.id = id;
       select.size = 10;
+      select.setAttribute("onChange", jsFunction);
       col.appendChild(label);
       col.appendChild(select);
       return col;
