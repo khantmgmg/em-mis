@@ -284,19 +284,19 @@
       let cblPage = document.getElementById("cblPage").value;
       let jsonData = finaldata[rpMth][personCode][cblPeriod][cblPage];
 
-      let srno = "";
-      let testDate = "";
-      let ptName = "";
-      let ptAge = "";
-      let ptAddress = "";
-      let ptPopType = "";
-      let ptSex = "";
-      let ptPreg = "";
-      let testResult = "";
-      let ptHe = "";
-      let permanentAddr = "";
-      let url = "";
       jsonData.forEach((idata) => {
+        let srno = "";
+        let testDate = "";
+        let ptName = "";
+        let ptAge = "";
+        let ptAddress = "";
+        let ptPopType = "";
+        let ptSex = "";
+        let ptPreg = "";
+        let testResult = "";
+        let ptHe = "";
+        let permanentAddr = "";
+        let url = "";
         console.log(idata);
         let attributes = idata["attributes"];
         let dataValues = idata["dataValues"];
