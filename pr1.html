@@ -57,17 +57,17 @@
       <div id="data"></div>
       <div id="ptData-head">
         <div class="row">
-          <div class="col-1"><strong>No.</strong></div>
+          <div class="col"><strong>No.</strong></div>
           <div class="col-1"><strong>Date</strong></div>
           <div class="col-2"><strong>Name</strong></div>
-          <div class="col-1"><strong>Age</strong></div>
+          <div class="col"><strong>Age</strong></div>
           <div class="col-2"><strong>Address</strong></div>
           <div class="col-1"><strong>Population Type</strong></div>
-          <div class="col-1"><strong>Sex</strong></div>
+          <div class="col"><strong>Sex</strong></div>
           <div class="col-1"><strong>Pregnancy status</strong></div>
           <div class="col-1"><strong>Test result</strong></div>
           <div class="col-1"><strong>Health education</strong></div>
-          <div class="col-1"><strong>URL</strong></div>
+          <div class="col"><strong>URL</strong></div>
         </div>
       </div>
       <div id="ptData"></div>
@@ -361,7 +361,7 @@
           ptHe
         );
         let urlDiv = document.createElement("div");
-        urlDiv.className = "col-1";
+        urlDiv.className = "col";
         let urlA = document.createElement("a");
         urlA.href = url;
         urlA.target = "_blank";
@@ -386,13 +386,13 @@
     ) {
       let ptRowDiv = document.createElement("div");
       ptRowDiv.className = "row";
-      let colSrno = createPatientDataCellDiv(srno, 1);
+      let colSrno = createPatientDataCellDiv(srno, "");
       let colTestDate = createPatientDataCellDiv(testDate, 1);
       let colPtName = createPatientDataCellDiv(ptName, 2);
-      let colPtAge = createPatientDataCellDiv(ptAge, 1);
+      let colPtAge = createPatientDataCellDiv(ptAge, "");
       let colPtAddress = createPatientDataCellDiv(ptAddress, 2);
       let colPtPopType = createPatientDataCellDiv(ptPopType, 1);
-      let colPtSex = createPatientDataCellDiv(ptSex, 1);
+      let colPtSex = createPatientDataCellDiv(ptSex, "");
       let colPtPreg = createPatientDataCellDiv(ptPreg, 1);
       let colTestResult = createPatientDataCellDiv(testResult, 1);
       let colPtHe = createPatientDataCellDiv(ptHe, 1);
@@ -411,7 +411,12 @@
 
     function createPatientDataCellDiv(info, colWidth) {
       let ptDataCellDiv = document.createElement("div");
-      ptDataCellDiv.className = `col-${colWidth}`;
+      if (colWidth == "") {
+        ptDataCellDiv.className = `col`;
+      } else {
+        ptDataCellDiv.className = `col-${colWidth}`;
+      }
+
       ptDataCellDiv.innerText = info;
       return ptDataCellDiv;
     }
