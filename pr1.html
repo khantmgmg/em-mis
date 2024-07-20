@@ -166,7 +166,7 @@
       htmlData.appendChild(formDiv);
 
       let rpMthSelect = document.getElementById("rpMth");
-      let rpMths = Object.key(finaldata);
+      let rpMths = Object.keys(finaldata);
       rpMths.forEach((rpMth) => {
         let rpMthOption = document.createElement("option");
         rpMthOption.value = rpMth;
