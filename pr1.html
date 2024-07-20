@@ -56,7 +56,9 @@
       <hr />
       <div id="data"></div>
       <div id="ptData-head">
-        <div class="row">
+        <div
+          class="row border rounded bg-secondary text-white px-2 py-2 mx-1 my-1 align-items-center text-center"
+        >
           <div class="col" style="max-width: 4%"><strong>No.</strong></div>
           <div class="col-1"><strong>Date</strong></div>
           <div class="col-2"><strong>Name</strong></div>
@@ -348,6 +350,10 @@
         console.log(
           `${srno}, ${testDate}, ${ptName}, ${ptAge}, ${ptAddress}, ${ptSex}, ${ptPreg}, ${testResult}`
         );
+        ptSex = ptSex != "" ? ptSex.charAt(0) : "";
+        ptPreg = ptPreg != "" ? ptPreg.charAt(0) : "";
+        ptHe = ptHe != "" ? ptHe.charAt(0) : "";
+        ptPopType = ptPopType != "" ? ptPopType.charAt(0) : "";
         let ptRowDiv = createPatientRowDiv(
           srno,
           testDate,
@@ -385,17 +391,42 @@
       ptHe
     ) {
       let ptRowDiv = document.createElement("div");
-      ptRowDiv.className = "row";
-      let colSrno = createPatientDataCellDiv(srno, "", "max-width:4%;");
-      let colTestDate = createPatientDataCellDiv(testDate, 1);
-      let colPtName = createPatientDataCellDiv(ptName, 2);
-      let colPtAge = createPatientDataCellDiv(ptAge, "", "max-width:4%;");
-      let colPtAddress = createPatientDataCellDiv(ptAddress, 2);
-      let colPtPopType = createPatientDataCellDiv(ptPopType, 1);
-      let colPtSex = createPatientDataCellDiv(ptSex, 1);
-      let colPtPreg = createPatientDataCellDiv(ptPreg, 1);
-      let colTestResult = createPatientDataCellDiv(testResult, 1);
-      let colPtHe = createPatientDataCellDiv(ptHe, 1);
+      ptRowDiv.className =
+        "row border rounded px-1 py-1 mx-1 my-1 align-items-center";
+      let colSrno = createPatientDataCellDiv(
+        srno,
+        "col text-center",
+        "max-width:4%;"
+      );
+      let colTestDate = createPatientDataCellDiv(
+        testDate,
+        "col-1 text-end",
+        ""
+      );
+      let colPtName = createPatientDataCellDiv(ptName, "col-2 text-start", "");
+      let colPtAge = createPatientDataCellDiv(
+        ptAge,
+        "col text-end",
+        "max-width:4%;"
+      );
+      let colPtAddress = createPatientDataCellDiv(
+        ptAddress,
+        "col-2 text-start",
+        ""
+      );
+      let colPtPopType = createPatientDataCellDiv(
+        ptPopType,
+        "col-1 text-center",
+        ""
+      );
+      let colPtSex = createPatientDataCellDiv(ptSex, "col-1 text-center", "");
+      let colPtPreg = createPatientDataCellDiv(ptPreg, "col-1 text-center", "");
+      let colTestResult = createPatientDataCellDiv(
+        testResult,
+        "col-1 text-center",
+        ""
+      );
+      let colPtHe = createPatientDataCellDiv(ptHe, "col-1 text-center", "");
       ptRowDiv.appendChild(colSrno);
       ptRowDiv.appendChild(colTestDate);
       ptRowDiv.appendChild(colPtName);
@@ -409,13 +440,9 @@
       return ptRowDiv;
     }
 
-    function createPatientDataCellDiv(info, colWidth, style) {
+    function createPatientDataCellDiv(info, classname, style) {
       let ptDataCellDiv = document.createElement("div");
-      if (colWidth == "") {
-        ptDataCellDiv.className = `col`;
-      } else {
-        ptDataCellDiv.className = `col-${colWidth}`;
-      }
+      ptDataCellDiv.className = classname;
       ptDataCellDiv.style = style;
       ptDataCellDiv.innerText = info;
       return ptDataCellDiv;
