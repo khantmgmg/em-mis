@@ -118,6 +118,7 @@
       console.log(ptData);
       finaldata = {};
       let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
+      console.log(orgUnitData);
       ptData.forEach((tei) => {
         let trackedEntity = tei["trackedEntity"];
         let enrollments = tei["enrollments"];
