@@ -133,11 +133,13 @@
             let orgUnit = event["orgUnit"];
             console.log(orgUnit);
             console.log(orgUnitData[orgUnit]);
-            let township = orgUnitData[orgUnit][parent][parent][parent]["name"];
+            console.log(orgUnitData[orgUnit]);
+            let township =
+              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
             let stateRegion =
-              orgUnitData[orgUnit][parent][parent][parent][parent][parent][
-                "name"
-              ];
+              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
+                "parent"
+              ]["name"];
             let eventId = event["event"];
             let occurredAt = event["occurredAt"];
             let reportingMonth = occurredAt.substring(0, 7);
