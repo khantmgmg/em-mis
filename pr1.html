@@ -55,6 +55,19 @@
       </form>
       <hr />
       <div id="data"></div>
+      <div id="ptData-head">
+        <div class="row">
+          <div class="col-1"><strong>No.</strong></div>
+          <div class="col-1"><strong>Date</strong></div>
+          <div class="col-2"><strong>Name</strong></div>
+          <div class="col-1"><strong>Age</strong></div>
+          <div class="col-2"><strong>Address</strong></div>
+          <div class="col-1"><strong>Sex</strong></div>
+          <div class="col-1"><strong>Pregnancy status</strong></div>
+          <div class="col-1"><strong>Test result</strong></div>
+        </div>
+      </div>
+      <div id="ptData"></div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -81,7 +94,7 @@
       const domain = localStorage.getItem("domain");
       const token = localStorage.getItem("token");
       const headers = generateHeaders(token);
-      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=kqBYGU7QcPk&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,occurredAt,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
+      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=kqBYGU7QcPk&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
       let cnt = true;
       let ptData = [];
       let page = 1;
@@ -252,6 +265,109 @@
         cblPageOptions.innerText = cblPage;
         cblPageSelect.appendChild(cblPageOptions);
       });
+    }
+
+    function cblPageChange() {
+      let ptData = document.getElementById("ptData");
+      ptData.innerHTML = "";
+      let rpMth = document.getElementById("rpMth").value;
+      let personCode = document.getElementById("personCode").value;
+      let cblPeriod = document.getElementById("cblPeriod").value;
+      let cblPage = document.getElementById("cblPage").value;
+      let jsonData = finaldata[rpMth][personCode][cblPeriod][cblPage];
+
+      let srno = "";
+      let testDate = "";
+      let ptName = "";
+      let ptAge = "";
+      let ptAddress = "";
+      let ptSex = "";
+      let ptPreg = "";
+      let testResult = "";
+      let permanentAddr = "";
+      jsonData.forEach((idata) => {
+        let enrollment = idata["enrollments"][0];
+        let event = enrollment["events"][0];
+        let attributes = event["attributes"];
+        let dataValues = event["dataValues"];
+        let orgUnitName = event["orgUnitName"];
+
+        attributes.forEach((attribute) => {
+          switch (attribute["attribute"]) {
+            case "PFpmOsgBCif":
+              ptName = attribute["value"];
+            case "oindugucx72":
+              ptSex = attribute["value"];
+            case "XN0145qZ7kH":
+              permanentAddr = attribute["value"];
+          }
+        });
+        dataValues.forEach((dataValue) => {
+          switch (dataValue["dataElement"]) {
+            case "pgULUzbdazk":
+              srno = dataValue["value"];
+            case "GMiQykxracx":
+              testDate = dataValue["value"];
+            case "ECVGASvuHV3":
+              ptAge = dataValue["value"];
+            case "LMdJwJW68yO":
+              ptPreg = dataValue["value"];
+            case "vGxpKVMkmaW":
+              testResult = dataValue["value"];
+          }
+        });
+        if (orgUnitName.includes("side township")) {
+          ptAddress = `${permanentAddr} (${orgUnitName})`;
+        }
+        let ptRowDiv = createPatientRowDiv(
+          srno,
+          testDate,
+          ptName,
+          ptAge,
+          ptAddress,
+          ptSex,
+          ptPreg,
+          testResult
+        );
+        ptData.appendChild(ptRowDiv);
+      });
+    }
+
+    function createPatientRowDiv(
+      srno,
+      testDate,
+      ptName,
+      ptAge,
+      ptAddress,
+      ptSex,
+      ptPreg,
+      testResult
+    ) {
+      let ptRowDiv = document.createElement("div");
+      ptRowDiv.className = "row";
+      let colSrno = createPatientDataCellDiv(srno, 1);
+      let colTestDate = createPatientDataCellDiv(testDate, 1);
+      let colPtName = createPatientDataCellDiv(ptName, 2);
+      let colPtAge = createPatientDataCellDiv(ptAge, 1);
+      let colPtAddress = createPatientDataCellDiv(ptAddress, 2);
+      let colPtSex = createPatientDataCellDiv(ptSex, 1);
+      let colPtPreg = createPatientDataCellDiv(ptPreg, 1);
+      let colTestResult = createPatientDataCellDiv(testResult, 1);
+      ptRowDiv.appendChild(colSrno);
+      ptRowDiv.appendChild(colTestDate);
+      ptRowDiv.appendChild(colPtName);
+      ptRowDiv.appendChild(colPtAge);
+      ptRowDiv.appendChild(colPtAddress);
+      ptRowDiv.appendChild(colPtSex);
+      ptRowDiv.appendChild(colPtPreg);
+      ptRowDiv.appendChild(colTestResult);
+    }
+
+    function createPatientDataCellDiv(info, colWidth) {
+      let ptDataCellDiv = document.createElement("div");
+      ptDataCellDiv.className = `col-${colWidth}`;
+      ptDataCellDiv.innerTest = info;
+      return ptDataCellDiv;
     }
 
     function createSelectBox(id, labelText, jsFunction) {
