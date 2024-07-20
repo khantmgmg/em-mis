@@ -67,7 +67,7 @@
   <script src="./js/functions.js"></script>
   <script src="./js/orgUnit.js"></script>
   <script>
-    function execute() {
+    async function execute() {
       // Usage example:
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
@@ -93,8 +93,9 @@
             assignedOrgUnits.push(orgUnit["id"]);
           });
           localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
-          checkOrgUnit();
-          window.location.href = "./";
+          checkOrgUnit().then(() => {
+            window.location.href = "./";
+          });
         })
         .catch((error) => {
           console.error("Request failed", error);
