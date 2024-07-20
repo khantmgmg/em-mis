@@ -8,7 +8,7 @@ async function checkOrgUnit() {
   console.log("Tomorrow's Date:", toRefreshDate);
 
   const localToRefreshDate = localStorage.getItem("OrgUnitToRefreshDate");
-  if (!(localToRefreshDate && localToRefreshDate == toRefreshDate)) {
+  if (!localToRefreshDate || localToRefreshDate == toRefreshDate) {
     getOrgUnit();
     localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
   }
