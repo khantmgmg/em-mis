@@ -290,6 +290,7 @@
       let testResult = "";
       let permanentAddr = "";
       jsonData.forEach((idata) => {
+        console.log(idata);
         let enrollment = idata["enrollments"][0];
         let event = enrollment["events"][0];
         let attributes = event["attributes"];
