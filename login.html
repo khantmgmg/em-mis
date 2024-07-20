@@ -93,8 +93,10 @@
             assignedOrgUnits.push(orgUnit["id"]);
           });
           localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
-          checkOrgUnit().then(() => {
-            window.location.href = "./";
+          checkOrgUnit().then((orgUnitLoaded) => {
+            if (orgUnitLoaded) {
+              window.location.href = "./";
+            }
           });
         })
         .catch((error) => {

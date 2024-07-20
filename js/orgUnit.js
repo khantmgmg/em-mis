@@ -7,8 +7,11 @@ async function checkOrgUnit() {
 
   const localToRefreshDate = localStorage.getItem("OrgUnitToRefreshDate");
   if (!localToRefreshDate || localToRefreshDate != toRefreshDate) {
-    getOrgUnit();
-    localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
+    getOrgUnit().then((finalOrgUnit) => {
+      localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
+      localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
+      return true;
+    });
   }
 }
 
@@ -35,5 +38,5 @@ async function getOrgUnit() {
   orgUnitData.forEach((orgUnit) => {
     finalOrgUnit[orgUnit["id"]] = orgUnit;
   });
-  localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
+  return finalOrgUnit;
 }
