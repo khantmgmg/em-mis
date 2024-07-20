@@ -234,6 +234,21 @@
 
       finaldata = sortJson(finaldata);
       Object.keys(finaldata).forEach((mth) => {
+        Object.keys(finaldata[mth]).forEach((org) => {
+          Object.keys(finaldata[mth][org]).forEach((stateRegion) => {
+            Object.keys(finaldata[mth][org][stateRegion]).forEach(
+              (township) => {
+                finaldata[mth][org][stateRegion][township] = sortJson(
+                  finaldata[mth][org][stateRegion][township]
+                );
+              }
+            );
+            finaldata[mth][org][stateRegion] = sortJson(
+              finaldata[mth][org][stateRegion]
+            );
+          });
+          finaldata[mth][org] = sortJson(finaldata[mth][org]);
+        });
         finaldata[mth] = sortJson(finaldata[mth]);
       });
       // console.log(finaldata);
@@ -287,10 +302,6 @@
         rpMthOption.innerText = rpMth;
         rpMthSelect.appendChild(rpMthOption);
       });
-
-      // document.getElementById("rpMth").onchange = "rpMthChange();";
-      // document.getElementById("personCode").onchange = "personCodeChange();";
-      // document.getElementById("cblPeriod").onchange = "cblPeriodChange();";
     }
 
     function rpMthChange() {
