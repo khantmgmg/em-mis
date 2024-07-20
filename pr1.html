@@ -595,8 +595,28 @@
       ptHe
     ) {
       let ptRowDiv = document.createElement("div");
-      ptRowDiv.className =
-        "row border rounded px-1 py-1 mx-1 my-1 align-items-center";
+      switch (testResult) {
+        case "PF":
+          ptRowDiv.className =
+            "row border rounded px-1 py-1 mx-1 my-1 align-items-center bg-danger";
+          ptRowDiv.style = "--bs-bg-opacity: .3;";
+          break;
+        case "PV":
+          ptRowDiv.className =
+            "row border rounded px-1 py-1 mx-1 my-1 align-items-center bg-success";
+          ptRowDiv.style = "--bs-bg-opacity: .3;";
+          break;
+        case "MIX":
+          ptRowDiv.className =
+            "row border rounded px-1 py-1 mx-1 my-1 align-items-center bg-primary";
+          ptRowDiv.style = "--bs-bg-opacity: .3;";
+          break;
+        default:
+          ptRowDiv.className =
+            "row border rounded px-1 py-1 mx-1 my-1 align-items-center";
+          break;
+      }
+
       let colSrno = createPatientDataCellDiv(
         srno,
         "col text-center",
