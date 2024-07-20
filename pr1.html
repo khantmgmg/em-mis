@@ -321,7 +321,12 @@
         });
         if (orgUnitName.includes("side township")) {
           ptAddress = `${permanentAddr} (${orgUnitName})`;
+        } else {
+          ptAddress = orgUnitName;
         }
+        console.log(
+          `${srno}, ${testDate}, ${ptName}, ${ptAge}, ${ptAddress}, ${ptSex}, ${ptPreg}, ${testResult}`
+        );
         let ptRowDiv = createPatientRowDiv(
           srno,
           testDate,
