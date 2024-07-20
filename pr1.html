@@ -62,9 +62,11 @@
           <div class="col-2"><strong>Name</strong></div>
           <div class="col-1"><strong>Age</strong></div>
           <div class="col-2"><strong>Address</strong></div>
+          <div class="col-1"><strong>Population Type</strong></div>
           <div class="col-1"><strong>Sex</strong></div>
           <div class="col-1"><strong>Pregnancy status</strong></div>
           <div class="col-1"><strong>Test result</strong></div>
+          <div class="col-1"><strong>Health education</strong></div>
           <div class="col-1"><strong>URL</strong></div>
         </div>
       </div>
@@ -287,9 +289,11 @@
       let ptName = "";
       let ptAge = "";
       let ptAddress = "";
+      let ptPopType = "";
       let ptSex = "";
       let ptPreg = "";
       let testResult = "";
+      let ptHe = "";
       let permanentAddr = "";
       let url = "";
       jsonData.forEach((idata) => {
@@ -328,6 +332,12 @@
             case "vGxpKVMkmaW":
               testResult = dataValue["value"];
               break;
+            case "k2YknESEta5":
+              ptPopType = dataValue["value"];
+              break;
+            case "zLujJOxAcri":
+              ptHe = dataValue["value"];
+              break;
           }
         });
         if (orgUnitName.includes("side township")) {
@@ -344,9 +354,11 @@
           ptName,
           ptAge,
           ptAddress,
+          ptPopType,
           ptSex,
           ptPreg,
-          testResult
+          testResult,
+          ptHe
         );
         let urlDiv = document.createElement("div");
         urlDiv.className = "col-1";
@@ -366,9 +378,11 @@
       ptName,
       ptAge,
       ptAddress,
+      ptPopType,
       ptSex,
       ptPreg,
-      testResult
+      testResult,
+      ptHe
     ) {
       let ptRowDiv = document.createElement("div");
       ptRowDiv.className = "row";
@@ -377,17 +391,21 @@
       let colPtName = createPatientDataCellDiv(ptName, 2);
       let colPtAge = createPatientDataCellDiv(ptAge, 1);
       let colPtAddress = createPatientDataCellDiv(ptAddress, 2);
+      let colPtPopType = createPatientDataCellDiv(ptPopType, 1);
       let colPtSex = createPatientDataCellDiv(ptSex, 1);
       let colPtPreg = createPatientDataCellDiv(ptPreg, 1);
       let colTestResult = createPatientDataCellDiv(testResult, 1);
+      let colPtHe = createPatientDataCellDiv(ptHe, 1);
       ptRowDiv.appendChild(colSrno);
       ptRowDiv.appendChild(colTestDate);
       ptRowDiv.appendChild(colPtName);
       ptRowDiv.appendChild(colPtAge);
       ptRowDiv.appendChild(colPtAddress);
+      ptRowDiv.appendChild(colPtPopType);
       ptRowDiv.appendChild(colPtSex);
       ptRowDiv.appendChild(colPtPreg);
       ptRowDiv.appendChild(colTestResult);
+      ptRowDiv.appendChild(colPtHe);
       return ptRowDiv;
     }
 
