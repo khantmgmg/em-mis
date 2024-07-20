@@ -65,6 +65,7 @@
           <div class="col-1"><strong>Sex</strong></div>
           <div class="col-1"><strong>Pregnancy status</strong></div>
           <div class="col-1"><strong>Test result</strong></div>
+          <div class="col-1"><strong>URL</strong></div>
         </div>
       </div>
       <div id="ptData"></div>
@@ -272,6 +273,7 @@
     }
 
     function cblPageChange() {
+      const domain = localStorage.getItem("domain");
       let ptData = document.getElementById("ptData");
       ptData.innerHTML = "";
       let rpMth = document.getElementById("rpMth").value;
@@ -289,12 +291,13 @@
       let ptPreg = "";
       let testResult = "";
       let permanentAddr = "";
+      let url = "";
       jsonData.forEach((idata) => {
         // console.log(idata);
         let attributes = idata["attributes"];
         let dataValues = idata["dataValues"];
         let orgUnitName = idata["orgUnitName"];
-
+        let url = `${domain}/dhis-web-tracker-capture/index.html#/dashboard?tei=${idata["trackedEntity"]}&program=qDkgAbB5Jlk&ou=${idata["orgUnit"]}`;
         attributes.forEach((attribute) => {
           switch (attribute["attribute"]) {
             case "PFpmOsgBCif":
@@ -345,6 +348,14 @@
           ptPreg,
           testResult
         );
+        let urlDiv = document.createElement("div");
+        urlDiv.className = "col-1";
+        let urlA = document.createElement("a");
+        urlA.href = url;
+        urlA.target = "_blank";
+        urlA.innerText = "Go to MIS";
+        urlDiv.append(urlA);
+        ptRowDiv.append(urlDiv);
         ptData.appendChild(ptRowDiv);
       });
     }
