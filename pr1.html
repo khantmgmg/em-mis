@@ -158,12 +158,14 @@
       let cblPeriodCol = createSelectBox("cblPeriod");
       let cblPageCol = createSelectBox("cblPage");
 
-      rpMthCol.getElementById("rpMth").onchange = "rpMthChange();";
-      personCodeCol.getElementById("personCode").onchange =
-        "personCodeChange();";
-      cblPeriodCol.getElementById("cblPeriod").onchange = "cblPeriodChange();";
+      mainRowDiv.appendChild(rpMthCol);
+      mainRowDiv.appendChild(personCodeCol);
+      mainRowDiv.appendChild(cblPeriodCol);
+      mainRowDiv.appendChild(cblPageCol);
+      formDiv.appendChild(mainRowDiv);
+      htmlData.appendChild(formDiv);
 
-      let rpMthSelect = rpMthCol.getElementById("rpMth");
+      let rpMthSelect = document.getElementById("rpMth");
       let rpMths = Object.key(finaldata);
       rpMths.forEach((rpMth) => {
         let rpMthOption = document.createElement("option");
@@ -172,13 +174,9 @@
         rpMthSelect.appendChild(rpMthOption);
       });
 
-      mainRowDiv.appendChild(rpMthCol);
-      mainRowDiv.appendChild(personCodeCol);
-      mainRowDiv.appendChild(cblPeriodCol);
-      mainRowDiv.appendChild(cblPageCol);
-      formDiv.appendChild(mainRowDiv);
-      // let tree = createTree(finaldata);
-      htmlData.appendChild(formDiv);
+      document.getElementById("rpMth").onchange = "rpMthChange();";
+      document.getElementById("personCode").onchange = "personCodeChange();";
+      document.getElementById("cblPeriod").onchange = "cblPeriodChange();";
     }
 
     function rpMthChange() {
