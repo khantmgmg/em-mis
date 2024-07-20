@@ -196,7 +196,11 @@
         "Carbonless period",
         "cblPeriodChange();"
       );
-      let cblPageCol = createSelectBox("cblPage", "Carbonless page number", "");
+      let cblPageCol = createSelectBox(
+        "cblPage",
+        "Carbonless page number",
+        "cblPageChange();"
+      );
 
       mainRowDiv.appendChild(rpMthCol);
       mainRowDiv.appendChild(personCodeCol);
