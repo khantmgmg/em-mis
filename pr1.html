@@ -227,15 +227,18 @@
       });
     }
 
-    function createSelectBox(id, jsFunction) {
+    function createSelectBox(id, labelText, jsFunction) {
       let col = document.createElement("div");
       col.className = "col-3";
       let label = document.createElement("label");
-      label.id = `label_${id}`;
       label.for = id;
+      label.id = `label_${id}`;
+      label.className = "row form-label";
+      label.innerText = labelText;
       let select = document.createElement("select");
       select.id = id;
       select.size = 10;
+      select.className = "row form-select";
       select.setAttribute("onChange", jsFunction);
       col.appendChild(label);
       col.appendChild(select);
