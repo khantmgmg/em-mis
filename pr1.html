@@ -153,9 +153,9 @@
       let mainRowDiv = document.createElement("div");
       mainRowDiv.className = "row";
 
-      let rpMthCol = createSelectBox("rpMth", rpMthChange());
-      let personCodeCol = createSelectBox("personCode", personCodeChange());
-      let cblPeriodCol = createSelectBox("cblPeriod", cblPeriodChange());
+      let rpMthCol = createSelectBox("rpMth", "rpMthChange();");
+      let personCodeCol = createSelectBox("personCode", "personCodeChange();");
+      let cblPeriodCol = createSelectBox("cblPeriod", "cblPeriodChange();");
       let cblPageCol = createSelectBox("cblPage", "");
 
       mainRowDiv.appendChild(rpMthCol);
