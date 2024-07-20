@@ -18,36 +18,41 @@
     <div class="container">
       <h1 class="mb-4">View Data from MIS</h1>
       <form id="misForm">
-        <div class="form-group my-2 py-2">
-          <label for="host">Data entry date (Start):</label>
-          <input
-            type="date"
-            class="form-control"
-            name="sdate"
-            id="sdate"
-            value="2024-01-01"
-            required
-          />
+        <div class="row">
+          <div class="col-5 form-group my-2 py-2">
+            <label for="host">Data entry date (Start):</label>
+            <input
+              type="date"
+              class="form-control"
+              name="sdate"
+              id="sdate"
+              value="2024-01-01"
+              required
+            />
+          </div>
+          <div class="col-5 form-group my-2 py-2">
+            <label for="host">Data entry date (End):</label>
+            <input
+              type="date"
+              class="form-control"
+              name="edate"
+              id="edate"
+              value="2024-02-07"
+              required
+            />
+          </div>
+          <div class="col-2">
+            <button
+              type="button"
+              class="btn btn-primary my-2 py-2"
+              onclick="execute()"
+            >
+              Get Data
+            </button>
+          </div>
         </div>
-        <div class="form-group my-2 py-2">
-          <label for="host">Data entry date (End):</label>
-          <input
-            type="date"
-            class="form-control"
-            name="edate"
-            id="edate"
-            value="2024-02-07"
-            required
-          />
-        </div>
-        <button
-          type="button"
-          class="btn btn-primary my-2 py-2"
-          onclick="execute()"
-        >
-          Get Data
-        </button>
       </form>
+      <hr />
       <div id="data"></div>
     </div>
     <script
