@@ -1,5 +1,3 @@
-checkOrgUnit();
-
 async function checkOrgUnit() {
   const currentDate = new Date();
   const tomorrowDate = new Date(currentDate);

@@ -65,6 +65,7 @@
     ></script>
   </body>
   <script src="./js/functions.js"></script>
+  <script src="./js/orgUnit.js"></script>
   <script>
     function execute() {
       // Usage example:
@@ -92,6 +93,7 @@
             assignedOrgUnits.push(orgUnit["id"]);
           });
           localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
+          checkOrgUnit();
           window.location.href = "./";
         })
         .catch((error) => {
