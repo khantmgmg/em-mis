@@ -94,6 +94,7 @@
         });
         localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
         const orgUnitLoaded = await checkOrgUnit();
+        console.log(`OrgUnitLoaded: ${orgUnitLoaded}`);
         if (orgUnitLoaded) {
           window.location.href = "./";
         }
