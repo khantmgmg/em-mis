@@ -117,6 +117,7 @@
       }
       console.log(ptData);
       finaldata = {};
+      let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
       ptData.forEach((tei) => {
         let trackedEntity = tei["trackedEntity"];
         let enrollments = tei["enrollments"];
@@ -127,6 +128,12 @@
             event["enrollment"] = enrollmentId;
             event["trackedEntity"] = trackedEntity;
             event["attributes"] = enrollment["attributes"];
+            let orgUnit = event["orgUnit"];
+            let township = orgUnitData[orgUnit][parent][parent][parent]["name"];
+            let stateRegion =
+              orgUnitData[orgUnit][parent][parent][parent][parent][parent][
+                "name"
+              ];
             let eventId = event["event"];
             let occurredAt = event["occurredAt"];
             let reportingMonth = occurredAt.substring(0, 7);
@@ -135,6 +142,7 @@
             }
             let dataValues = event["dataValues"];
 
+            let organization = "";
             let persnCode = "";
             let cblMth = "";
             let cblYr = "";
@@ -150,28 +158,70 @@
                 cblYr = dataValue["value"];
               } else if (dataValue["dataElement"] == "m7sW6eVhXqz") {
                 cblPage = dataValue["value"];
+              } else if (dataValue["dataElement"] == "WEHuBflDeJM") {
+                organization = dataValue["value"];
               }
             }
             let cblPeriod = `${cblMth}-${cblYr}`;
             // console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
-            if (!(personCode in finaldata[reportingMonth])) {
-              finaldata[reportingMonth][personCode] = {};
+            if (!(organization in finaldata[reportingMonth])) {
+              finaldata[reportingMonth][organization] = {};
+            }
+
+            if (!(stateRegion in finaldata[reportingMonth][organization])) {
+              finaldata[reportingMonth][organization][stateRegion] = {};
+            }
+
+            if (
+              !(
+                township in finaldata[reportingMonth][organization][stateRegion]
+              )
+            ) {
+              finaldata[reportingMonth][organization][stateRegion][township] =
+                {};
+            }
+
+            if (
+              !(
+                personCode in
+                finaldata[reportingMonth][organization][stateRegion][township]
+              )
+            ) {
+              finaldata[reportingMonth][organization][stateRegion][township][
+                personCode
+              ] = {};
             }
             // console.log(Object.keys(finaldata[reportingMonth]));
-            if (!(cblPeriod in finaldata[reportingMonth][personCode])) {
-              finaldata[reportingMonth][personCode][cblPeriod] = {};
+            if (
+              !(
+                cblPeriod in
+                finaldata[reportingMonth][organization][stateRegion][township][
+                  personCode
+                ]
+              )
+            ) {
+              finaldata[reportingMonth][organization][stateRegion][township][
+                personCode
+              ][cblPeriod] = {};
             }
             // console.log(Object.keys(finaldata[reportingMonth][personCode]));
             if (
-              !(cblPage in finaldata[reportingMonth][personCode][cblPeriod])
+              !(
+                cblPage in
+                finaldata[reportingMonth][organization][stateRegion][township][
+                  personCode
+                ][cblPeriod]
+              )
             ) {
-              finaldata[reportingMonth][personCode][cblPeriod][cblPage] = [];
+              finaldata[reportingMonth][organization][stateRegion][township][
+                personCode
+              ][cblPeriod][cblPage] = [];
             }
             // console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
             // console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
-            finaldata[reportingMonth][personCode][cblPeriod][cblPage].push(
-              event
-            );
+            finaldata[reportingMonth][organization][stateRegion][township][
+              personCode
+            ][cblPeriod][cblPage].push(event);
           });
         });
       });
@@ -192,6 +242,11 @@
         "Reporting period",
         "rpMthChange();"
       );
+
+      let orgCol = createSelectBox("org", "Organization", "orgChange();");
+      let srCol = createSelectBox("sr", "State/Region", "srChange();");
+      let tspCol = createSelectBox("tsp", "Township", "tspChange();");
+
       let personCodeCol = createSelectBox(
         "personCode",
         "Person code",
@@ -231,29 +286,101 @@
 
     function rpMthChange() {
       let rpMth = document.getElementById("rpMth").value;
+      let orgSelect = document.getElementById("org");
+      let srSelect = document.getElementById("sr");
+      let tspSelect = document.getElementById("tsp");
+      let personCodeSelect = document.getElementById("personCode");
+      let cblPeriodSelect = document.getElementById("cblPeriod");
+      let cblPageSelect = document.getElementById("cblPage");
+      orgSelect.innerHTML = "";
+      srSelect.innerHTML = "";
+      tspSelect.innerHTML = "";
+      personCodeSelect.innerHTML = "";
+      cblPeriodSelect.innerHTML = "";
+      cblPageSelect.innerHTML = "";
+      let orgs = Object.keys(finaldata[rpMth]);
+      orgs.forEach((org) => {
+        let orgOption = document.createElement("option");
+        orgOption.value = org;
+        orgOption.innerText = org;
+        orgSelect.appendChild(orgOption);
+      });
+    }
+
+    function orgChange() {
+      let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let srSelect = document.getElementById("sr");
+      let tspSelect = document.getElementById("tsp");
+      let personCodeSelect = document.getElementById("personCode");
+      let cblPeriodSelect = document.getElementById("cblPeriod");
+      let cblPageSelect = document.getElementById("cblPage");
+      srSelect.innerHTML = "";
+      tspSelect.innerHTML = "";
+      personCodeSelect.innerHTML = "";
+      cblPeriodSelect.innerHTML = "";
+      cblPageSelect.innerHTML = "";
+      let keys = Object.keys(finaldata[rpMth][org]);
+      keys.forEach((key) => {
+        let opt = document.createElement("option");
+        opt.value = key;
+        opt.innerText = key;
+        srSelect.appendChild(opt);
+      });
+    }
+
+    function srChange() {
+      let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let sr = document.getElementById("sr").value;
+      let tspSelect = document.getElementById("tsp");
+      let personCodeSelect = document.getElementById("personCode");
+      let cblPeriodSelect = document.getElementById("cblPeriod");
+      let cblPageSelect = document.getElementById("cblPage");
+      tspSelect.innerHTML = "";
+      personCodeSelect.innerHTML = "";
+      cblPeriodSelect.innerHTML = "";
+      cblPageSelect.innerHTML = "";
+      let keys = Object.keys(finaldata[rpMth][org][sr]);
+      keys.forEach((key) => {
+        let opt = document.createElement("option");
+        opt.value = key;
+        opt.innerText = key;
+        tspSelect.appendChild(opt);
+      });
+    }
+
+    function tspChange() {
+      let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let sr = document.getElementById("sr").value;
+      let tsp = document.getElementById("tsp").value;
       let personCodeSelect = document.getElementById("personCode");
       let cblPeriodSelect = document.getElementById("cblPeriod");
       let cblPageSelect = document.getElementById("cblPage");
       personCodeSelect.innerHTML = "";
       cblPeriodSelect.innerHTML = "";
       cblPageSelect.innerHTML = "";
-      let personCodes = Object.keys(finaldata[rpMth]);
-      personCodes.forEach((personCode) => {
-        let personCodeOption = document.createElement("option");
-        personCodeOption.value = personCode;
-        personCodeOption.innerText = personCode;
-        personCodeSelect.appendChild(personCodeOption);
+      let keys = Object.keys(finaldata[rpMth][org][sr][tsp]);
+      keys.forEach((key) => {
+        let opt = document.createElement("option");
+        opt.value = key;
+        opt.innerText = key;
+        personCodeSelect.appendChild(opt);
       });
     }
 
     function personCodeChange() {
       let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let sr = document.getElementById("sr").value;
+      let tsp = document.getElementById("tsp").value;
       let personCode = document.getElementById("personCode").value;
       let cblPeriodSelect = document.getElementById("cblPeriod");
       let cblPageSelect = document.getElementById("cblPage");
       cblPeriodSelect.innerHTML = "";
       cblPageSelect.innerHTML = "";
-      let cblPeriods = Object.keys(finaldata[rpMth][personCode]);
+      let cblPeriods = Object.keys(finaldata[rpMth][org][sr][tsp][personCode]);
       cblPeriods.forEach((cblPeriod) => {
         let cblPeriodOption = document.createElement("option");
         cblPeriodOption.value = cblPeriod;
@@ -264,11 +391,16 @@
 
     function cblPeriodChange() {
       let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let sr = document.getElementById("sr").value;
+      let tsp = document.getElementById("tsp").value;
       let personCode = document.getElementById("personCode").value;
       let cblPeriod = document.getElementById("cblPeriod").value;
       let cblPageSelect = document.getElementById("cblPage");
       cblPageSelect.innerHTML = "";
-      let cblPages = Object.keys(finaldata[rpMth][personCode][cblPeriod]);
+      let cblPages = Object.keys(
+        finaldata[rpMth][org][sr][tsp][personCode][cblPeriod]
+      );
       cblPages.forEach((cblPage) => {
         let cblPageOptions = document.createElement("option");
         cblPageOptions.value = cblPage;
@@ -282,10 +414,14 @@
       let ptData = document.getElementById("ptData");
       ptData.innerHTML = "";
       let rpMth = document.getElementById("rpMth").value;
+      let org = document.getElementById("org").value;
+      let sr = document.getElementById("sr").value;
+      let tsp = document.getElementById("tsp").value;
       let personCode = document.getElementById("personCode").value;
       let cblPeriod = document.getElementById("cblPeriod").value;
       let cblPage = document.getElementById("cblPage").value;
-      let jsonData = finaldata[rpMth][personCode][cblPeriod][cblPage];
+      let jsonData =
+        finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
 
       jsonData.forEach((idata) => {
         let srno = "";
@@ -451,7 +587,7 @@
 
     function createSelectBox(id, labelText, jsFunction) {
       let col = document.createElement("div");
-      col.className = "col-3";
+      col.className = "col";
       let label = document.createElement("label");
       label.for = id;
       label.id = `label_${id}`;
