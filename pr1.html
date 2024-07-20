@@ -153,10 +153,22 @@
       let mainRowDiv = document.createElement("div");
       mainRowDiv.className = "row";
 
-      let rpMthCol = createSelectBox("rpMth", "rpMthChange();");
-      let personCodeCol = createSelectBox("personCode", "personCodeChange();");
-      let cblPeriodCol = createSelectBox("cblPeriod", "cblPeriodChange();");
-      let cblPageCol = createSelectBox("cblPage", "");
+      let rpMthCol = createSelectBox(
+        "rpMth",
+        "Reporting period",
+        "rpMthChange();"
+      );
+      let personCodeCol = createSelectBox(
+        "personCode",
+        "Person code",
+        "personCodeChange();"
+      );
+      let cblPeriodCol = createSelectBox(
+        "cblPeriod",
+        "Carbonless period",
+        "cblPeriodChange();"
+      );
+      let cblPageCol = createSelectBox("cblPage", "Carbonless page number", "");
 
       mainRowDiv.appendChild(rpMthCol);
       mainRowDiv.appendChild(personCodeCol);
