@@ -100,7 +100,7 @@
       const domain = localStorage.getItem("domain");
       const token = localStorage.getItem("token");
       const headers = generateHeaders(token);
-      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=WgSXOjYyq79,IkObzhEcdSx&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
+      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=WgSXOjYyq79;IkObzhEcdSx&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
       let cnt = true;
       let ptData = [];
       let page = 1;
