@@ -126,6 +126,7 @@
           let enrollmentId = enrollment["enrollment"];
           let events = enrollment["events"];
           events.forEach((event) => {
+            console.log(event);
             event["enrollment"] = enrollmentId;
             event["trackedEntity"] = trackedEntity;
             event["attributes"] = enrollment["attributes"];
