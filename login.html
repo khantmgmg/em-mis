@@ -78,31 +78,29 @@
       const token = generateToken(username, password);
       const headers = generateHeaders(token);
 
-      makeGetRequest(url, headers)
-        .then((data) => {
-          console.log(data);
-          document.getElementById(
-            "data"
-          ).innerText = `${token} ||| ${data["name"]}`;
-          localStorage.setItem("domain", domain);
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", data["name"]);
-          let orgUnits = data["organisationUnits"];
-          let assignedOrgUnits = [];
-          orgUnits.forEach((orgUnit) => {
-            assignedOrgUnits.push(orgUnit["id"]);
-          });
-          localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
-          checkOrgUnit().then((orgUnitLoaded) => {
-            if (orgUnitLoaded) {
-              window.location.href = "./";
-            }
-          });
-        })
-        .catch((error) => {
-          console.error("Request failed", error);
-          alert("Domain or Username or password incorrect");
+      try {
+        const data = await makeGetRequest(url, headers);
+        console.log(data);
+        document.getElementById(
+          "data"
+        ).innerText = `${token} ||| ${data["name"]}`;
+        localStorage.setItem("domain", domain);
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", data["name"]);
+        let orgUnits = data["organisationUnits"];
+        let assignedOrgUnits = [];
+        orgUnits.forEach((orgUnit) => {
+          assignedOrgUnits.push(orgUnit["id"]);
         });
+        localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
+        const orgUnitLoaded = await checkOrgUnit();
+        if (orgUnitLoaded) {
+          window.location.href = "./";
+        }
+      } catch (error) {
+        console.error("Request failed", error);
+        alert("Domain or Username or password incorrect");
+      }
     }
   </script>
 </html>

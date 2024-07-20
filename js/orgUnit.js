@@ -6,13 +6,13 @@ async function checkOrgUnit() {
   console.log("Tomorrow's Date:", toRefreshDate);
 
   const localToRefreshDate = localStorage.getItem("OrgUnitToRefreshDate");
-  if (!localToRefreshDate || localToRefreshDate != toRefreshDate) {
-    getOrgUnit().then((finalOrgUnit) => {
-      localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
-      localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
-      return true;
-    });
+  if (!localToRefreshDate || localToRefreshDate !== toRefreshDate) {
+    const finalOrgUnit = await getOrgUnit();
+    localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
+    localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
+    return true;
   }
+  return false;
 }
 
 async function getOrgUnit() {
@@ -26,7 +26,7 @@ async function getOrgUnit() {
   while (cnt) {
     let finalUrl = `${url}&page=${page}`;
     console.log(finalUrl);
-    orgUnits = await makeGetRequest(finalUrl, headers);
+    const orgUnits = await makeGetRequest(finalUrl, headers);
     if (orgUnits["organisationUnits"].length > 0) {
       orgUnitData = orgUnitData.concat(orgUnits["organisationUnits"]);
       page = page + 1;
@@ -34,7 +34,7 @@ async function getOrgUnit() {
       cnt = false;
     }
   }
-  finalOrgUnit = {};
+  const finalOrgUnit = {};
   orgUnitData.forEach((orgUnit) => {
     finalOrgUnit[orgUnit["id"]] = orgUnit;
   });
