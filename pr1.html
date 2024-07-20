@@ -297,7 +297,7 @@
       let permanentAddr = "";
       let url = "";
       jsonData.forEach((idata) => {
-        // console.log(idata);
+        console.log(idata);
         let attributes = idata["attributes"];
         let dataValues = idata["dataValues"];
         let orgUnitName = idata["orgUnitName"];
@@ -345,9 +345,9 @@
         } else {
           ptAddress = orgUnitName;
         }
-        // console.log(
-        //   `${srno}, ${testDate}, ${ptName}, ${ptAge}, ${ptAddress}, ${ptSex}, ${ptPreg}, ${testResult}`
-        // );
+        console.log(
+          `${srno}, ${testDate}, ${ptName}, ${ptAge}, ${ptAddress}, ${ptSex}, ${ptPreg}, ${testResult}`
+        );
         let ptRowDiv = createPatientRowDiv(
           srno,
           testDate,
