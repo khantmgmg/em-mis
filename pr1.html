@@ -65,9 +65,13 @@
   <script src="./js/functions.js"></script>
   <script>
     // execute();
-    function test() {
-      document.getElementById("data").innerText =
-        document.getElementById("sdate").value;
+    function sortJson(obj) {
+      return Object.keys(obj)
+        .sort()
+        .reduce((accumulator, currentValue) => {
+          accumulator[currentValue] = obj[currentValue];
+          return accumulator;
+        }, {});
     }
 
     async function execute() {
@@ -152,7 +156,12 @@
           });
         });
       });
-      console.log(finaldata);
+
+      finaldata = sortJson(finaldata);
+      Object.keys(finaldata).forEach((mth) => {
+        finaldata[mth] = sortJson(finaldata[mth]);
+      });
+      // console.log(finaldata);
       let htmlData = document.getElementById("data");
 
       let formDiv = document.createElement("form");
