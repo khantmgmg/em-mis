@@ -380,6 +380,8 @@
     }
 
     function personCodeChange() {
+      let ptData = document.getElementById("ptData");
+      ptData.innerHTML = "";
       let rpMth = document.getElementById("rpMth").value;
       let org = document.getElementById("org").value;
       let sr = document.getElementById("sr").value;
@@ -395,10 +397,21 @@
         cblPeriodOption.value = cblPeriod;
         cblPeriodOption.innerText = cblPeriod;
         cblPeriodSelect.appendChild(cblPeriodOption);
+
+        let cblPages = Object.keys(
+          finaldata[rpMth][org][sr][tsp][personCode][cblPeriod]
+        );
+        cblPages.forEach((cblPage) => {
+          let jsonData =
+            finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
+          loadPatientData(jsonData);
+        });
       });
     }
 
     function cblPeriodChange() {
+      let ptData = document.getElementById("ptData");
+      ptData.innerHTML = "";
       let rpMth = document.getElementById("rpMth").value;
       let org = document.getElementById("org").value;
       let sr = document.getElementById("sr").value;
@@ -415,11 +428,13 @@
         cblPageOptions.value = cblPage;
         cblPageOptions.innerText = cblPage;
         cblPageSelect.appendChild(cblPageOptions);
+        let jsonData =
+          finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
+        loadPatientData(jsonData);
       });
     }
 
     function cblPageChange() {
-      const domain = localStorage.getItem("domain");
       let ptData = document.getElementById("ptData");
       ptData.innerHTML = "";
       let rpMth = document.getElementById("rpMth").value;
@@ -431,7 +446,12 @@
       let cblPage = document.getElementById("cblPage").value;
       let jsonData =
         finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
+      loadPatientData(jsonData);
+    }
 
+    function loadPatientData(jsonData) {
+      const domain = localStorage.getItem("domain");
+      let ptData = document.getElementById("ptData");
       jsonData.forEach((idata) => {
         let srno = "";
         let testDate = "";
