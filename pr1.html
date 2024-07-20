@@ -291,11 +291,9 @@
       let permanentAddr = "";
       jsonData.forEach((idata) => {
         console.log(idata);
-        let enrollment = idata["enrollments"][0];
-        let event = enrollment["events"][0];
-        let attributes = event["attributes"];
-        let dataValues = event["dataValues"];
-        let orgUnitName = event["orgUnitName"];
+        let attributes = idata["attributes"];
+        let dataValues = idata["dataValues"];
+        let orgUnitName = idata["orgUnitName"];
 
         attributes.forEach((attribute) => {
           switch (attribute["attribute"]) {
