@@ -32,45 +32,6 @@
             <select name="tsp" id="tsp"></select>
           </div>
         </div>
-        <div class="form-group my-2 py-2">
-          <label for="host">Data entry date (Start):</label>
-          <input
-            type="date"
-            class="form-control"
-            name="sdate"
-            id="sdate"
-            value="2024-01-01"
-            required
-          />
-        </div>
-        <div class="form-group my-2 py-2">
-          <label for="host">Data entry date (End):</label>
-          <input
-            type="date"
-            class="form-control"
-            name="edate"
-            id="edate"
-            value="2024-02-07"
-            required
-          />
-        </div>
-        <!-- <div class="form-group">
-          <label for="host">First date of reporting month:</label>
-          <input
-            type="date"
-            class="form-control"
-            name="rpMth"
-            id="rpMth"
-            required
-          />
-        </div> -->
-        <button
-          type="button"
-          class="btn btn-primary my-2 py-2"
-          onclick="execute()"
-        >
-          Get Data
-        </button>
       </form>
       <div id="data"></div>
     </div>
@@ -88,5 +49,55 @@
     // t8PvIf1oOTY - MNMA
     // qrH57OmaOPN - SCH
     // B9lJ9eGHtp1 - URC
+    populateOrg();
+    populateSr();
+    function populateOrg() {
+      let select = document.getElementById("org");
+      let userOrg = localStorage.getItem("userOrg");
+      userOrg = userOrg.split(",");
+      userOrg.forEach((org) => {
+        let option = document.createElement("option");
+        option.value = org;
+        option.innerHTML = org;
+        select.append(option);
+      });
+      if (userOrg.length == 1) {
+        select.value = userOrg[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
+
+    function populateSr() {
+      let select = document.getElementById("sr");
+      select.setAttribute("onChange", "populateTsp();");
+      let storageSr = JSON.parse(localStorage.getItem("userTownship"));
+      Object.keys(storageSr).forEach((sr) => {
+        let option = document.createElement("option");
+        option.value = sr;
+        option.innerHTML = sr;
+        select.appendChild(option);
+      });
+      if (Object.keys(storageSr).length == 1) {
+        select.value = Object.keys(storageSr)[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
+
+    function populateTsp() {
+      let stateRegion = document.getElementById("sr").value;
+      let select = document.getElementById("tsp");
+      let storageTsp = JSON.parse(localStorage.getItem("userTownship"));
+      let tspList = storageTsp[stateRegion];
+      tspList.forEach((tsp) => {
+        let option = document.createElement("option");
+        option.value = tsp;
+        option.innerHTML = tsp;
+        select.appendChild(option);
+      });
+      if (tspList.length == 1) {
+        select.value = tspList[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
   </script>
 </html>
