@@ -95,7 +95,7 @@
       const password = document.getElementById("password").value;
       // const domain = document.getElementById("host").value;
       const domain = "https://mis.pmi-em.org";
-      const url = `${domain}/api/me`;
+      const url = `${domain}/api/me?fields=id,name,userGroups,organisationUnits[id,name,level,parent[id,name,parent[id,name,parent]]]`;
 
       const token = generateToken(username, password);
       const headers = generateHeaders(token);
