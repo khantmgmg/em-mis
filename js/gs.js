@@ -1,7 +1,6 @@
-asdf();
-async function asdf() {
+export async function syncGs() {
   let url =
-    "https://sheets.googleapis.com/v4/spreadsheets/1P5rOO0aKGxFwVBkF-VABtUV3qKwqnMvO9ACZQkkTQWA/values:batchGet?majorDimension=ROWS&ranges=All_villages!A1:G&ranges=All_provider!A1:S&ranges=MMW_vs_ICMV!A1:B&valueRenderOption=FORMATTED_VALUE&key=AIzaSyBr-MJnnuCiH2eaQRivEFNdnSm6gwTbHo8";
+    "https://sheets.googleapis.com/v4/spreadsheets/1P5rOO0aKGxFwVBkF-VABtUV3qKwqnMvO9ACZQkkTQWA/values:batchGet?majorDimension=ROWS&ranges=Township!A1:D&ranges=All_villages!A1:G&ranges=All_provider!A1:S&ranges=MMW_vs_ICMV!A1:B&valueRenderOption=FORMATTED_VALUE&key=AIzaSyBr-MJnnuCiH2eaQRivEFNdnSm6gwTbHo8";
   // let villagesUrl =
   //   "https://sheets.googleapis.com/v4/spreadsheets/1P5rOO0aKGxFwVBkF-VABtUV3qKwqnMvO9ACZQkkTQWA/values/All_villages!A1:G?majorDimension=ROWS&valueRenderOption=FORMATTED_VALUE&key=AIzaSyBr-MJnnuCiH2eaQRivEFNdnSm6gwTbHo8";
   let response = await getDataFromGS(url);
@@ -9,6 +8,7 @@ async function asdf() {
   let providers = "";
   let villages = "";
   let mmwIcmv = "";
+  let tsps = "";
   response = response["valueRanges"];
   response.forEach((data) => {
     if (data["range"].includes("All_villages")) {
@@ -17,17 +17,27 @@ async function asdf() {
       providers = data["values"];
     } else if (data["range"].includes("MMW_vs_ICMV")) {
       mmwIcmv = data["values"];
+    } else if (data["range"].includes("Township")) {
+      tsps = data["values"];
     }
   });
 
   mmwIcmv = LOL2LOD(mmwIcmv);
   console.log(mmwIcmv);
-  // providers = providers["values"];
   providers = LOL2LOD(providers);
   console.log(providers);
-  // villages = villages["values"];
   villages = LOL2LOD(villages);
   console.log(villages);
+  tsps = LOL2LOD(tsps);
+
+  let finalTspList = {};
+  tsps.forEach((tsp) => {
+    tsp["StateRegion"] = tsp["StateRegion"]
+      .replace("Northern ", "")
+      .replace("Southern ", "");
+    delete tsp["Organization"];
+    finalTspList[tsp["Township"]] = tsp;
+  });
 
   let finalMMWList = {};
   mmwIcmv.forEach((mmw) => {
@@ -94,12 +104,14 @@ async function asdf() {
       finalProviderList[providerAbb][provider["Person_Code"]] = provider;
     }
   });
-  localStorage.setItem("papVillageList", JSON.parse(finalVillageList));
-  localStorage.setItem("papProviderList", JSON.parse(finalProviderList));
-  localStorage.setItem("papMMWvsICMV", JSON.parse(finalMMWList));
+  localStorage.setItem("papVillageList", JSON.stringify(finalVillageList));
+  localStorage.setItem("papProviderList", JSON.stringify(finalProviderList));
+  localStorage.setItem("papMMWvsICMV", JSON.stringify(finalMMWList));
+  localStorage.setItem("papTspList", JSON.stringify(finalTspList));
   console.log(finalVillageList);
   console.log(finalProviderList);
   console.log(finalMMWList);
+  console.log(finalTspList);
 }
 
 function LOL2LOD(data) {

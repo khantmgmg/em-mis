@@ -1,4 +1,5 @@
 import * as functions from "./functions.js";
+import * as gs from "./gs.js";
 
 export async function checkOrgUnit() {
   const currentDate = new Date();
@@ -14,6 +15,7 @@ export async function checkOrgUnit() {
     localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
     localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
     localStorage.setItem("villageList", JSON.stringify(villageJson));
+    gs.syncGs();
     return true;
   }
   return false;
