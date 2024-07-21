@@ -12,34 +12,15 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <style>
-      #overlay {
-        position: fixed; /* Stay in place */
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
-        z-index: 1000; /* Sit on top */
-        display: none; /* Hidden by default */
-        font-size: 3em;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="overlay" class="align-items-center">
-      <div
-        class="bg-secondary text-white mx-5 my-5 px-5 py-5 text-center align-items-center"
-      >
-        <b>Loading data ..................</b>
-      </div>
-    </div>
     <div class="container">
-      <h1 class="mb-4">View Data from MIS</h1>
+      <h1 class="mb-1">View Data from MIS</h1>
+      <hr class="m-1" />
       <form id="misForm">
         <div class="row">
-          <div class="col-5 form-group my-2 py-2">
+          <div class="col-5 form-group">
             <label>Data entry date (Start):</label>
             <input
               type="date"
@@ -50,7 +31,7 @@
               required
             />
           </div>
-          <div class="col-5 form-group my-2 py-2">
+          <div class="col-5 form-group">
             <label>Data entry date (End):</label>
             <input
               type="date"
@@ -61,7 +42,7 @@
               required
             />
           </div>
-          <div class="col-2 form-group my-2 py-2">
+          <div class="col-2 form-group">
             <label>Click to get data</label>
             <button
               type="button"
@@ -73,8 +54,9 @@
           </div>
         </div>
       </form>
-      <hr />
+      <hr class="m-1" />
       <div id="data"></div>
+      <hr class="m-1" />
       <div id="ptData-head">
         <div
           class="row border rounded bg-secondary text-white px-2 py-2 mx-1 my-1 align-items-center text-center"

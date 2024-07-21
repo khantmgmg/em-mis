@@ -3,8 +3,7 @@ import * as functions from "./functions.js";
 var finaldata = {};
 
 export async function execute() {
-  let overlay = document.getElementById("overlay");
-  overlay.style.display = "block";
+  functions.showOverlay("Loading data ..................");
 
   const sdate = document.getElementById("sdate").value;
   const edate = document.getElementById("edate").value;
@@ -223,7 +222,7 @@ export async function execute() {
     rpMthOption.innerText = rpMth;
     rpMthSelect.appendChild(rpMthOption);
   });
-  overlay.style.display = "none";
+  functions.hideOverlay();
 }
 
 export function rpMthChange() {
@@ -565,16 +564,16 @@ function createPatientDataCellDiv(info, classname, style) {
 
 function createSelectBox(id, labelText, jsFunction) {
   let col = document.createElement("div");
-  col.className = "col";
+  col.className = "col p-1";
   let label = document.createElement("label");
   label.for = id;
   label.id = `label_${id}`;
-  label.className = "row form-label";
+  label.className = "row form-label mx-1 my-0 px-1 py-0";
   label.innerText = labelText;
   let select = document.createElement("select");
   select.id = id;
   select.size = 10;
-  select.className = "row form-select";
+  select.className = "row form-select mx-1 my-0 px-1 py-0";
   select.setAttribute("onChange", jsFunction);
   col.appendChild(label);
   col.appendChild(select);
