@@ -27,7 +27,7 @@ export async function execute() {
     }
   }
   console.log(ptData);
-  let finaldata = {};
+  var finaldata = {};
   let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
   // console.log(orgUnitData);
   ptData.forEach((tei) => {
