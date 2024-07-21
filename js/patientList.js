@@ -477,7 +477,9 @@ function loadPatientData(jsonData) {
     let urlA = document.createElement("a");
     urlA.href = url;
     urlA.target = "_blank";
-    urlA.innerText = "Go to MIS";
+    let aSmall = document.createElement("small");
+    aSmall.innerHTML = "Go to MIS";
+    urlA.appendChild(aSmall);
     urlDiv.append(urlA);
     ptRowDiv.append(urlDiv);
     ptData.appendChild(ptRowDiv);
@@ -550,18 +552,16 @@ function createPatientRowDiv(
   );
   let colPtHe = createPatientDataCellDiv(ptHe, "col-1 text-center", "");
 
-  let small = document.createElement("small");
-  small.appendChild(colSrno);
-  small.appendChild(colTestDate);
-  small.appendChild(colPtName);
-  small.appendChild(colPtAge);
-  small.appendChild(colPtAddress);
-  small.appendChild(colPtPopType);
-  small.appendChild(colPtSex);
-  small.appendChild(colPtPreg);
-  small.appendChild(colTestResult);
-  small.appendChild(colPtHe);
-  ptRowDiv.appendChild(small);
+  ptRowDiv.appendChild(colSrno);
+  ptRowDiv.appendChild(colTestDate);
+  ptRowDiv.appendChild(colPtName);
+  ptRowDiv.appendChild(colPtAge);
+  ptRowDiv.appendChild(colPtAddress);
+  ptRowDiv.appendChild(colPtPopType);
+  ptRowDiv.appendChild(colPtSex);
+  ptRowDiv.appendChild(colPtPreg);
+  ptRowDiv.appendChild(colTestResult);
+  ptRowDiv.appendChild(colPtHe);
   return ptRowDiv;
 }
 
