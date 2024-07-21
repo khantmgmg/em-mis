@@ -572,7 +572,7 @@ function createSelectBox(id, labelText, jsFunction) {
   label.innerText = labelText;
   let select = document.createElement("select");
   select.id = id;
-  select.size = 10;
+  select.size = 7;
   select.className = "row form-select mx-1 my-0 px-1 py-0";
   select.setAttribute("onChange", jsFunction);
   col.appendChild(label);
