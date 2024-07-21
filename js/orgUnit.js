@@ -15,7 +15,7 @@ export async function checkOrgUnit() {
     localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
     localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
     localStorage.setItem("villageList", JSON.stringify(villageJson));
-    gs.syncGs();
+    await gs.syncGs();
     return true;
   }
   return false;
