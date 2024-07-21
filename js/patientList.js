@@ -163,6 +163,7 @@ export async function execute() {
   let htmlData = document.getElementById("data");
   htmlData.innerHTML = "";
   let formDiv = document.createElement("form");
+  formDiv.style.fontSize = "0.85em";
   let mainRowDiv = document.createElement("div");
   mainRowDiv.className = "row";
 
