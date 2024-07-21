@@ -18,7 +18,7 @@ export async function execute() {
   while (cnt) {
     let teiUrl = `${url}&page=${page}`;
     console.log(teiUrl);
-    teis = await functions.makeGetRequest(teiUrl, headers);
+    let teis = await functions.makeGetRequest(teiUrl, headers);
     if (teis["instances"].length > 0) {
       ptData = ptData.concat(teis["instances"]);
       page = page + 1;
