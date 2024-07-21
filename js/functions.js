@@ -69,7 +69,7 @@ export function sortJson(obj) {
 
 export function showOverlay(displayText) {
   let overlayDiv = document.getElementById("overlay");
-  if (!overlay) {
+  if (!overlayDiv) {
     let overlay = document.createElement("div");
     overlay.id = "overlay";
     overlay.style.position = "absolute";
