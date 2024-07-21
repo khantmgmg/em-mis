@@ -106,7 +106,7 @@ export function orgUnitToVillageList(orgunit) {
 
     let villageName = orgunit[villageId]["name"];
     let villageCode =
-      "code" in orgunit[villageId] ? orgUnit[villageId]["code"] : "";
+      "code" in orgunit[villageId] ? orgunit[villageId]["code"] : "";
     villageJson[`${srName}`]["children"][`${tspName}`]["children"][
       `${rhcName}-${rhcId}`
     ]["children"][`${scName}-${scId}`]["children"][
