@@ -150,6 +150,10 @@
         userTownships = userTownship.join(",");
         userStateRegion = userStateRegion.join(",");
         userOrganization = userOrganization.join(",");
+
+        console.log(`User townships: ${userTownship}`);
+        console.log(`User state region: ${userStateRegion}`);
+
         localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
         localStorage.setItem("userTownship", userTownships);
         localStorage.setItem("userStateRegion", userStateRegion);
@@ -158,7 +162,7 @@
         const orgUnitLoaded = await checkOrgUnit();
         console.log(`OrgUnitLoaded: ${orgUnitLoaded}`);
         if (orgUnitLoaded) {
-          window.location.href = "./";
+          // window.location.href = "./";
         }
       } catch (error) {
         console.error("Request failed", error);
