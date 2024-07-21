@@ -111,7 +111,7 @@ export async function login(headers) {
   const domain = "https://mis.pmi-em.org";
   const url = `${domain}/api/me?fields=id,name,userGroups,organisationUnits[id,name,level,parent[id,name,parent[id,name,parent]]]`;
   try {
-    const data = await functions.makeGetRequest(url, headers);
+    const data = await makeGetRequest(url, headers);
     console.log(data);
     document.getElementById("data").innerText = `${token} ||| ${data["name"]}`;
     localStorage.setItem("domain", domain);
