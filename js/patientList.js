@@ -1,5 +1,7 @@
 import * as functions from "./functions.js";
 
+var finaldata = {};
+
 export async function execute() {
   let overlay = document.getElementById("overlay");
   overlay.style.display = "block";
@@ -27,7 +29,6 @@ export async function execute() {
     }
   }
   console.log(ptData);
-  var finaldata = {};
   let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
   // console.log(orgUnitData);
   ptData.forEach((tei) => {
