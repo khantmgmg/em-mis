@@ -106,14 +106,15 @@ export function hideOverlay() {
   }
 }
 
-export async function login(headers) {
+export async function login(token) {
   showOverlay("Building the app ..................");
   const domain = "https://mis.pmi-em.org";
   const url = `${domain}/api/me?fields=id,name,userGroups,organisationUnits[id,name,level,parent[id,name,parent[id,name,parent]]]`;
+  const headers = generateHeaders(token);
   try {
     const data = await makeGetRequest(url, headers);
     console.log(data);
-    document.getElementById("data").innerText = `${token} ||| ${data["name"]}`;
+    // document.getElementById("data").innerText = `${token} ||| ${data["name"]}`;
     localStorage.setItem("domain", domain);
     localStorage.setItem("token", token);
     localStorage.setItem("user", data["name"]);
