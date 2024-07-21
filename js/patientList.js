@@ -541,16 +541,19 @@ function createPatientRowDiv(
     ""
   );
   let colPtHe = createPatientDataCellDiv(ptHe, "col-1 text-center", "");
-  ptRowDiv.appendChild(colSrno);
-  ptRowDiv.appendChild(colTestDate);
-  ptRowDiv.appendChild(colPtName);
-  ptRowDiv.appendChild(colPtAge);
-  ptRowDiv.appendChild(colPtAddress);
-  ptRowDiv.appendChild(colPtPopType);
-  ptRowDiv.appendChild(colPtSex);
-  ptRowDiv.appendChild(colPtPreg);
-  ptRowDiv.appendChild(colTestResult);
-  ptRowDiv.appendChild(colPtHe);
+
+  let small = document.createElement("small");
+  small.appendChild(colSrno);
+  small.appendChild(colTestDate);
+  small.appendChild(colPtName);
+  small.appendChild(colPtAge);
+  small.appendChild(colPtAddress);
+  small.appendChild(colPtPopType);
+  small.appendChild(colPtSex);
+  small.appendChild(colPtPreg);
+  small.appendChild(colTestResult);
+  small.appendChild(colPtHe);
+  ptRowDiv.appendChild(small);
   return ptRowDiv;
 }
 
