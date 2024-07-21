@@ -143,3 +143,12 @@ function orgUnitToVillageList(orgunit) {
   villageJson = sortJson(villageJson);
   return villageJson;
 }
+
+function sortJson(obj) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((accumulator, currentValue) => {
+      accumulator[currentValue] = obj[currentValue];
+      return accumulator;
+    }, {});
+}
