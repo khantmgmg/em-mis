@@ -200,7 +200,7 @@ export async function execute() {
   );
   let cblPageCol = createSelectBox(
     "cblPage",
-    "Carbonless page number",
+    "Carbonless page",
     "callFromPatientList('cblPageChange');"
   );
 
@@ -220,6 +220,7 @@ export async function execute() {
     let rpMthOption = document.createElement("option");
     rpMthOption.value = rpMth;
     rpMthOption.innerText = rpMth;
+    rpMthOption.style.fontSize = "0.85em";
     rpMthSelect.appendChild(rpMthOption);
   });
   functions.hideOverlay();
@@ -244,6 +245,7 @@ export function rpMthChange() {
     let orgOption = document.createElement("option");
     orgOption.value = org;
     orgOption.innerText = org;
+    orgOption.style.fontSize = "0.85em";
     orgSelect.appendChild(orgOption);
   });
 }
@@ -266,6 +268,7 @@ export function orgChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
+    opt.style.fontSize = "0.85em";
     srSelect.appendChild(opt);
   });
 }
@@ -287,6 +290,7 @@ export function srChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
+    opt.style.fontSize = "0.85em";
     tspSelect.appendChild(opt);
   });
 }
@@ -307,6 +311,7 @@ export function tspChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
+    opt.style.fontSize = "0.85em";
     personCodeSelect.appendChild(opt);
   });
 }
@@ -328,6 +333,7 @@ export function personCodeChange() {
     let cblPeriodOption = document.createElement("option");
     cblPeriodOption.value = cblPeriod;
     cblPeriodOption.innerText = cblPeriod;
+    cblPeriodOption.style.fontSize = "0.85em";
     cblPeriodSelect.appendChild(cblPeriodOption);
 
     let cblPages = Object.keys(
@@ -359,6 +365,7 @@ export function cblPeriodChange() {
     let cblPageOptions = document.createElement("option");
     cblPageOptions.value = cblPage;
     cblPageOptions.innerText = cblPage;
+    cblPageOptions.style.fontSize = "0.85em";
     cblPageSelect.appendChild(cblPageOptions);
     let jsonData =
       finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
