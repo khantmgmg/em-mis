@@ -169,39 +169,39 @@ export async function execute() {
   let rpMthCol = createSelectBox(
     "rpMth",
     "Reporting period",
-    "callFromPatientList(rpMthChange);"
+    "callFromPatientList('rpMthChange');"
   );
 
   let orgCol = createSelectBox(
     "org",
     "Organization",
-    "callFromPatientList(orgChange);"
+    "callFromPatientList('orgChange');"
   );
   let srCol = createSelectBox(
     "sr",
     "State/Region",
-    "callFromPatientList(srChange);"
+    "callFromPatientList('srChange');"
   );
   let tspCol = createSelectBox(
     "tsp",
     "Township",
-    "callFromPatientList(tspChange);"
+    "callFromPatientList('tspChange');"
   );
 
   let personCodeCol = createSelectBox(
     "personCode",
     "Person code",
-    "callFromPatientList(personCodeChange);"
+    "callFromPatientList('personCodeChange');"
   );
   let cblPeriodCol = createSelectBox(
     "cblPeriod",
     "Carbonless period",
-    "callFromPatientList(cblPeriodChange);"
+    "callFromPatientList('cblPeriodChange');"
   );
   let cblPageCol = createSelectBox(
     "cblPage",
     "Carbonless page number",
-    "callFromPatientList(cblPageChange);"
+    "callFromPatientList('cblPageChange');"
   );
 
   mainRowDiv.appendChild(rpMthCol);
