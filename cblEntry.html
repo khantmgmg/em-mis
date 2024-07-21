@@ -92,7 +92,8 @@
     function populateTsp() {
       let stateRegion = document.getElementById("sr").value;
       let select = document.getElementById("tsp");
-      select.setAttribute("disables", "false");
+      select.removeAttribute("disabled");
+      select.innerHTML = "";
       let storageTsp = JSON.parse(localStorage.getItem("userTownship"));
       let tspList = storageTsp[stateRegion];
       tspList.forEach((tsp) => {
