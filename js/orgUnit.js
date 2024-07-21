@@ -1,4 +1,6 @@
-async function checkOrgUnit() {
+import * as functions from "./functions.js";
+
+export async function checkOrgUnit() {
   const currentDate = new Date();
   const tomorrowDate = new Date(currentDate);
   tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -17,18 +19,18 @@ async function checkOrgUnit() {
   return false;
 }
 
-async function getOrgUnit() {
+export async function getOrgUnit() {
   const domain = localStorage.getItem("domain");
   const token = localStorage.getItem("token");
-  const headers = generateHeaders(token);
-  const url = `${domain}/api/organisationUnits?fields=id,name,parent[id,name,parent[id,name,parent[id,name,parent[id,name,parent[id,name]]]]]&filter=level:eq:7&&totalPages=true&pageSize=500`;
+  const headers = functions.generateHeaders(token);
+  const url = `${domain}/api/organisationUnits?fields=id,name,code,parent[id,name,parent[id,name,parent[id,name,parent[id,name,parent[id,name]]]]]&filter=level:eq:7&&totalPages=true&pageSize=500`;
   let cnt = true;
   let orgUnitData = [];
   let page = 1;
   while (cnt) {
     let finalUrl = `${url}&page=${page}`;
     console.log(finalUrl);
-    const orgUnits = await makeGetRequest(finalUrl, headers);
+    const orgUnits = await functions.makeGetRequest(finalUrl, headers);
     if (orgUnits["organisationUnits"].length > 0) {
       orgUnitData = orgUnitData.concat(orgUnits["organisationUnits"]);
       page = page + 1;
@@ -43,7 +45,7 @@ async function getOrgUnit() {
   return finalOrgUnit;
 }
 
-function orgUnitToVillageList(orgunit) {
+export function orgUnitToVillageList(orgunit) {
   let villageJson = {};
   villageIds = Object.keys(orgunit);
   villageIds.forEach((villageId) => {
@@ -103,6 +105,8 @@ function orgUnitToVillageList(orgunit) {
     }
 
     let villageName = orgunit[villageId]["name"];
+    let villageCode =
+      "code" in orgunit[villageId] ? orgUnit[villageId]["code"] : "";
     villageJson[`${srName}`]["children"][`${tspName}`]["children"][
       `${rhcName}-${rhcId}`
     ]["children"][`${scName}-${scId}`]["children"][
@@ -110,6 +114,7 @@ function orgUnitToVillageList(orgunit) {
     ] = {
       id: villageId,
       name: villageName,
+      code: villageCode,
     };
   });
   console.log(villageJson);
@@ -122,33 +127,26 @@ function orgUnitToVillageList(orgunit) {
           ).forEach((sc) => {
             villageJson[sr]["children"][tsp]["children"][rhc]["children"][sc][
               "children"
-            ] = sortJson(
+            ] = functions.sortJson(
               villageJson[sr]["children"][tsp]["children"][rhc]["children"][sc][
                 "children"
               ]
             );
           });
           villageJson[sr]["children"][tsp]["children"][rhc]["children"] =
-            sortJson(
+            functions.sortJson(
               villageJson[sr]["children"][tsp]["children"][rhc]["children"]
             );
         }
       );
-      villageJson[sr]["children"][tsp]["children"] = sortJson(
+      villageJson[sr]["children"][tsp]["children"] = functions.sortJson(
         villageJson[sr]["children"][tsp]["children"]
       );
     });
-    villageJson[sr]["children"] = sortJson(villageJson[sr]["children"]);
+    villageJson[sr]["children"] = functions.sortJson(
+      villageJson[sr]["children"]
+    );
   });
-  villageJson = sortJson(villageJson);
+  villageJson = functions.sortJson(villageJson);
   return villageJson;
-}
-
-function sortJson(obj) {
-  return Object.keys(obj)
-    .sort()
-    .reduce((accumulator, currentValue) => {
-      accumulator[currentValue] = obj[currentValue];
-      return accumulator;
-    }, {});
 }

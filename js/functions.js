@@ -1,4 +1,4 @@
-function generateToken(username, password) {
+export function generateToken(username, password) {
   // Concatenate username and password with a colon
   const credentials = `${username}:${password}`;
   // Encode the credentials using base64
@@ -6,7 +6,7 @@ function generateToken(username, password) {
   return encodedCredentials;
 }
 
-function generateHeaders(token) {
+export function generateHeaders(token) {
   // Construct the Authorization header value
   const authHeader = `Basic ${token}`;
   // Construct headers object
@@ -17,7 +17,7 @@ function generateHeaders(token) {
   return headers;
 }
 
-async function makePostRequest(url, payload, headers) {
+export async function makePostRequest(url, payload, headers) {
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -37,7 +37,7 @@ async function makePostRequest(url, payload, headers) {
   }
 }
 
-async function makeGetRequest(url, headers) {
+export async function makeGetRequest(url, headers) {
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -54,4 +54,13 @@ async function makeGetRequest(url, headers) {
     console.error("Error:", error);
     throw error;
   }
+}
+
+export function sortJson(obj) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((accumulator, currentValue) => {
+      accumulator[currentValue] = obj[currentValue];
+      return accumulator;
+    }, {});
 }
