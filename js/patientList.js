@@ -215,6 +215,7 @@ export async function execute() {
   htmlData.appendChild(formDiv);
 
   let rpMthSelect = document.getElementById("rpMth");
+  rpMthSelect.innerHTML = "";
   let rpMths = Object.keys(finaldata);
   rpMths.forEach((rpMth) => {
     let rpMthOption = document.createElement("option");
@@ -568,7 +569,10 @@ function createPatientDataCellDiv(info, classname, style) {
   let ptDataCellDiv = document.createElement("div");
   ptDataCellDiv.className = classname;
   ptDataCellDiv.style = style;
-  ptDataCellDiv.innerText = info;
+  let small = document.createElement("small");
+  small.innerHTML = info;
+  ptDataCellDiv.appendChild(small);
+  //   ptDataCellDiv.innerText = info;
   return ptDataCellDiv;
 }
 
@@ -585,82 +589,11 @@ function createSelectBox(id, labelText, jsFunction) {
   select.size = 7;
   select.className = "row form-select mx-1 my-0 px-1 py-0";
   select.setAttribute("onChange", jsFunction);
+  let blankOpt = document.createElement("option");
+  blankOpt.value = "";
+  blankOpt.innerText = "";
+  blankOpt.style.fontSize = "0.85em";
   col.appendChild(label);
   col.appendChild(select);
   return col;
 }
-
-// function createTreeElement(key, value, vType) {
-//   const div = document.createElement("div");
-//   if (vType === "object") {
-//     const li = document.createElement("li");
-//     li.textContent = key;
-//     const childTree = createTree(value);
-//     childTree.classList.add("hidden");
-//     li.appendChild(childTree);
-//     li.addEventListener("click", function (event) {
-//       event.stopPropagation();
-//       const children = this.querySelector("ul");
-//       if (children) {
-//         children.classList.toggle("hidden");
-//       }
-//     });
-//     div.appendChild(li);
-//   } else if (vType === "array") {
-//     let ptName = "";
-//     let ptAge = "";
-//     let ptSex = "";
-//     let testResult = "";
-//     value.forEach((val) => {
-//       let attr = val["attributes"];
-//       let dVal = val["dataValues"];
-//       attr.forEach((attribute) => {
-//         if (attribute["attribute"] == "PFpmOsgBCif") {
-//           ptName = attribute["value"];
-//         } else if (attribute["attribute"] == "oindugucx72") {
-//           ptSex = attribute["value"];
-//         }
-//       });
-
-//       dVal.forEach((dataValue) => {
-//         if (dataValue["dataElement"] == "ECVGASvuHV3") {
-//           ptAge = dataValue["value"];
-//         } else if (dataValue["dataElement"] == "vGxpKVMkmaW") {
-//           testResult = dataValue["value"];
-//         }
-//       });
-//       let text = `${ptName}, ${ptAge}, ${ptSex}, ${testResult}`;
-//       let ptLi = document.createElement("li");
-//       ptLi.innerText = text;
-//       div.appendChild(ptLi);
-//     });
-//   }
-//   return div;
-// }
-
-// function createTree(json) {
-//   const ul = document.createElement("ul");
-
-//   for (const key in json) {
-//     if (json.hasOwnProperty(key)) {
-//       const valueType = checkValueType(json[key]);
-//       const li = createTreeElement(key, json[key], valueType);
-//       for (let x = 0; x < li.children.length; x++) {
-//         ul.appendChild(li.children[x]);
-//       }
-//     }
-//   }
-
-//   return ul;
-// }
-
-// function checkValueType(value) {
-//   if (typeof value === "object") {
-//     if (Array.isArray(value)) {
-//       return "array";
-//     } else if (value !== null) {
-//       return "object";
-//     }
-//   }
-//   return "other";
-// }
