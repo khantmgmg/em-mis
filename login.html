@@ -114,8 +114,8 @@
 
         let assignedOrgUnits = [];
         let userOrganization = [];
-        let userStateRegion = [];
-        let userTownship = [];
+        // let userStateRegion = [];
+        let userTownship = {};
 
         data["userGroups"].forEach((userGroupId) => {
           switch (userGroupId["id"]) {
@@ -140,23 +140,24 @@
         orgUnits.forEach((orgUnit) => {
           assignedOrgUnits.push(orgUnit["id"]);
           if (orgUnit["level"] == "4") {
-            userTownship.push(orgUnit["name"]);
-            userStateRegion.push(orgUnit["parent"]["parent"]["name"]);
+            if (!(orgUnit["parent"]["parent"]["name"] in userTownship)) {
+              userTownship[orgUnit["parent"]["parent"]["name"]] = [];
+            }
+            userTownship[orgUnit["parent"]["parent"]["name"]].push(
+              orgUnit["name"]
+            );
           }
         });
-        userTownship = [...new Set(userTownship)]; // removing the duplicated values
-        userStateRegion = [...new Set(userStateRegion)]; // removing the duplicated values
+        Object.keys(userTownship).forEach((sr) => {
+          userTownship[sr] = [...new Set(userTownship[sr])]; // removing the township duplicated values
+        });
         userOrganization = [...new Set(userOrganization)]; // removing the duplicated values
-        userTownships = userTownship.join(",");
-        userStateRegion = userStateRegion.join(",");
         userOrganization = userOrganization.join(",");
 
         console.log(`User townships: ${userTownship}`);
-        console.log(`User state region: ${userStateRegion}`);
 
         localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
-        localStorage.setItem("userTownship", userTownships);
-        localStorage.setItem("userStateRegion", userStateRegion);
+        localStorage.setItem("userTownship", JSON.stringify(userTownship));
         localStorage.setItem("userOrg", userOrganization);
 
         const orgUnitLoaded = await checkOrgUnit();
