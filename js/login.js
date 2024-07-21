@@ -10,5 +10,5 @@ export async function execute() {
 
   const token = functions.generateToken(username, password);
   const headers = functions.generateHeaders(token);
-  functions.login();
+  functions.login(headers);
 }
