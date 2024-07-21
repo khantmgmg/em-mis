@@ -8,8 +8,10 @@ async function checkOrgUnit() {
   const localToRefreshDate = localStorage.getItem("OrgUnitToRefreshDate");
   if (!localToRefreshDate || localToRefreshDate !== toRefreshDate) {
     const finalOrgUnit = await getOrgUnit();
+    let villageJson = orgUnitToVillageList(finalOrgUnit);
     localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
     localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
+    localStorage.setItem("villageList", JSON.stringify(villageJson));
     return true;
   }
   return false;
@@ -39,4 +41,105 @@ async function getOrgUnit() {
     finalOrgUnit[orgUnit["id"]] = orgUnit;
   });
   return finalOrgUnit;
+}
+
+function orgUnitToVillageList(orgunit) {
+  let villageJson = {};
+  villageIds = Object.keys(orgunit);
+  villageIds.forEach((villageId) => {
+    let scName = orgunit[villageId]["parent"]["name"];
+    let scId = orgunit[villageId]["parent"]["id"];
+    let rhcName = orgunit[villageId]["parent"]["parent"]["name"];
+    let rhcId = orgunit[villageId]["parent"]["parent"]["id"];
+    let tspName = orgunit[villageId]["parent"]["parent"]["parent"]["name"];
+    let tspId = orgunit[villageId]["parent"]["parent"]["parent"]["id"];
+    let srName =
+      orgunit[villageId]["parent"]["parent"]["parent"]["parent"]["parent"][
+        "name"
+      ];
+    let srId =
+      orgunit[villageId]["parent"]["parent"]["parent"]["parent"]["parent"][
+        "id"
+      ];
+
+    if (!(`${srName}` in villageJson)) {
+      villageJson[`${srName}`] = { id: srId, name: srName, children: {} };
+    }
+
+    if (!(`${tspName}` in villageJson[`${srName}`]["children"])) {
+      villageJson[`${srName}`]["children"][`${tspName}`] = {
+        id: tspId,
+        name: tspName,
+        children: {},
+      };
+    }
+
+    if (
+      !(
+        `${rhcName}-${rhcId}` in
+        villageJson[`${srName}`]["children"][`${tspName}`]["children"]
+      )
+    ) {
+      villageJson[`${srName}`]["children"][`${tspName}`]["children"][
+        `${rhcName}-${rhcId}`
+      ] = { id: rhcId, name: rhcName, children: {} };
+    }
+
+    if (
+      !(
+        `${scName}-${scId}` in
+        villageJson[`${srName}`]["children"][`${tspName}`]["children"][
+          `${rhcName}-${rhcId}`
+        ]["children"]
+      )
+    ) {
+      villageJson[`${srName}`]["children"][`${tspName}`]["children"][
+        `${rhcName}-${rhcId}`
+      ]["children"][`${scName}-${scId}`] = {
+        id: scId,
+        name: scName,
+        children: {},
+      };
+    }
+
+    let villageName = orgunit[villageId]["name"];
+    villageJson[`${srName}`]["children"][`${tspName}`]["children"][
+      `${rhcName}-${rhcId}`
+    ]["children"][`${scName}-${scId}`]["children"][
+      `${villageName}-${villageId}`
+    ] = {
+      id: villageId,
+      name: villageName,
+    };
+  });
+  console.log(villageJson);
+  Object.keys(villageJson).forEach((sr) => {
+    Object.keys(villageJson[sr]["children"]).forEach((tsp) => {
+      Object.keys(villageJson[sr]["children"][tsp]["children"]).forEach(
+        (rhc) => {
+          Object.keys(
+            villageJson[sr]["children"][tsp]["children"][rhc]["children"]
+          ).forEach((sc) => {
+            villageJson[sr]["children"][tsp]["children"][rhc]["children"][sc][
+              "children"
+            ] = sortJson(
+              villageJson[sr]["children"][tsp]["children"][rhc]["children"][sc][
+                "children"
+              ]
+            );
+          });
+          villageJson[sr]["children"][tsp]["children"][rhc]["children"] =
+            sortJson(
+              villageJson[sr]["children"][tsp]["children"][rhc]["children"]
+            );
+        }
+      );
+      villageJson[sr]["children"][tsp]["children"] = sortJson(
+        villageJson[sr]["children"][tsp]["children"]
+      );
+    });
+    villageJson[sr]["children"] = sortJson(villageJson[sr]["children"]);
+  });
+  villageJson = sortJson(villageJson);
+  return villageJson;
 }
