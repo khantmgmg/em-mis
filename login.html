@@ -84,11 +84,20 @@
       crossorigin="anonymous"
     ></script>
   </body>
-  <script type="module" src="./js/login.js">
+
+  <script>
+    function login() {
+      console.log("Logging in .....");
+      import("./js/login.js").then((module) => {
+        module.execute();
+      });
+    }
+  </script>
+  <!-- <script type="module" src="./js/login.js">
     function login() {
         execute();
       }
-  </script>
+  </script> -->
   <!-- <script src="./js/functions.js"></script>
   <script src="./js/orgUnit.js"></script> -->
   <script>
