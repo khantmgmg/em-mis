@@ -126,7 +126,7 @@
       const token = localStorage.getItem("token");
       const headers = generateHeaders(token);
       const assignedOrgUnits = localStorage.getItem("assignedOrgUnits");
-      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=${assignedOrgUnits}&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
+      const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=${assignedOrgUnits}&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,programStage,dataValues[dataElement,value]]]&totalPages=true&pageSize=100`;
       let cnt = true;
       let ptData = [];
       let page = 1;
@@ -144,7 +144,7 @@
       console.log(ptData);
       finaldata = {};
       let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
-      console.log(orgUnitData);
+      // console.log(orgUnitData);
       ptData.forEach((tei) => {
         let trackedEntity = tei["trackedEntity"];
         let enrollments = tei["enrollments"];
@@ -152,108 +152,111 @@
           let enrollmentId = enrollment["enrollment"];
           let events = enrollment["events"];
           events.forEach((event) => {
-            console.log(event);
-            event["enrollment"] = enrollmentId;
-            event["trackedEntity"] = trackedEntity;
-            event["attributes"] = enrollment["attributes"];
-            let orgUnit = event["orgUnit"];
-            console.log(orgUnit);
-            console.log(orgUnitData[orgUnit]);
-            console.log(orgUnitData[orgUnit]);
-            let township =
-              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
-            let stateRegion =
-              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
-                "parent"
-              ]["name"];
-            let eventId = event["event"];
-            let occurredAt = event["occurredAt"];
-            let reportingMonth = occurredAt.substring(0, 7);
-            if (!(reportingMonth in finaldata)) {
-              finaldata[reportingMonth] = {};
-            }
-            let dataValues = event["dataValues"];
-
-            let organization = "";
-            let persnCode = "";
-            let cblMth = "";
-            let cblYr = "";
-            let cblPage = "";
-
-            for (let i = 0; i < dataValues.length; i++) {
-              let dataValue = dataValues[i];
-              if (dataValue["dataElement"] == "AS3g1pCXG7z") {
-                personCode = dataValue["value"];
-              } else if (dataValue["dataElement"] == "n3Bkq0yjIa7") {
-                cblMth = dataValue["value"];
-              } else if (dataValue["dataElement"] == "mHmqOLqzXB2") {
-                cblYr = dataValue["value"];
-              } else if (dataValue["dataElement"] == "m7sW6eVhXqz") {
-                cblPage = dataValue["value"];
-              } else if (dataValue["dataElement"] == "WEHuBflDeJM") {
-                organization = dataValue["value"];
+            if (event["programStage"] == "hYyB7FUS5eR") {
+              // console.log(event);
+              event["enrollment"] = enrollmentId;
+              event["trackedEntity"] = trackedEntity;
+              event["attributes"] = enrollment["attributes"];
+              let orgUnit = event["orgUnit"];
+              // console.log(orgUnit);
+              // console.log(orgUnitData[orgUnit]);
+              // console.log(orgUnitData[orgUnit]);
+              let township =
+                orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
+              let stateRegion =
+                orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
+                  "parent"
+                ]["name"];
+              let eventId = event["event"];
+              let occurredAt = event["occurredAt"];
+              let reportingMonth = occurredAt.substring(0, 7);
+              if (!(reportingMonth in finaldata)) {
+                finaldata[reportingMonth] = {};
               }
-            }
-            let cblPeriod = `${cblMth}-${cblYr}`;
-            // console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
-            if (!(organization in finaldata[reportingMonth])) {
-              finaldata[reportingMonth][organization] = {};
-            }
+              let dataValues = event["dataValues"];
 
-            if (!(stateRegion in finaldata[reportingMonth][organization])) {
-              finaldata[reportingMonth][organization][stateRegion] = {};
-            }
+              let organization = "";
+              let persnCode = "";
+              let cblMth = "";
+              let cblYr = "";
+              let cblPage = "";
 
-            if (
-              !(
-                township in finaldata[reportingMonth][organization][stateRegion]
-              )
-            ) {
-              finaldata[reportingMonth][organization][stateRegion][township] =
-                {};
-            }
+              for (let i = 0; i < dataValues.length; i++) {
+                let dataValue = dataValues[i];
+                if (dataValue["dataElement"] == "AS3g1pCXG7z") {
+                  personCode = dataValue["value"];
+                } else if (dataValue["dataElement"] == "n3Bkq0yjIa7") {
+                  cblMth = dataValue["value"];
+                } else if (dataValue["dataElement"] == "mHmqOLqzXB2") {
+                  cblYr = dataValue["value"];
+                } else if (dataValue["dataElement"] == "m7sW6eVhXqz") {
+                  cblPage = dataValue["value"];
+                } else if (dataValue["dataElement"] == "WEHuBflDeJM") {
+                  organization = dataValue["value"];
+                }
+              }
+              let cblPeriod = `${cblMth}-${cblYr}`;
+              // console.log(`${personCode} - ${cblPeriod} - ${cblPage}`);
+              if (!(organization in finaldata[reportingMonth])) {
+                finaldata[reportingMonth][organization] = {};
+              }
 
-            if (
-              !(
-                personCode in
-                finaldata[reportingMonth][organization][stateRegion][township]
-              )
-            ) {
-              finaldata[reportingMonth][organization][stateRegion][township][
-                personCode
-              ] = {};
-            }
-            // console.log(Object.keys(finaldata[reportingMonth]));
-            if (
-              !(
-                cblPeriod in
+              if (!(stateRegion in finaldata[reportingMonth][organization])) {
+                finaldata[reportingMonth][organization][stateRegion] = {};
+              }
+
+              if (
+                !(
+                  township in
+                  finaldata[reportingMonth][organization][stateRegion]
+                )
+              ) {
+                finaldata[reportingMonth][organization][stateRegion][township] =
+                  {};
+              }
+
+              if (
+                !(
+                  personCode in
+                  finaldata[reportingMonth][organization][stateRegion][township]
+                )
+              ) {
                 finaldata[reportingMonth][organization][stateRegion][township][
                   personCode
-                ]
-              )
-            ) {
-              finaldata[reportingMonth][organization][stateRegion][township][
-                personCode
-              ][cblPeriod] = {};
-            }
-            // console.log(Object.keys(finaldata[reportingMonth][personCode]));
-            if (
-              !(
-                cblPage in
+                ] = {};
+              }
+              // console.log(Object.keys(finaldata[reportingMonth]));
+              if (
+                !(
+                  cblPeriod in
+                  finaldata[reportingMonth][organization][stateRegion][
+                    township
+                  ][personCode]
+                )
+              ) {
                 finaldata[reportingMonth][organization][stateRegion][township][
                   personCode
-                ][cblPeriod]
-              )
-            ) {
+                ][cblPeriod] = {};
+              }
+              // console.log(Object.keys(finaldata[reportingMonth][personCode]));
+              if (
+                !(
+                  cblPage in
+                  finaldata[reportingMonth][organization][stateRegion][
+                    township
+                  ][personCode][cblPeriod]
+                )
+              ) {
+                finaldata[reportingMonth][organization][stateRegion][township][
+                  personCode
+                ][cblPeriod][cblPage] = [];
+              }
+              // console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
+              // console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
               finaldata[reportingMonth][organization][stateRegion][township][
                 personCode
-              ][cblPeriod][cblPage] = [];
+              ][cblPeriod][cblPage].push(event);
             }
-            // console.log(Object.keys(finaldata[reportingMonth][personCode][cblPeriod]));
-            // console.log(finaldata[reportingMonth][personCode][cblPeriod][cblPage]);
-            finaldata[reportingMonth][organization][stateRegion][township][
-              personCode
-            ][cblPeriod][cblPage].push(event);
           });
         });
       });
@@ -504,6 +507,7 @@
         let permanentAddr = "";
         let url = "";
         console.log(idata);
+        //console.log("asdf");
         let attributes = idata["attributes"];
         let dataValues = idata["dataValues"];
         let orgUnitName = idata["orgUnitName"];
