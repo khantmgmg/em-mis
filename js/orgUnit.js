@@ -47,7 +47,7 @@ export async function getOrgUnit() {
 
 export function orgUnitToVillageList(orgunit) {
   let villageJson = {};
-  villageIds = Object.keys(orgunit);
+  let villageIds = Object.keys(orgunit);
   villageIds.forEach((villageId) => {
     let scName = orgunit[villageId]["parent"]["name"];
     let scId = orgunit[villageId]["parent"]["id"];
