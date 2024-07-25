@@ -34,7 +34,7 @@ export async function execute() {
       console.log(overlay);
       let overlayInfo = document.getElementById("overlay-info");
       console.log(overlayInfo);
-      overlayInfo.innerHTML(infoText);
+      overlayInfo.innerHTML = infoText;
     } else {
       cnt = false;
     }
