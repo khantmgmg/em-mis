@@ -131,8 +131,8 @@
       let tspAbb = personCode.substring(0,3);
       let providerAbb = personCode.substring(3,1);
       let codeNum = personCode.substring(4,personCode.length - 4);
-      let tspLs = localStorage.getItem("papTspList");
-      let providerLs = localStorage.getItem("papProviderList");
+      let tspLs = JSON.parse(localStorage.getItem("papTspList"));
+      let providerLs = JSON.parse(localStorage.getItem("papProviderList"));
       console.log(tspLs);
       console.log(tspValue);
       console.log(tspLs[tspValue]);
@@ -143,7 +143,7 @@
         document.getElementById("providerTypeAbb").value = providerAbb;
         document.getElementById("personCodeNum").value = codeNum;
         let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
-        let villageListLs = localStorage.getItem("villageList");
+        let villageListLs = JSON.parse(localStorage.getItem("villageList"));
         let villList = villageListLs[srValue]["Children"][tspValue]["Children"];
         Object.keys(villList).forEach(rhcId => {
           let rhcName = rhcId["name"];
