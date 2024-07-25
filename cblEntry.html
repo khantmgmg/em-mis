@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="./js/auth.js"></script>
+    <base target="_top" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient data</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div style="margin-left: 12vw; margin-right: 3vw">
+      <h1 class="mb-4">Carbonless data entry</h1>
+      <form id="misForm">
+        <div class="row">
+          <div class="col form-group my-2 py-2">
+            <label for="org">Organization</label>
+            <select class="form-control" name="org" id="org">
+              <option value="" selected></option>
+            </select>
+          </div>
+          <div class="col form-group my-2 py-2">
+            <label for="sr">State/Region</label>
+            <select class="form-control" name="sr" id="sr">
+              <option value="" selected></option>
+            </select>
+          </div>
+          <div class="col form-group my-2 py-2">
+            <label for="tsp">Township</label>
+            <select class="form-control" name="tsp" id="tsp">
+              <option value="" selected></option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div id="data"></div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+  <script src="./js/functions.js"></script>
+  <script>
+    // userGroups
+    // AJkMB5yx3f5 - ARC
+    // NjMTtW44JhN - MHAA
+    // t8PvIf1oOTY - MNMA
+    // qrH57OmaOPN - SCH
+    // B9lJ9eGHtp1 - URC
+    populateOrg();
+    populateSr();
+    function populateOrg() {
+      let select = document.getElementById("org");
+      let userOrg = localStorage.getItem("userOrg");
+      userOrg = userOrg.split(",");
+      userOrg.forEach((org) => {
+        let option = document.createElement("option");
+        option.value = org;
+        option.innerHTML = org;
+        select.append(option);
+      });
+      if (userOrg.length == 1) {
+        select.value = userOrg[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
+
+    function populateSr() {
+      let select = document.getElementById("sr");
+      select.setAttribute("onChange", "populateTsp();");
+      let storageSr = JSON.parse(localStorage.getItem("userTownship"));
+      Object.keys(storageSr).forEach((sr) => {
+        let option = document.createElement("option");
+        option.value = sr;
+        option.innerHTML = sr;
+        select.appendChild(option);
+      });
+      if (Object.keys(storageSr).length == 1) {
+        select.value = Object.keys(storageSr)[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
+
+    function populateTsp() {
+      let stateRegion = document.getElementById("sr").value;
+      let select = document.getElementById("tsp");
+      select.removeAttribute("disabled");
+      select.innerHTML = "";
+      let storageTsp = JSON.parse(localStorage.getItem("userTownship"));
+      let tspList = storageTsp[stateRegion];
+      tspList.forEach((tsp) => {
+        let option = document.createElement("option");
+        option.value = tsp;
+        option.innerHTML = tsp;
+        select.appendChild(option);
+      });
+      if (tspList.length == 1) {
+        select.value = tspList[0];
+        select.setAttribute("disabled", "true");
+      }
+    }
+  </script>
+</html>

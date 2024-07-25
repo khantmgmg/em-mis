@@ -11,43 +11,12 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <style>
-      #overlay {
-        position: fixed; /* Stay in place */
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
-        z-index: 1000; /* Sit on top */
-        display: none; /* Hidden by default */
-        font-size: 3em;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="overlay" class="align-items-center">
-      <div
-        class="bg-secondary text-white mx-5 my-5 px-5 py-5 text-center align-items-center"
-      >
-        <b>Building the app ..................</b>
-      </div>
-    </div>
     <div class="container my-5">
       <h1 class="mb-4 text-center">Log in</h1>
       <form id="misForm">
-        <!-- <div class="form-group my-2 py-2">
-          <label for="host">Host URL:</label>
-          <input
-            type="url"
-            class="form-control"
-            name="host"
-            id="host"
-            placeholder="Enter host URL"
-            required
-          />
-        </div> -->
         <div class="form-group my-2 py-2">
           <label for="username">EM-MIS Username:</label>
           <input
@@ -71,7 +40,7 @@
           />
         </div>
         <div class="my-2 py-2">
-          <button type="button" class="btn btn-primary" onclick="execute()">
+          <button type="button" class="btn btn-primary" onclick="login()">
             Log in
           </button>
         </div>
@@ -84,47 +53,13 @@
       crossorigin="anonymous"
     ></script>
   </body>
-  <script src="./js/functions.js"></script>
-  <script src="./js/orgUnit.js"></script>
+
   <script>
-    async function execute() {
-      let overlay = document.getElementById("overlay");
-      overlay.style.display = "block";
-      // Usage example:
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      // const domain = document.getElementById("host").value;
-      const domain = "https://mis.pmi-em.org";
-      const url = `${domain}/api/me`;
-
-      const token = generateToken(username, password);
-      const headers = generateHeaders(token);
-
-      try {
-        const data = await makeGetRequest(url, headers);
-        console.log(data);
-        document.getElementById(
-          "data"
-        ).innerText = `${token} ||| ${data["name"]}`;
-        localStorage.setItem("domain", domain);
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", data["name"]);
-        let orgUnits = data["organisationUnits"];
-        let assignedOrgUnits = [];
-        orgUnits.forEach((orgUnit) => {
-          assignedOrgUnits.push(orgUnit["id"]);
-        });
-        localStorage.setItem("assignedOrgUnits", assignedOrgUnits.join(";"));
-        const orgUnitLoaded = await checkOrgUnit();
-        console.log(`OrgUnitLoaded: ${orgUnitLoaded}`);
-        if (orgUnitLoaded) {
-          window.location.href = "./";
-        }
-      } catch (error) {
-        console.error("Request failed", error);
-        alert("Domain or Username or password incorrect");
-      }
-      overlay.style.display = "none";
+    function login() {
+      console.log("Logging in .....");
+      import("./js/login.js").then((module) => {
+        module.execute();
+      });
     }
   </script>
 </html>

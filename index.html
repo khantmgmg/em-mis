@@ -20,7 +20,8 @@
       <div class="row">
         <!-- <a href="./tei.html">Individual patient data</a> -->
         <!-- <a href="./programStageDe.html">Program stage sections</a> -->
-        <a href="./pr1.html">Patient data</a>
+        <a href="./patientList.html">Patient data</a>
+        <a href="./cblEntry.html">Carbonless data entry</a>
       </div>
     </div>
     <script
@@ -29,60 +30,4 @@
       crossorigin="anonymous"
     ></script>
   </body>
-  <script>
-    function generateHeaders(username, password) {
-      // Concatenate username and password with a colon
-      const credentials = `${username}:${password}`;
-      // Encode the credentials using base64
-      const encodedCredentials = btoa(credentials);
-      // Construct the Authorization header value
-      const authHeader = `Basic ${encodedCredentials}`;
-
-      // Construct headers object
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: authHeader,
-      };
-      return headers;
-    }
-
-    async function makePostRequest(url, payload, headers) {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
-      }
-    }
-
-    async function makeGetRequest(url, headers) {
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: headers,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
-      }
-    }
-  </script>
 </html>
