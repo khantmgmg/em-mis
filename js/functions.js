@@ -92,6 +92,7 @@ export function showOverlay(displayText) {
     text.innerHTML = displayText;
 
     let info = document.createElement("p");
+    info.style.fontSize = "0.3em";
     info.id = "overlay-info";
 
     overlaySubDiv.appendChild(text);

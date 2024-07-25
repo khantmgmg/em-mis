@@ -29,7 +29,7 @@ export async function execute() {
       ptData = ptData.concat(teis["instances"]);
       page = page + 1;
       loadedData = loadedData + dataLength;
-      let infoText = `Info: Loading patient data.... (${loadedData} out of ${totalData}`;
+      let infoText = `Info: Loading patient data.... (${loadedData} of ${totalData} loaded)`;
       let overlay = document.getElementById("overlay");
       console.log(overlay);
       let overlayInfo = document.getElementById("overlay-info");
