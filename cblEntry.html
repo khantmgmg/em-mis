@@ -137,8 +137,13 @@
       // console.log(tspValue);
       // console.log(tspLs[tspValue]);
       tspAbbLs = tspLs[tspValue]["TSPABB"];
+      console.log(`${personCode}, ${tspAbb}, ${providerAbb}, ${codeNum}`)
+      console.log(tspAbb == tspAbbLs);
+      console.log(providerAbb in providerLs);
+      console.log(codeNum.length == 5);
+      console.log(personCode.length == 9)
 
-      if (tspAbb == tspAbbLs && providerAbb in providerLs && codeNum.length == 5 && personCode == 9){
+      if (tspAbb == tspAbbLs && providerAbb in providerLs && codeNum.length == 5 && personCode.length == 9){
         document.getElementById("tspAbb").value = tspAbb;
         document.getElementById("providerTypeAbb").value = providerAbb;
         document.getElementById("personCodeNum").value = codeNum;
