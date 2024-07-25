@@ -30,7 +30,10 @@ export async function execute() {
       page = page + 1;
       loadedData = loadedData + dataLength;
       let infoText = `Info: Loading patient data.... (${loadedData} out of ${totalData}`;
+      let overlay = document.getElementById("overlay");
+      console.log(overlay);
       let overlayInfo = document.getElementById("overlay-info");
+      console.log(overlayInfo);s
       overlayInfo.innerHTML(infoText);
     } else {
       cnt = false;
