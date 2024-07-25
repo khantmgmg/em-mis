@@ -91,7 +91,11 @@ export function showOverlay(displayText) {
     // text.innerHTML = "Building the app ..................";
     text.innerHTML = displayText;
 
+    let info = document.createElement("p");
+    info.id = "overlay-info";
+
     overlaySubDiv.appendChild(text);
+    overlaySubDiv.appendChild(info);
     overlay.appendChild(overlaySubDiv);
     document.body.appendChild(overlay);
   } else {

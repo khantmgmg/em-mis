@@ -16,13 +16,21 @@ export async function execute() {
   let cnt = true;
   let ptData = [];
   let page = 1;
+  let loadedData = 0;
+
+  let overlayInfo = document.getElementById("overlay-info");
   while (cnt) {
     let teiUrl = `${url}&page=${page}`;
     console.log(teiUrl);
     let teis = await functions.makeGetRequest(teiUrl, headers);
     if (teis["instances"].length > 0) {
+      let totalData = teis["total"];
+      let dataLength = Number(teis["pageSize"]);
       ptData = ptData.concat(teis["instances"]);
       page = page + 1;
+      loadedData = loadedData + dataLength;
+      let infoText = `Info: Loading patient data.... (${loadedData} out of ${totalData}`;
+      overlayInfo.innerHTML(infoText);
     } else {
       cnt = false;
     }
