@@ -133,6 +133,9 @@
       let codeNum = personCode.substring(4,personCode.length - 4);
       let tspLs = localStorage.getItem("papTspList");
       let providerLs = localStorage.getItem("papProviderList");
+      console.log(tspLs);
+      console.log(tspValue);
+      console.log(tspLs[tspValue]);
       tspAbbLs = tspLs[tspValue]["TSPABB"];
 
       if (tspAbb == tspAbbLs && providerAbb in providerLs && codeNum.length == 5 && personCode == 9){
