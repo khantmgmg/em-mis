@@ -18,7 +18,7 @@ export async function execute() {
   let page = 1;
   let loadedData = 0;
 
-  let overlayInfo = document.getElementById("overlay-info");
+  
   while (cnt) {
     let teiUrl = `${url}&page=${page}`;
     console.log(teiUrl);
@@ -30,6 +30,7 @@ export async function execute() {
       page = page + 1;
       loadedData = loadedData + dataLength;
       let infoText = `Info: Loading patient data.... (${loadedData} out of ${totalData}`;
+      let overlayInfo = document.getElementById("overlay-info");
       overlayInfo.innerHTML(infoText);
     } else {
       cnt = false;
