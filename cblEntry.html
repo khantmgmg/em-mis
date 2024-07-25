@@ -37,6 +37,22 @@
               <option value="" selected></option>
             </select>
           </div>
+          <div class="col form-group my-2 py-2">
+            <label for="tsp">Provider full code</label>
+            <input type="text" id = "providerFullCode" onchange="personCodeChange();" />
+            <input type="text" id="tspAbb" readonly/>
+            <input type="text" id="providerTypeAbb" readonly/>
+            <input type="text" id="personCodeNum" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col form-group my-2 py-2">
+            <label for="pRhc">Provider RHC</label>
+            <input type="text" id="pRhc" />
+            <input type="text" id="pSc" />
+            <input type="text" id="pVill" />
+            <input type="text" id="pOrgunitId" />
+          </div>
         </div>
       </form>
       <div id="data"></div>
@@ -105,6 +121,56 @@
       if (tspList.length == 1) {
         select.value = tspList[0];
         select.setAttribute("disabled", "true");
+      }
+    }
+
+    function personCodeChange(){
+      let personCode = document.getElementById("providerFullCode").value;
+      let tspValue = document.getElementById("tsp").value;
+      let srValue = document.getElementById("sr").value;
+      let tspAbb = personCode.substring(0,3);
+      let providerAbb = personCode.substring(3,1);
+      let codeNum = personCode.substring(4,personCode.length - 4);
+      let tspLs = localStorage.getItem("papTspList");
+      let providerLs = localStorage.getItem("papProviderList");
+      tspAbbLs = tspLs[tspValue]["TSPABB"];
+
+      if (tspAbb == tspAbbLs && providerAbb in providerLs && codeNum.length == 5 && personCode == 9){
+        document.getElementById("tspAbb").value = tspAbb;
+        document.getElementById("providerTypeAbb").value = providerAbb;
+        document.getElementById("personCodeNum").value = codeNum;
+        let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
+        let villageListLs = localStorage.getItem("villageList");
+        let villList = villageListLs[srValue]["Children"][tspValue]["Children"];
+        Object.keys(villList).forEach(rhcId => {
+          let rhcName = rhcId["name"];
+          Object.keys(villList[rhcId]["Children"]).forEach(scId => {
+            let scName = villList[rhcId]["Children"][scid]["name"];
+            Object.keys(villList[rhcId]["Children"][scId]["Children"]).forEach(vill => {
+              if ("code" in villList[rhcId]["Children"][scId]["Children"][vill]){
+                let villCode = villList[rhcId]["Children"][scId]["Children"][vill]["code"];
+                let villName = villList[rhcId]["Children"][scId]["Children"][vill]["name"];
+                let villId = villList[rhcId]["Children"][scId]["Children"][vill]["id"];
+
+                let pRhc = document.getElementById("pRhc");
+                let pSc = document.getElementById("pSc");
+                let pVill = document.getElementById("pVill");
+                let pOrgunitId = document.getElementById("pOrgunitId");
+
+                if (villCode == providerVillageCode){
+                  pRhc.value = rhcName;
+                  pSc.value = scName;
+                  pVill.value = villName;
+                  pOrgunitId.value = villId;
+                  pRhc.setAttribute("readonly", "");
+                  pSc.setAttribute("readonly", "");
+                  pVill.setAttribute("readonly", "");
+                  pOrgunitId.setAttribute("readonly", "");
+                }
+              }
+            })
+          })
+        })
       }
     }
   </script>
