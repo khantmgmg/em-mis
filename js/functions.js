@@ -119,6 +119,8 @@ export async function login(token) {
   try {
     const data = await makeGetRequest(url, headers);
     console.log(data);
+    let overlayInfo = document.getElementById("overlay-info");
+    overlayInfo.innerHTML = "Info: getting data from server...."
     // document.getElementById("data").innerText = `${token} ||| ${data["name"]}`;
     localStorage.setItem("domain", domain);
     localStorage.setItem("token", token);
