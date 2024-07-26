@@ -20,25 +20,25 @@
       <form id="misForm">
         <h3 class="text-center">Carbonless heading</h3>
         <div class="row">
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="org">Organization</label>
             <select class="form-control" name="org" id="org">
               <option value="" selected></option>
             </select>
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="sr">State/Region</label>
             <select class="form-control" name="sr" id="sr">
               <option value="" selected></option>
             </select>
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="tsp">Township</label>
             <select class="form-control" name="tsp" id="tsp" onchange="townshipChange()">
               <option value="" selected></option>
             </select>
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="tsp">Provider full code</label>
             <input type="text" class="form-control" id = "providerFullCode" onchange="personCodeChange();" />
             <input type="hidden" id="tspAbb" readonly/>
@@ -47,22 +47,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="pRhc">RHC</label>
             <input type="text" class="form-control" id="pRhc" readonly/>
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="pRhc">Subcenter</label>
             <input type="text" class="form-control" id="pSc" readonly/>
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="pRhc">Address</label>
             <select class="form-control" id="pOrgunitId" onChange="pAddrChange();">
               <option value="" selected></option>
             </select>
             <!-- <input type="hidden" id="pOrgunitId" /> -->
           </div>
-          <div class="col form-group my-2 py-2">
+          <div class="col form-group my-0 py-0">
             <label for="monthYear">Month and Year in carbonless</label>
             <input type="month" id="cblPeriod" class="form-control">
           </div>
@@ -325,6 +325,23 @@
 
     }
 
+    function cblPeriodChange(){
+      let cblPeriod = new Date(document.getElementById("cblPeriod").value + "-01");
+      let personCode = document.getElementById("providerFullCode").value;
+      let providerAbb = personCode.substring(3,4);
+      let providerStartDate, providerEndDate
+      if ("Newly_added_date (starting from 29 Jan 2018)" in providerLs[providerAbb][personCode]){
+        providerStartDate = new Date(providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]);
+        providerStartDate = new Date(providerStartDate.getFullYear(), providerStartDate.getMonth(), 1);
+      }      
+      if ("Removed_date" in providerLs[providerAbb][personCode]){
+        providerEndDate = new Date(providerLs[providerAbb][personCode]["Removed_date"]);
+        providerEndDate = new Date(providerEndDate.getFullYear(), providerEndDate.getMonth(), 1);
+      }
+      if (cblPeriod < providerStartDate || (providerEndDate != "" && cblPeriod > providerEndDate)){
+        alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString());
+      }
+    }
     function fillCblRhcScAddress(srValue, tspValue, providerVillageCode){
       let villageListLs = papVillList;
       let villList = villageListLs[srValue]["children"][tspValue]["children"];
