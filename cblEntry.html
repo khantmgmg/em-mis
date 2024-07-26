@@ -175,7 +175,8 @@
         alert("Something went wrong");
       }
     }
-
+    
+    var rhcScVill = {};
     function townshipChange(){
       let srInput = document.getElementById("sr").value;
       let tspInput = document.getElementById("tsp").value;
@@ -183,7 +184,6 @@
       addrSelect.innerHTML = "";
       let blankOpt = document.createElement("option");
       addrSelect.appendChild(blankOpt);
-      var rhcScVill = {};
       let papVillList = JSON.parse(localStorage.getItem("villageList"));
       // let villList = JSON.parse(localStorage.getItem("villageList"));
       let tspId = papVillList[srInput]["children"][tspInput]["id"];
