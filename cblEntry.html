@@ -160,12 +160,12 @@
         document.getElementById("personCodeNum").value = codeNum;
         if (providerAbb == "V" || providerAbb == "W"){
           let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
-          fillCblRhcScAddress(providerVillageCode);
+          fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
         }
         else if (providerAbb == "M"){
           let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
           let providerVillageCode = providerLs[providerAbb][`${mmwIcmv[personCode]}01`]["Assigned_village_code"];
-          fillCblRhcScAddress(providerVillageCode);
+          fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
         }
         else{
 
@@ -254,7 +254,7 @@
 
     }
 
-    function fillCblRhcScAddress(providerVillageCode){
+    function fillCblRhcScAddress(srValue, tspValue, providerVillageCode){
       let villageListLs = JSON.parse(localStorage.getItem("villageList"));
       let villList = villageListLs[srValue]["children"][tspValue]["children"];
       Object.keys(villList).forEach(rhcId => {
