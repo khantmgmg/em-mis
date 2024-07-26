@@ -94,10 +94,12 @@
     var mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
     var papVillList = JSON.parse(localStorage.getItem("villageList"));
     var rhcScVill = {};
-
+    console.lo(userOrg);
     function populateOrg() {
+      console.log(userOrg);
       let select = document.getElementById("org");
       userOrg = userOrg.split(",");
+      console.log(userOrg);
       userOrg.forEach((org) => {
         let option = document.createElement("option");
         option.value = org;
