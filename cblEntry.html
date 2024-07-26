@@ -326,22 +326,23 @@
     }
 
     function cblPeriodChange(){
-      let cblPeriod = new Date(document.getElementById("cblPeriod").value + "-01");
+      let cblPeriod = new Date(document.getElementById("cblPeriod").value + " UTC");
       let personCode = document.getElementById("providerFullCode").value;
       let providerAbb = personCode.substring(3,4);
 
       if (personCode in providerLs[providerAbb]){
-        let providerStartDate, providerEndDate
+        let providerStartDate, providerEndDate, providerSDate, providerEDate;
         if ("Newly_added_date (starting from 29 Jan 2018)" in providerLs[providerAbb][personCode]){
           providerStartDate = new Date(providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]);
-          providerStartDate = new Date(providerStartDate.getFullYear(), providerStartDate.getMonth(), 1);
+          providerSDate = new Date(`${providerStartDate.getFullYear()}-${providerStartDate.getMonth()+1} UTC`);
+          let asdf = new Date()
         }      
         if ("Removed_date" in providerLs[providerAbb][personCode]){
           providerEndDate = new Date(providerLs[providerAbb][personCode]["Removed_date"]);
-          providerEndDate = new Date(providerEndDate.getFullYear(), providerEndDate.getMonth(), 1);
+          providerEDate = new Date(`${providerEndDate.getFullYear()}-${providerEndDate.getMonth()+1} UTC`);
         }
-        if (cblPeriod < providerStartDate || (providerEndDate != "" && cblPeriod > providerEndDate)){
-          alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString());
+        if (cblPeriod < providerSDate || (providerEDate != "" && cblPeriod > providerEDate)){
+          alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider start month: " + providerSDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString() + "\n" + "Provider removed month: " + providerEDate.toISOString());
         }
       }
       else{
