@@ -84,8 +84,7 @@
     // t8PvIf1oOTY - MNMA
     // qrH57OmaOPN - SCH
     // B9lJ9eGHtp1 - URC
-    populateOrg();
-    populateSr();
+    
 
     var tspLs = JSON.parse(localStorage.getItem("papTspList"));
     var userOrg = localStorage.getItem("userOrg");
@@ -95,6 +94,9 @@
     var papVillList = JSON.parse(localStorage.getItem("villageList"));
     var rhcScVill = {};
     console.log(`Pring outside function ${userOrg}`);
+
+    populateOrg();
+    populateSr();
 
     function populateOrg() {
       console.log(userOrg);
