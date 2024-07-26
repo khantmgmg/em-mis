@@ -98,9 +98,9 @@
     function populateOrg() {
       console.log(userOrg);
       let select = document.getElementById("org");
-      userOrg = userOrg.split(",");
-      console.log(userOrg);
-      userOrg.forEach((org) => {
+      userOrgs = userOrg.split(",");
+      console.log(userOrgs);
+      userOrgs.forEach((org) => {
         let option = document.createElement("option");
         option.value = org;
         option.innerHTML = org;
