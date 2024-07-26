@@ -153,7 +153,7 @@
         Object.keys(villList).forEach(rhcId => {
           let rhcName = rhcId["name"];
           Object.keys(villList[rhcId]["children"]).forEach(scId => {
-            let scName = villList[rhcId]["children"][scid]["name"];
+            let scName = villList[rhcId]["children"][scId]["name"];
             Object.keys(villList[rhcId]["children"][scId]["children"]).forEach(vill => {
               if ("code" in villList[rhcId]["children"][scId]["children"][vill]){
                 let villCode = villList[rhcId]["children"][scId]["children"][vill]["code"];
