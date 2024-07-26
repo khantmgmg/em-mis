@@ -34,7 +34,7 @@
           </div>
           <div class="col form-group my-2 py-2">
             <label for="tsp">Township</label>
-            <select class="form-control" name="tsp" id="tsp">
+            <select class="form-control" name="tsp" id="tsp" onchange="townshipChange()">
               <option value="" selected></option>
             </select>
           </div>
@@ -57,8 +57,14 @@
           </div>
           <div class="col form-group my-2 py-2">
             <label for="pRhc">Address</label>
-            <input type="text" class="form-control" id="pVill" />
-            <input type="hidden" id="pOrgunitId" />
+            <select class="form-control" id="pOrgunitId" onChange="pAddrChange();">
+              <option value="" selected></option>
+            </select>
+            <!-- <input type="hidden" id="pOrgunitId" /> -->
+          </div>
+          <div class="col form-group my-2 py-2">
+            <label for="monthYear">Month and Year in carbonless</label>
+            <input type="month" id="cblPeriod" class="form-control">
           </div>
         </div>
       </form>
@@ -140,9 +146,7 @@
       let codeNum = personCode.substring(4);
       let tspLs = JSON.parse(localStorage.getItem("papTspList"));
       let providerLs = JSON.parse(localStorage.getItem("papProviderList"));
-      // console.log(tspLs);
-      // console.log(tspValue);
-      // console.log(tspLs[tspValue]);
+      
       tspAbbLs = tspLs[tspValue]["TSPABB"];
       console.log(`${personCode}, ${tspAbb}, ${providerAbb}, ${codeNum}`)
       console.log(tspAbb == tspAbbLs);
@@ -154,42 +158,134 @@
         document.getElementById("tspAbb").value = tspAbb;
         document.getElementById("providerTypeAbb").value = providerAbb;
         document.getElementById("personCodeNum").value = codeNum;
-        let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
-        let villageListLs = JSON.parse(localStorage.getItem("villageList"));
-        let villList = villageListLs[srValue]["children"][tspValue]["children"];
-        Object.keys(villList).forEach(rhcId => {
-          let rhcName = villageListLs[srValue]["children"][tspValue]["children"][rhcId]["name"];
-          Object.keys(villList[rhcId]["children"]).forEach(scId => {
-            let scName = villList[rhcId]["children"][scId]["name"];
-            Object.keys(villList[rhcId]["children"][scId]["children"]).forEach(vill => {
-              if ("code" in villList[rhcId]["children"][scId]["children"][vill]){
-                let villCode = villList[rhcId]["children"][scId]["children"][vill]["code"];
-                let villName = villList[rhcId]["children"][scId]["children"][vill]["name"];
-                let villId = villList[rhcId]["children"][scId]["children"][vill]["id"];
+        if (providerAbb == "V" || providerAbb == "W"){
+          let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
+          fillCblRhcScAddress(providerVillageCode);
+        }
+        else if (providerAbb == "M"){
+          let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
+          let providerVillageCode = providerLs[providerAbb][`${mmwIcmv[personCode]}01`]["Assigned_village_code"];
+          fillCblRhcScAddress(providerVillageCode);
+        }
+        else{
 
-                let pRhc = document.getElementById("pRhc");
-                let pSc = document.getElementById("pSc");
-                let pVill = document.getElementById("pVill");
-                let pOrgunitId = document.getElementById("pOrgunitId");
-
-                if (villCode == providerVillageCode){
-                  pRhc.value = rhcName;
-                  pSc.value = scName;
-                  pVill.value = villName;
-                  pOrgunitId.value = villId;
-                  pRhc.setAttribute("readonly", "");
-                  pSc.setAttribute("readonly", "");
-                  pVill.setAttribute("readonly", "");
-                  pOrgunitId.setAttribute("readonly", "");
-                }
-              }
-            })
-          })
-        })
+        }
       }
       else{
         alert("Something went wrong");
       }
+    }
+
+    function townshipChange(){
+      let srInput = document.getElementById("sr").value;
+      let tspInput = document.getElementById("tsp").value;
+      let addrSelect = document.getElementById("pOrgunitId");
+      addrSelect.innerHTML = "";
+      let blankOpt = document.createElement("option");
+      addrSelect.appendChild(blankOpt);
+      var rhcScVill = {};
+      let villList = JSON.parse(localStorage.getItem("villageList"));
+      let tspId = villageList["sr"]["children"][tspInput]["id"];
+      let tspOpt = document.createElement("option");
+      tspOpt.value = tspId;
+      tspOpt.innerHTML = tspInput;
+      addrSelect.appendChild(tspOpt);
+      rhcScVill[tspId] = {
+        key: tspInput,
+        name: tspInput,
+        scKey: "",
+        scId: "",
+        scName: "Unknown subcenter",
+        rhcKey: "",
+        rhcId: "",
+        rhcName: "Unknown RHC",
+      }
+      villageList = villgaeList["sr"]["children"][tspInput]["children"];
+      Object.keys(villageList).forEach(rhc => {
+        let rhcId = villageList[rhc]["id"];
+        let rhcName = villageList[rhc]["name"];
+        let rhcOpt = document.createElement("option");
+        rhcOpt.value = `${rhcName}-${rhcId}`;
+        rhcOpt.innerHTML = rhcName;
+        addrSelect.appendChild(rhcOpt);
+        Object.keys(villageList[rhc]["children"]).forEach(sc => {
+          let scId = villageList[rhc]["children"][sc]["id"];
+          let scName = villageList[rhc]["children"][sc]["name"];
+          let scOpt = document.createElement("option");
+          scOpt.value = `${scName}-${scId}`;
+          scOpt.innerHTML = `&nbsp;&nbsp;&nbsp;${scName}`;
+          addrSelect.appendChild(scOpt);
+          Object.keys(villageList[rhc]["children"][sc]["children"]).forEach(vill => {
+            let villId = villageList[rhc]["children"][sc]["children"][vill]["id"];
+            let villName = villageList[rhc]["children"][sc]["children"][vill]["name"];
+            let villCode = "";
+            if ("code" in villageList[rhc]["children"][sc]["children"][vill]){
+              villCode = villageList[rhc]["children"][sc]["children"][vill]["code"];
+            }
+            let villOpt = document.createElement("option");
+            villOpt.value = villId;
+            villOpt.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${villName}`;
+            addrSelect.appendChild(villOpt);
+            rhcScVill[villId] = {
+              key: `${villName}-${villId}`,
+              name: villName,
+              scKey: `${scName}-${scId}`,
+              scId: scId,
+              scName: scName,
+              rhcKey: `${rhcName}-${rhcId}`,
+              rhcId: rhcId,
+              rhcName: rhcName,
+            }
+          })
+        })
+      })
+    }
+
+    function pAddrChange(){
+      let pVillId = document.getElementById("pOrgunitId").value;
+      let pRhc = document.getElementById("pRhc");
+      let pSc = document.getElementById("pSc");
+      if (pVillId in rhcScVill){
+        pRhc.value = rhcScVill[pVillId]["rhcName"];
+        pSc.value = rhcScVill[pVillId]["scName"];
+        pRhc.setAttribute("readonly","");
+        pSc.setAttribute("readonly","");
+      }
+
+    }
+
+    function fillCblRhcScAddress(providerVillageCode){
+      let villageListLs = JSON.parse(localStorage.getItem("villageList"));
+      let villList = villageListLs[srValue]["children"][tspValue]["children"];
+      Object.keys(villList).forEach(rhcId => {
+        let rhcName = villageListLs[srValue]["children"][tspValue]["children"][rhcId]["name"];
+        Object.keys(villList[rhcId]["children"]).forEach(scId => {
+          let scName = villList[rhcId]["children"][scId]["name"];
+          Object.keys(villList[rhcId]["children"][scId]["children"]).forEach(vill => {
+            if ("code" in villList[rhcId]["children"][scId]["children"][vill]){
+              let villCode = villList[rhcId]["children"][scId]["children"][vill]["code"];
+              let villName = villList[rhcId]["children"][scId]["children"][vill]["name"];
+              let villId = villList[rhcId]["children"][scId]["children"][vill]["id"];
+
+              // let pRhc = document.getElementById("pRhc");
+              // let pSc = document.getElementById("pSc");
+              // let pVill = document.getElementById("pVill");
+              let pOrgunitId = document.getElementById("pOrgunitId");
+
+              if (villCode == providerVillageCode){
+                // pRhc.value = rhcName;
+                // pSc.value = scName;
+                // pVill.value = villName;
+                pOrgunitId.value = villId;
+                // pRhc.setAttribute("readonly", "");
+                // pSc.setAttribute("readonly", "");
+                // pVill.setAttribute("readonly", "");
+                pOrgunitId.setAttribute("readonly", "");
+              }
+            }
+          })
+        })
+      })
     }
   </script>
 </html>
