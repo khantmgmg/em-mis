@@ -149,16 +149,16 @@
         document.getElementById("personCodeNum").value = codeNum;
         let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
         let villageListLs = JSON.parse(localStorage.getItem("villageList"));
-        let villList = villageListLs[srValue]["Children"][tspValue]["Children"];
+        let villList = villageListLs[srValue]["children"][tspValue]["children"];
         Object.keys(villList).forEach(rhcId => {
           let rhcName = rhcId["name"];
-          Object.keys(villList[rhcId]["Children"]).forEach(scId => {
-            let scName = villList[rhcId]["Children"][scid]["name"];
-            Object.keys(villList[rhcId]["Children"][scId]["Children"]).forEach(vill => {
-              if ("code" in villList[rhcId]["Children"][scId]["Children"][vill]){
-                let villCode = villList[rhcId]["Children"][scId]["Children"][vill]["code"];
-                let villName = villList[rhcId]["Children"][scId]["Children"][vill]["name"];
-                let villId = villList[rhcId]["Children"][scId]["Children"][vill]["id"];
+          Object.keys(villList[rhcId]["children"]).forEach(scId => {
+            let scName = villList[rhcId]["children"][scid]["name"];
+            Object.keys(villList[rhcId]["children"][scId]["children"]).forEach(vill => {
+              if ("code" in villList[rhcId]["children"][scId]["children"][vill]){
+                let villCode = villList[rhcId]["children"][scId]["children"][vill]["code"];
+                let villName = villList[rhcId]["children"][scId]["children"][vill]["name"];
+                let villId = villList[rhcId]["children"][scId]["children"][vill]["id"];
 
                 let pRhc = document.getElementById("pRhc");
                 let pSc = document.getElementById("pSc");
