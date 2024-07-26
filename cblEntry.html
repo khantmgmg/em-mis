@@ -18,6 +18,7 @@
     <div style="margin-left: 12vw; margin-right: 3vw">
       <h1 class="mb-4">Carbonless data entry</h1>
       <form id="misForm">
+        <h3 class="text-center">Carbonless heading</h3>
         <div class="row">
           <div class="col form-group my-2 py-2">
             <label for="org">Organization</label>
@@ -40,18 +41,24 @@
           <div class="col form-group my-2 py-2">
             <label for="tsp">Provider full code</label>
             <input type="text" id = "providerFullCode" onchange="personCodeChange();" />
-            <input type="text" id="tspAbb" readonly/>
-            <input type="text" id="providerTypeAbb" readonly/>
-            <input type="text" id="personCodeNum" readonly/>
+            <input type="hidden" id="tspAbb" readonly/>
+            <input type="hidden" id="providerTypeAbb" readonly/>
+            <input type="hidden" id="personCodeNum" readonly/>
           </div>
         </div>
         <div class="row">
           <div class="col form-group my-2 py-2">
-            <label for="pRhc">Provider RHC</label>
+            <label for="pRhc">RHC</label>
             <input type="text" id="pRhc" />
+          </div>
+          <div class="col form-group my-2 py-2">
+            <label for="pRhc">Subcenter</label>
             <input type="text" id="pSc" />
+          </div>
+          <div class="col form-group my-2 py-2">
+            <label for="pRhc">Address</label>
             <input type="text" id="pVill" />
-            <input type="text" id="pOrgunitId" />
+            <input type="hidden" id="pOrgunitId" />
           </div>
         </div>
       </form>
