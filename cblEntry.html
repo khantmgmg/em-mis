@@ -230,11 +230,12 @@
         }
         else{
           pOrgunit.removeAttribute("disabled");
-          pRhc.removeAttribute("disabled");
-          pSc.removeAttribute("disabled");
+          // pRhc.removeAttribute("disabled");
+          // pSc.removeAttribute("disabled");
           pOrgunit.value = "";
           pRhc.value = "";
           pSc.value = ""
+          personCodeInput.className = "form-control";
         }
       }
       else{
