@@ -176,6 +176,7 @@
           let icmvCodeOfMMW = mmwIcmv[personCode];
           console.log(icmvCodeOfMMW);
           icmvCodeOfMMW = mmwIcmv[personCode] + "01";
+          console.log(icmvCodeOfMMW);
           console.log(providerLs[providerAbb][icmvCodeOfMMW]);
           let providerVillageCode = providerLs[providerAbb][icmvCodeOfMMW]["Assigned_village_code"];
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
