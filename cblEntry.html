@@ -49,11 +49,11 @@
         <div class="row">
           <div class="col form-group my-2 py-2">
             <label for="pRhc">RHC</label>
-            <input type="text" class="form-control" id="pRhc" />
+            <input type="text" class="form-control" id="pRhc" readonly/>
           </div>
           <div class="col form-group my-2 py-2">
             <label for="pRhc">Subcenter</label>
-            <input type="text" class="form-control" id="pSc" />
+            <input type="text" class="form-control" id="pSc" readonly/>
           </div>
           <div class="col form-group my-2 py-2">
             <label for="pRhc">Address</label>
@@ -147,6 +147,7 @@
         select.value = tspList[0];
         select.setAttribute("disabled", "true");
       }
+      townshipChange();
     }
 
     function personCodeChange(){
