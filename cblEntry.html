@@ -163,6 +163,8 @@
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
           pAddrChange();
           document.getElementById("pOrgunitId").setAttribute("disabled", "");
+          document.getElementById("pRhc").setAttribute("disabled", "");
+          document.getElementById("pSc").setAttribute("disabled", "");
         }
         else if (providerAbb == "M"){
           let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
@@ -170,9 +172,13 @@
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
           pAddrChange();
           document.getElementById("pOrgunitId").setAttribute("disabled", "");
+          document.getElementById("pRhc").setAttribute("disabled", "");
+          document.getElementById("pSc").setAttribute("disabled", "");
         }
         else{
           document.getElementById("pOrgunitId").removeAttribute("disabled");
+          document.getElementById("pRhc").removeAttribute("disabled");
+          document.getElementById("pSc").removeAttribute("disabled");
         }
       }
       else{
