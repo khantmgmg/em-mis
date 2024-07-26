@@ -161,14 +161,18 @@
         if (providerAbb == "V" || providerAbb == "W"){
           let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
+          pAddrChange();
+          document.getElementById("pOrgunitId").setAttribute("disabled", "");
         }
         else if (providerAbb == "M"){
           let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
           let providerVillageCode = providerLs[providerAbb][`${mmwIcmv[personCode]}01`]["Assigned_village_code"];
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
+          pAddrChange();
+          document.getElementById("pOrgunitId").setAttribute("disabled", "");
         }
         else{
-
+          document.getElementById("pOrgunitId").removeAttribute("disabled");
         }
       }
       else{
@@ -182,6 +186,7 @@
       let tspInput = document.getElementById("tsp").value;
       let addrSelect = document.getElementById("pOrgunitId");
       addrSelect.innerHTML = "";
+      addrSelect.removeAttribute("disabled");
       let blankOpt = document.createElement("option");
       addrSelect.appendChild(blankOpt);
       let papVillList = JSON.parse(localStorage.getItem("villageList"));
@@ -189,7 +194,8 @@
       let tspId = papVillList[srInput]["children"][tspInput]["id"];
       let tspOpt = document.createElement("option");
       tspOpt.value = tspId;
-      tspOpt.innerHTML = tspInput;
+      tspOpt.innerHTML = tspInput + "&nbsp;(Township)";
+      tspOpt.className = "text-primary";
       addrSelect.appendChild(tspOpt);
       rhcScVill[tspId] = {
         key: tspInput,
@@ -207,14 +213,16 @@
         let rhcName = villageList[rhc]["name"];
         let rhcOpt = document.createElement("option");
         rhcOpt.value = `${rhcName}-${rhcId}`;
-        rhcOpt.innerHTML = rhcName;
+        rhcOpt.innerHTML = rhcName + "&nbsp;(RHC)";
+        rhcOpt.className = "text-danger";
         addrSelect.appendChild(rhcOpt);
         Object.keys(villageList[rhc]["children"]).forEach(sc => {
           let scId = villageList[rhc]["children"][sc]["id"];
           let scName = villageList[rhc]["children"][sc]["name"];
           let scOpt = document.createElement("option");
           scOpt.value = `${scName}-${scId}`;
-          scOpt.innerHTML = `&nbsp;&nbsp;&nbsp;${scName}`;
+          scOpt.innerHTML = `&nbsp;&nbsp;&nbsp;${scName} (SC)`;
+          scOpt.className = "text-success";
           addrSelect.appendChild(scOpt);
           Object.keys(villageList[rhc]["children"][sc]["children"]).forEach(vill => {
             let villId = villageList[rhc]["children"][sc]["children"][vill]["id"];
