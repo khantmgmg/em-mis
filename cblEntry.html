@@ -129,8 +129,8 @@
       let tspValue = document.getElementById("tsp").value;
       let srValue = document.getElementById("sr").value;
       let tspAbb = personCode.substring(0,3);
-      let providerAbb = personCode.substring(4);
-      let codeNum = personCode.substring(4,personCode.length - 4);
+      let providerAbb = personCode.substring(3,4);
+      let codeNum = personCode.substring(4);
       let tspLs = JSON.parse(localStorage.getItem("papTspList"));
       let providerLs = JSON.parse(localStorage.getItem("papProviderList"));
       // console.log(tspLs);
