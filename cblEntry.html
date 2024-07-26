@@ -151,7 +151,7 @@
         let villageListLs = JSON.parse(localStorage.getItem("villageList"));
         let villList = villageListLs[srValue]["children"][tspValue]["children"];
         Object.keys(villList).forEach(rhcId => {
-          let rhcName = rhcId["name"];
+          let rhcName = villageListLs[srValue]["children"][tspValue]["children"][rhcId]["name"];
           Object.keys(villList[rhcId]["children"]).forEach(scId => {
             let scName = villList[rhcId]["children"][scId]["name"];
             Object.keys(villList[rhcId]["children"][scId]["children"]).forEach(vill => {
