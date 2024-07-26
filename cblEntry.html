@@ -64,7 +64,7 @@
           </div>
           <div class="col form-group my-0 py-0">
             <label for="monthYear">Month and Year in carbonless</label>
-            <input type="month" id="cblPeriod" class="form-control">
+            <input type="month" id="cblPeriod" class="form-control" onchange="cblPeriodChange();">
           </div>
         </div>
       </form>
@@ -329,18 +329,25 @@
       let cblPeriod = new Date(document.getElementById("cblPeriod").value + "-01");
       let personCode = document.getElementById("providerFullCode").value;
       let providerAbb = personCode.substring(3,4);
-      let providerStartDate, providerEndDate
-      if ("Newly_added_date (starting from 29 Jan 2018)" in providerLs[providerAbb][personCode]){
-        providerStartDate = new Date(providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]);
-        providerStartDate = new Date(providerStartDate.getFullYear(), providerStartDate.getMonth(), 1);
-      }      
-      if ("Removed_date" in providerLs[providerAbb][personCode]){
-        providerEndDate = new Date(providerLs[providerAbb][personCode]["Removed_date"]);
-        providerEndDate = new Date(providerEndDate.getFullYear(), providerEndDate.getMonth(), 1);
+
+      if (personCode in providerLs[providerAbb]){
+        let providerStartDate, providerEndDate
+        if ("Newly_added_date (starting from 29 Jan 2018)" in providerLs[providerAbb][personCode]){
+          providerStartDate = new Date(providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]);
+          providerStartDate = new Date(providerStartDate.getFullYear(), providerStartDate.getMonth(), 1);
+        }      
+        if ("Removed_date" in providerLs[providerAbb][personCode]){
+          providerEndDate = new Date(providerLs[providerAbb][personCode]["Removed_date"]);
+          providerEndDate = new Date(providerEndDate.getFullYear(), providerEndDate.getMonth(), 1);
+        }
+        if (cblPeriod < providerStartDate || (providerEndDate != "" && cblPeriod > providerEndDate)){
+          alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString());
+        }
       }
-      if (cblPeriod < providerStartDate || (providerEndDate != "" && cblPeriod > providerEndDate)){
-        alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString());
+      else{
+        alert(`The provider (${personCode}) is not found in PAP provider list`);
       }
+      
     }
     function fillCblRhcScAddress(srValue, tspValue, providerVillageCode){
       let villageListLs = papVillList;
