@@ -183,9 +183,18 @@
             pOrgunit.setAttribute("disabled", "");
             pRhc.setAttribute("disabled", "");
             pSc.setAttribute("disabled", "");
+            personCode.className = "form-control";
           }
           else{
-            alert(`PersonCode (${personCode}) not found in provider list.`)
+            alert(`PersonCode (${personCode}) not found in provider list.`);            
+            // pOrgunit.removeAttribute("disabled");
+            // pRhc.removeAttribute("disabled");
+            // pSc.removeAttribute("disabled");
+            pOrgunit.value = "";
+            pRhc.value = "";
+            pSc.value = ""
+            personCode.focus();
+            personCode.className = "form-control border border-danger";
           }
         }
         else if (providerAbb == "M"){
@@ -201,7 +210,19 @@
             pAddrChange();
             pOrgunit.setAttribute("disabled", "");
             pRhc.setAttribute("disabled", "");
-            pSc.setAttribute("disabled", "");
+            pSc.setAttribute("disabled", "");            
+            personCode.className = "form-control"; 
+          }
+          else{      
+            alert(`PersonCode (${personCode}) not found in provider list.`);     
+            // pOrgunit.removeAttribute("disabled");
+            // pRhc.removeAttribute("disabled");
+            // pSc.removeAttribute("disabled");
+            pOrgunit.value = "";
+            pRhc.value = "";
+            pSc.value = ""
+            personCode.focus();
+            personCode.className = "form-control border border-danger";
           }
 
         }
