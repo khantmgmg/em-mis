@@ -173,7 +173,10 @@
         }
         else if (providerAbb == "M"){
           let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
-          let providerVillageCode = providerLs[providerAbb][`${mmwIcmv[personCode]}01`]["Assigned_village_code"];
+          let icmvCodeOfMMW = mmwIcmv[personCode];
+          console.log(icmvCodeOfMMW);
+          console.log(providerLs[providerAbb][`${icmvCodeOfMMW}01`]);
+          let providerVillageCode = providerLs[providerAbb][`${icmvCodeOfMMW}01`]["Assigned_village_code"];
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
           pAddrChange();
           pOrgunit.setAttribute("disabled", "");
