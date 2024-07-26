@@ -22,7 +22,7 @@
         <div class="row">
           <div class="col form-group my-0 py-0">
             <label for="org">Reporting month</label>
-            <input type="month" id="rpPeriod" />
+            <input type="month" class="form-control" id="rpPeriod" />
           </div>
           <div class="col form-group my-0 py-0">
             <label for="org">Organization</label>
@@ -106,7 +106,7 @@
     populateOrg();
     populateSr();
     getRpMth();
-    
+
     function populateOrg() {
       console.log(userOrg);
       let select = document.getElementById("org");
@@ -404,7 +404,10 @@
       console.log(y);
       console.log(z.toISOString());
       console.log(rpPeriod);
-      document.getElementById("rpPeriod").value = rpPeriod;
+      let rpPeriodInput = document.getElementById("rpPeriod");
+      rpPeriodInput.value = rpPeriod;
+      rpPeriodInput.setAttribute("disabled", "");
+      rpPeriodInput.setAttribute("readonly", "");
     }
   </script>
 </html>
