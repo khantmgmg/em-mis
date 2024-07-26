@@ -21,6 +21,10 @@
         <h3 class="text-center">Carbonless heading</h3>
         <div class="row">
           <div class="col form-group my-0 py-0">
+            <label for="org">Reporting month</label>
+            <input type="month" id="rpPeriod" />
+          </div>
+          <div class="col form-group my-0 py-0">
             <label for="org">Organization</label>
             <select class="form-control" name="org" id="org">
               <option value="" selected></option>
@@ -63,8 +67,12 @@
             <!-- <input type="hidden" id="pOrgunitId" /> -->
           </div>
           <div class="col form-group my-0 py-0">
-            <label for="monthYear">Month and Year in carbonless</label>
+            <label for="monthYear">Month/Yr in carbonless</label>
             <input type="month" id="cblPeriod" class="form-control" onchange="cblPeriodChange();">
+          </div>
+          <div class="col form-group my-0 py-0">
+            <label for="monthYear">Carbonless page number</label>
+            <input type="number" id="cblPeriod" class="form-control" min="1" step="1">
           </div>
         </div>
       </form>
@@ -97,7 +105,8 @@
 
     populateOrg();
     populateSr();
-
+    getRpMth();
+    
     function populateOrg() {
       console.log(userOrg);
       let select = document.getElementById("org");
@@ -382,6 +391,20 @@
           })
         })
       })
+    }
+
+    function getRpMth(){
+      let x = new Date();
+      console.log(x);
+      let y = x.toISOString().split("T")[0];
+      y = new Date(`${y} UTC`);
+      let z = new Date(y.getTime() - (86400000*7));
+      let rpPeriod = z.toISOString().substring(0,7);
+      
+      console.log(y);
+      console.log(z.toISOString());
+      console.log(rpPeriod);
+      document.getElementById("rpPeriod").value = rpPeriod;
     }
   </script>
 </html>
