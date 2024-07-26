@@ -86,9 +86,17 @@
     // B9lJ9eGHtp1 - URC
     populateOrg();
     populateSr();
+
+    var tspLs = JSON.parse(localStorage.getItem("papTspList"));
+    var userOrg = JSON.parse(localStorage.getItem("userOrg"));
+    var storageSr = JSON.parse(localStorage.getItem("userTownship"));
+    var providerLs = JSON.parse(localStorage.getItem("papProviderList"));
+    var mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
+    var papVillList = JSON.parse(localStorage.getItem("villageList"));
+    var rhcScVill = {};
+    
     function populateOrg() {
       let select = document.getElementById("org");
-      let userOrg = localStorage.getItem("userOrg");
       userOrg = userOrg.split(",");
       userOrg.forEach((org) => {
         let option = document.createElement("option");
@@ -105,7 +113,6 @@
     function populateSr() {
       let select = document.getElementById("sr");
       select.setAttribute("onChange", "populateTsp();");
-      let storageSr = JSON.parse(localStorage.getItem("userTownship"));
       Object.keys(storageSr).forEach((sr) => {
         let option = document.createElement("option");
         option.value = sr;
@@ -123,7 +130,7 @@
       let select = document.getElementById("tsp");
       select.removeAttribute("disabled");
       select.innerHTML = "";
-      let storageTsp = JSON.parse(localStorage.getItem("userTownship"));
+      let storageTsp = storageSr;
       let tspList = storageTsp[stateRegion];
       tspList.forEach((tsp) => {
         let option = document.createElement("option");
@@ -149,8 +156,7 @@
       let tspAbb = personCode.substring(0,3);
       let providerAbb = personCode.substring(3,4);
       let codeNum = personCode.substring(4);
-      let tspLs = JSON.parse(localStorage.getItem("papTspList"));
-      let providerLs = JSON.parse(localStorage.getItem("papProviderList"));
+      
       
       tspAbbLs = tspLs[tspValue]["TSPABB"];
       console.log(`${personCode}, ${tspAbb}, ${providerAbb}, ${codeNum}`)
@@ -164,27 +170,34 @@
         document.getElementById("providerTypeAbb").value = providerAbb;
         document.getElementById("personCodeNum").value = codeNum;
         if (providerAbb == "V" || providerAbb == "W"){
-          let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
-          fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
-          pAddrChange();
-          pOrgunit.setAttribute("disabled", "");
-          pRhc.setAttribute("disabled", "");
-          pSc.setAttribute("disabled", "");
+          if (personCode in providerLs[providerAbb]){
+            let providerVillageCode = providerLs[providerAbb][personCode]["Assigned_village_code"];
+            fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
+            pAddrChange();
+            pOrgunit.setAttribute("disabled", "");
+            pRhc.setAttribute("disabled", "");
+            pSc.setAttribute("disabled", "");
+          }
+          else{
+            alert(`PersonCode (${personCode}) not found in provider list.`)
+          }
         }
         else if (providerAbb == "M"){
-          let mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
           let icmvCodeOfMMW = mmwIcmv[personCode];
           console.log(icmvCodeOfMMW);
           icmvCodeOfMMW = mmwIcmv[personCode] + "01";
           let icmvCodeOfMMWAbb = icmvCodeOfMMW.substring(3,4);
           console.log(icmvCodeOfMMW);
           console.log(providerLs[icmvCodeOfMMWAbb][icmvCodeOfMMW]);
-          let providerVillageCode = providerLs[icmvCodeOfMMWAbb][icmvCodeOfMMW]["Assigned_village_code"];
-          fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
-          pAddrChange();
-          pOrgunit.setAttribute("disabled", "");
-          pRhc.setAttribute("disabled", "");
-          pSc.setAttribute("disabled", "");
+          if (icmvCodeOfMMW in providerLs[icmvCodeOfMMWAbb]){
+            let providerVillageCode = providerLs[icmvCodeOfMMWAbb][icmvCodeOfMMW]["Assigned_village_code"];
+            fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
+            pAddrChange();
+            pOrgunit.setAttribute("disabled", "");
+            pRhc.setAttribute("disabled", "");
+            pSc.setAttribute("disabled", "");
+          }
+
         }
         else{
           pOrgunit.removeAttribute("disabled");
@@ -200,7 +213,6 @@
       }
     }
     
-    var rhcScVill = {};
     function townshipChange(){
       let srInput = document.getElementById("sr").value;
       let tspInput = document.getElementById("tsp").value;
@@ -209,8 +221,6 @@
       addrSelect.removeAttribute("disabled");
       let blankOpt = document.createElement("option");
       addrSelect.appendChild(blankOpt);
-      let papVillList = JSON.parse(localStorage.getItem("villageList"));
-      // let villList = JSON.parse(localStorage.getItem("villageList"));
       let tspId = papVillList[srInput]["children"][tspInput]["id"];
       let tspOpt = document.createElement("option");
       tspOpt.value = tspId;
@@ -286,7 +296,7 @@
     }
 
     function fillCblRhcScAddress(srValue, tspValue, providerVillageCode){
-      let villageListLs = JSON.parse(localStorage.getItem("villageList"));
+      let villageListLs = papVillList;
       let villList = villageListLs[srValue]["children"][tspValue]["children"];
       Object.keys(villList).forEach(rhcId => {
         let rhcName = villageListLs[srValue]["children"][tspValue]["children"][rhcId]["name"];
@@ -298,19 +308,10 @@
               let villName = villList[rhcId]["children"][scId]["children"][vill]["name"];
               let villId = villList[rhcId]["children"][scId]["children"][vill]["id"];
 
-              // let pRhc = document.getElementById("pRhc");
-              // let pSc = document.getElementById("pSc");
-              // let pVill = document.getElementById("pVill");
               let pOrgunitId = document.getElementById("pOrgunitId");
 
               if (villCode == providerVillageCode){
-                // pRhc.value = rhcName;
-                // pSc.value = scName;
-                // pVill.value = villName;
                 pOrgunitId.value = villId;
-                // pRhc.setAttribute("readonly", "");
-                // pSc.setAttribute("readonly", "");
-                // pVill.setAttribute("readonly", "");
                 pOrgunitId.setAttribute("readonly", "");
               }
             }
