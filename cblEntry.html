@@ -151,7 +151,9 @@
     }
 
     function personCodeChange(){
-      let personCode = document.getElementById("providerFullCode").value;
+      let personCodeInput = document.getElementById("providerFullCode");
+      let personCode = personCodeInput.value;
+
       let tspValue = document.getElementById("tsp").value;
       let srValue = document.getElementById("sr").value;
 
@@ -183,7 +185,7 @@
             pOrgunit.setAttribute("disabled", "");
             pRhc.setAttribute("disabled", "");
             pSc.setAttribute("disabled", "");
-            personCode.className = "form-control";
+            personCodeInput.className = "form-control";
           }
           else{
             alert(`PersonCode (${personCode}) not found in provider list.`);            
@@ -193,8 +195,8 @@
             pOrgunit.value = "";
             pRhc.value = "";
             pSc.value = ""
-            personCode.focus();
-            personCode.className = "form-control border border-danger";
+            personCodeInput.focus();
+            personCodeInput.className = "form-control border border-danger";
           }
         }
         else if (providerAbb == "M"){
@@ -211,7 +213,7 @@
             pOrgunit.setAttribute("disabled", "");
             pRhc.setAttribute("disabled", "");
             pSc.setAttribute("disabled", "");            
-            personCode.className = "form-control"; 
+            personCodeInput.className = "form-control"; 
           }
           else{      
             alert(`PersonCode (${personCode}) not found in provider list.`);     
@@ -221,8 +223,8 @@
             pOrgunit.value = "";
             pRhc.value = "";
             pSc.value = ""
-            personCode.focus();
-            personCode.className = "form-control border border-danger";
+            personCodeInput.focus();
+            personCodeInput.className = "form-control border border-danger";
           }
 
         }
