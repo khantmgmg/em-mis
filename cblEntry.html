@@ -88,13 +88,13 @@
     populateSr();
 
     var tspLs = JSON.parse(localStorage.getItem("papTspList"));
-    var userOrg = JSON.parse(localStorage.getItem("userOrg"));
+    var userOrg = localStorage.getItem("userOrg");
     var storageSr = JSON.parse(localStorage.getItem("userTownship"));
     var providerLs = JSON.parse(localStorage.getItem("papProviderList"));
     var mmwIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
     var papVillList = JSON.parse(localStorage.getItem("villageList"));
     var rhcScVill = {};
-    
+
     function populateOrg() {
       let select = document.getElementById("org");
       userOrg = userOrg.split(",");
