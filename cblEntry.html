@@ -333,12 +333,12 @@
       if (personCode in providerLs[providerAbb]){
         let providerStartDate, providerEndDate, providerSDate, providerEDate;
         if ("Newly_added_date (starting from 29 Jan 2018)" in providerLs[providerAbb][personCode]){
-          providerStartDate = new Date(providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]);
+          providerStartDate = new Date(`${providerLs[providerAbb][personCode]["Newly_added_date (starting from 29 Jan 2018)"]} UTC`);
           providerSDate = new Date(`${providerStartDate.getFullYear()}-${providerStartDate.getMonth()+1} UTC`);
           let asdf = new Date()
         }      
         if ("Removed_date" in providerLs[providerAbb][personCode]){
-          providerEndDate = new Date(providerLs[providerAbb][personCode]["Removed_date"]);
+          providerEndDate = new Date(`${providerLs[providerAbb][personCode]["Removed_date"]} UTC`);
           providerEDate = new Date(`${providerEndDate.getFullYear()}-${providerEndDate.getMonth()+1} UTC`);
         }
         if (cblPeriod < providerSDate || (providerEDate != "" && cblPeriod > providerEDate)){
