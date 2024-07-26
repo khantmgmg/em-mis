@@ -184,8 +184,9 @@
       let blankOpt = document.createElement("option");
       addrSelect.appendChild(blankOpt);
       var rhcScVill = {};
-      let villList = JSON.parse(localStorage.getItem("villageList"));
-      let tspId = villageList["sr"]["children"][tspInput]["id"];
+      let papVillList = JSON.parse(localStorage.getItem("villageList"));
+      // let villList = JSON.parse(localStorage.getItem("villageList"));
+      let tspId = papVillList[srInput]["children"][tspInput]["id"];
       let tspOpt = document.createElement("option");
       tspOpt.value = tspId;
       tspOpt.innerHTML = tspInput;
@@ -200,7 +201,7 @@
         rhcId: "",
         rhcName: "Unknown RHC",
       }
-      villageList = villgaeList["sr"]["children"][tspInput]["children"];
+      villageList = papVillList[srInput]["children"][tspInput]["children"];
       Object.keys(villageList).forEach(rhc => {
         let rhcId = villageList[rhc]["id"];
         let rhcName = villageList[rhc]["name"];
