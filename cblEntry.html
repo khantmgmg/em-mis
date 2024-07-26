@@ -343,10 +343,19 @@
         }
         if (cblPeriod < providerSDate || (providerEDate != "" && cblPeriod > providerEDate)){
           alert("Carbonless period: " + cblPeriod.toISOString() + "\n" + "Provider start date: " + providerStartDate.toISOString() + "\n" + "Provider start month: " + providerSDate.toISOString() + "\n" + "Provider removed date: " + providerEndDate.toISOString() + "\n" + "Provider removed month: " + providerEDate.toISOString());
+          document.getElementById("cblPeriod").value = "";
+          document.getElementById("cblPeriod").className = "form-control border border-danger";
+        }
+        else{
+          document.getElementById("cblPeriod").className = "form-control";
         }
       }
       else{
         alert(`The provider (${personCode}) is not found in PAP provider list`);
+        document.getElementById("providerFullCode").value = "";
+        document.getElementById("providerFullCode").className = "form-control border border-danger";
+        document.getElementById("cblPeriod").value = "";
+        document.getElementById("cblPeriod").className = "form-control border border-danger";
       }
       
     }
