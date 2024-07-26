@@ -176,9 +176,10 @@
           let icmvCodeOfMMW = mmwIcmv[personCode];
           console.log(icmvCodeOfMMW);
           icmvCodeOfMMW = mmwIcmv[personCode] + "01";
+          let icmvCodeOfMMWAbb = icmvCodeOfMMW.substring(3,4);
           console.log(icmvCodeOfMMW);
-          console.log(providerLs[providerAbb][icmvCodeOfMMW]);
-          let providerVillageCode = providerLs[providerAbb][icmvCodeOfMMW]["Assigned_village_code"];
+          console.log(providerLs[icmvCodeOfMMWAbb][icmvCodeOfMMW]);
+          let providerVillageCode = providerLs[icmvCodeOfMMWAbb][icmvCodeOfMMW]["Assigned_village_code"];
           fillCblRhcScAddress(srValue, tspValue, providerVillageCode);
           pAddrChange();
           pOrgunit.setAttribute("disabled", "");
