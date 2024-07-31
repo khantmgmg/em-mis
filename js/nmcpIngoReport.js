@@ -259,26 +259,17 @@ export async function execute() {
 							});
 						}
 					}
-					console.log("testPrint - before format change");
-					console.log(cblPeriod);
 					cblPeriod = cblPeriod.toISOString();
-					console.log("testPrint - after format change");
-					console.log(cblPeriod);
 					cblPeriod = cblPeriod.substring(0, 7);
-					console.log("test print - final date");
-					console.log(cblPeriod);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
 					}
-					console.log(finalData);
 					if (!(township in finalData[stateRegion])) {
 						finalData[stateRegion][township] = {};
 					}
-					console.log(finalData);
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[stateRegion][township][cblPeriod] = {};
 					}
-					console.log(finalData);
 					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod])) {
 						finalData[stateRegion][township][cblPeriod][finalPersonCode] = dataTemplate;
 						finalData[stateRegion][township][cblPeriod][finalPersonCode]["icmvCode"] = finalPersonCode;
@@ -288,20 +279,21 @@ export async function execute() {
 						finalData[stateRegion][township][cblPeriod][finalPersonCode]["sc"] = sc;
 						finalData[stateRegion][township][cblPeriod][finalPersonCode]["vill"] = vill;
 					}
-					//   console.log({
-					//     personCode: finalPersonCode,
-					//     finalPersonCode: personCode,
-					//     stateRegion: stateRegion,
-					//     township: township,
-					//     rhc: rhc,
-					//     sc: sc,
-					//     vill: vill,
-					//     cblPeriod: cblPeriod,
-					//     sex: sex,
-					//     preg: preg,
-					//     testResult: testResult,
-					//     ageGroup: ageGroup,
-					//   });
+
+					console.log({
+						personCode: finalPersonCode,
+						finalPersonCode: personCode,
+						stateRegion: stateRegion,
+						township: township,
+						rhc: rhc,
+						sc: sc,
+						vill: vill,
+						cblPeriod: cblPeriod,
+						sex: sex,
+						preg: preg,
+						testResult: testResult,
+						ageGroup: ageGroup,
+					});
 				}
 			});
 		});
