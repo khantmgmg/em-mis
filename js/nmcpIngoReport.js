@@ -270,15 +270,15 @@ export async function execute() {
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
 					}
-					console.log(finalData[stateRegion]);
+					console.log(finalData);
 					if (!(township in finalData[stateRegion])) {
 						finalData[stateRegion][township] = {};
 					}
-					console.log(finalData[stateRegion][township]);
+					console.log(finalData);
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[cblPeriod] = {};
 					}
-					console.log(finalData[stateRegion][township][cblPeriod]);
+					console.log(finalData);
 					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod])) {
 						finalData[stateRegion][township][cblPeriod][finalPersonCode] = dataTemplate;
 						finalData[stateRegion][township][cblPeriod][finalPersonCode]["icmvCode"] = finalPersonCode;
