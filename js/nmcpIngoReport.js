@@ -358,10 +358,10 @@ function tspChange() {
 	let tspValue = tspInput.value();
 	let tspJson = finalData[srValue][tspValue];
 	Object.keys(tspJson).forEach((cblPeriod) => {
-		let cblPeriod = document.createElement("option");
-		cblPeriod.value = tsp;
-		cblPeriod.innerHTML = tsp;
-		cblPeriodInput.appendChild(cblPeriod);
+		let cblPeriodOpt = document.createElement("option");
+		cblPeriodOpt.value = cblPeriod;
+		cblPeriodOpt.innerHTML = cblPeriod;
+		cblPeriodInput.appendChild(cblPeriodOpt);
 	});
 }
 
