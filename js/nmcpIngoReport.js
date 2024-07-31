@@ -208,8 +208,8 @@ export async function execute() {
 					let providerAbb = personCode.substring(3, 4);
 					let providerVillageCode = "";
 					let finalPersonCode = "";
-					console.log(`${personCode}`);
-					console.log(event);
+					// console.log(`${personCode}`);
+					// console.log(event);
 					if (providerAbb != "T" && providerAbb != "G" && providerAbb != "P" && providerAbb != "R") {
 						if (providerAbb == "M") {
 							finalPersonCode = storagePapMmwVsIcmv[personCode];
@@ -232,8 +232,8 @@ export async function execute() {
 							// 		break;
 							// }
 						});
-						console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}`);
-						console.log(orgUnitData[orgUnit]);
+
+						// console.log(orgUnitData[orgUnit]);
 						vill = orgUnitData[orgUnit]["name"];
 						sc = orgUnitData[orgUnit]["parent"]["name"];
 						rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
@@ -262,6 +262,8 @@ export async function execute() {
 							});
 						}
 					}
+					console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}`);
+					console.log(`${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
 					cblPeriod = cblPeriod.toISOString();
 					cblPeriod = cblPeriod.substring(0, 7);
 					if (!(stateRegion in finalData)) {
@@ -310,20 +312,20 @@ export async function execute() {
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
 					}
 
-					console.log({
-						personCode: finalPersonCode,
-						finalPersonCode: personCode,
-						stateRegion: stateRegion,
-						township: township,
-						rhc: rhc,
-						sc: sc,
-						vill: vill,
-						cblPeriod: cblPeriod,
-						sex: sex,
-						preg: preg,
-						testResult: testResult,
-						ageGroup: ageGroup,
-					});
+					// console.log({
+					// 	personCode: finalPersonCode,
+					// 	finalPersonCode: personCode,
+					// 	stateRegion: stateRegion,
+					// 	township: township,
+					// 	rhc: rhc,
+					// 	sc: sc,
+					// 	vill: vill,
+					// 	cblPeriod: cblPeriod,
+					// 	sex: sex,
+					// 	preg: preg,
+					// 	testResult: testResult,
+					// 	ageGroup: ageGroup,
+					// });
 					let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"];
 					dataContent[ageGroup][`test${sex}`] += 1;
 					dataContent["total"][`test${sex}`] += 1;
@@ -346,7 +348,7 @@ export async function execute() {
 		});
 	});
 
-	console.log(finalData);
+	// console.log(finalData);
 	let selectBoxes = document.getElementById("data");
 	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule('srChange');"));
 	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule('tspChange');"));
