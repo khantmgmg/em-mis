@@ -27,9 +27,9 @@ export async function execute() {
       loadedData = loadedData + dataLength;
       let infoText = `Info: Loading patient data.... (${loadedData} of ${totalData} loaded)`;
       let overlay = document.getElementById("overlay");
-      console.log(overlay);
+      //   console.log(overlay);
       let overlayInfo = document.getElementById("overlay-info");
-      console.log(overlayInfo);
+      //   console.log(overlayInfo);
       overlayInfo.innerHTML = infoText;
     } else {
       cnt = false;
@@ -244,9 +244,9 @@ export async function execute() {
           orgUnit = providerLocation;
         }
 
-        let vill = orgUnitData[orgunit]["name"];
-        let sc = orgUnitData[orgunit]["parent"]["name"];
-        let rhc = orgUnitData[orgunit]["parent"]["parent"]["name"];
+        let vill = orgUnitData[orgUnit]["name"];
+        let sc = orgUnitData[orgUnit]["parent"]["name"];
+        let rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
         let township =
           orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
         let stateRegion =
