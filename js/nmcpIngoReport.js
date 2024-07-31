@@ -276,7 +276,7 @@ export async function execute() {
 					}
 					console.log(finalData);
 					if (!(cblPeriod in finalData[stateRegion][township])) {
-						finalData[cblPeriod] = {};
+						finalData[stateRegion][township][cblPeriod] = {};
 					}
 					console.log(finalData);
 					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod])) {
