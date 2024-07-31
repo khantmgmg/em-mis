@@ -245,6 +245,8 @@ export async function execute() {
                 break;
             }
           });
+          console.log(orgUnit);
+          console.log(orgUnitData[orgUnit]);
           vill = orgUnitData[orgUnit]["name"];
           sc = orgUnitData[orgUnit]["parent"]["name"];
           rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
