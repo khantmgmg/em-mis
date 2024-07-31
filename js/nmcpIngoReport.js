@@ -310,6 +310,8 @@ export async function execute() {
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["rhc"] = rhc;
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["sc"] = sc;
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
+					} else {
+						console.log("Duplicated data found");
 					}
 
 					// console.log({
@@ -348,7 +350,7 @@ export async function execute() {
 		});
 	});
 
-	// console.log(finalData);
+	console.log(finalData);
 	let selectBoxes = document.getElementById("data");
 	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule('srChange');"));
 	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule('tspChange');"));
