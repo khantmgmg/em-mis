@@ -143,7 +143,8 @@ export async function execute() {
 			let sex = "";
 			let attributes = enrollment["attributes"];
 			attributes.forEach((attribute) => {
-				if (attribute["attribte"] == "oindugucx72") {
+				if (attribute["attribute"] == "oindugucx72") {
+					// print(`Sex: ${attribute["value"]}`)
 					sex = attribute["value"].substring(0, 1);
 				}
 			});
