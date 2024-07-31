@@ -230,7 +230,7 @@ export async function execute() {
             providerAbb == "W" ||
             providerAbb == "O"
           ) {
-            finalPersonCode = personCode.substring(0, 6);
+            finalPersonCode = personCode.substring(0, 7);
             providerVillageCode =
               storagePapProviderList[providerAbb][personCode][
                 "Assigned_village_code"
@@ -245,7 +245,9 @@ export async function execute() {
                 break;
             }
           });
-          console.log(orgUnit);
+          console.log(
+            `${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}`
+          );
           console.log(orgUnitData[orgUnit]);
           vill = orgUnitData[orgUnit]["name"];
           sc = orgUnitData[orgUnit]["parent"]["name"];
