@@ -321,7 +321,7 @@ export async function execute() {
 						testResult: testResult,
 						ageGroup: ageGroup,
 					});
-					let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCode]["data"];
+					let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"];
 					dataContent[ageGroup][`test${sex}`] += 1;
 					dataContent["total"][`test${sex}`] += 1;
 
