@@ -333,7 +333,7 @@ export async function execute() {
 	functions.hideOverlay();
 }
 
-function srChange() {
+export function srChange() {
 	let srInput = document.getElementById("sr");
 	let tspInput = document.getElementById("tsp");
 	let cblPeriodInput = document.getElementById("cblPeriod");
@@ -349,7 +349,7 @@ function srChange() {
 	});
 }
 
-function tspChange() {
+export function tspChange() {
 	let srInput = document.getElementById("sr");
 	let tspInput = document.getElementById("tsp");
 	let cblPeriodInput = document.getElementById("cblPeriod");
@@ -365,6 +365,6 @@ function tspChange() {
 	});
 }
 
-function cblPeriodChange() {
+export function cblPeriodChange() {
 	console.log("CBL change");
 }
