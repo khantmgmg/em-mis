@@ -211,8 +211,8 @@ export async function execute() {
         let providerAbb = personCode.substring(3, 4);
         let providerVillageCode = "";
         let finalPersonCode = "";
-
         console.log(`${personCode}`);
+        console.log(event);
         if (
           providerAbb != "T" &&
           providerAbb != "G" &&
