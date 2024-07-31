@@ -270,14 +270,41 @@ export async function execute() {
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[stateRegion][township][cblPeriod] = {};
 					}
-					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod])) {
-						finalData[stateRegion][township][cblPeriod][finalPersonCode] = dataTemplate;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["icmvCode"] = finalPersonCode;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["stateRegion"] = stateRegion;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["township"] = township;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["rhc"] = rhc;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["sc"] = sc;
-						finalData[stateRegion][township][cblPeriod][finalPersonCode]["vill"] = vill;
+
+					let finalPersonCodeAbb = finalPersonCode.substring(3, 4);
+					let finalPersonCodeAbbKey = "";
+					switch (finalPersonCodeAbb) {
+						case "V":
+							finalPersonCodeAbbKey = "ICMV";
+							break;
+						case "W":
+							finalPersonCodeAbbKey = "ICMV";
+							break;
+						case "T":
+							finalPersonCodeAbbKey = "Mobile";
+							break;
+						case "G":
+							finalPersonCodeAbbKey = "Private";
+							break;
+						case "O":
+							finalPersonCodeAbbKey = "Private";
+							break;
+						default:
+							finalPersonCodeAbbKey = "Other";
+							break;
+					}
+					if (!(finalPersonCodeAbbKey in finalData[stateRegion][township][cblPeriod])) {
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey] = {};
+					}
+
+					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey])) {
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode] = dataTemplate;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["icmvCode"] = finalPersonCode;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["stateRegion"] = stateRegion;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["township"] = township;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["rhc"] = rhc;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["sc"] = sc;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
 					}
 
 					console.log({
@@ -321,6 +348,7 @@ export async function execute() {
 	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule('srChange');"));
 	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule('tspChange');"));
 	selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "callFromModule('cblPeriodChange');"));
+	selectBoxes.appendChild(functions.createSelectBox("provider", "Provider type", "callFromModule('providerChange');"));
 
 	let srInput = document.getElementById("sr");
 	Object.keys(finalData).forEach((finalDataSr) => {
@@ -337,8 +365,10 @@ export function srChange() {
 	let srInput = document.getElementById("sr");
 	let tspInput = document.getElementById("tsp");
 	let cblPeriodInput = document.getElementById("cblPeriod");
+	let providerInput = document.getElementById("provider");
 	tspInput.innerHTML = "";
 	cblPeriodInput.innerHTML = "";
+	providerInput.innerHTML = "";
 	let srValue = srInput.value;
 	let srJson = finalData[srValue];
 	Object.keys(srJson).forEach((tsp) => {
@@ -353,7 +383,9 @@ export function tspChange() {
 	let srInput = document.getElementById("sr");
 	let tspInput = document.getElementById("tsp");
 	let cblPeriodInput = document.getElementById("cblPeriod");
+	let providerInput = document.getElementById("provider");
 	cblPeriodInput.innerHTML = "";
+	providerInput.innerHTML = "";
 	let srValue = srInput.value;
 	let tspValue = tspInput.value;
 	let tspJson = finalData[srValue][tspValue];
@@ -366,5 +398,190 @@ export function tspChange() {
 }
 
 export function cblPeriodChange() {
-	console.log("CBL change");
+	let srInput = document.getElementById("sr");
+	let tspInput = document.getElementById("tsp");
+	let cblPeriodInput = document.getElementById("cblPeriod");
+	let providerInput = document.getElementById("provider");
+	providerInput.innerHTML = "";
+	let srValue = srInput.value;
+	let tspValue = tspInput.value;
+	let cblPeriodValue = cblPeriodInput.value;
+	let cblJson = finalData[srValue][tspValue][cblPeriodValue];
+	Object.keys(cblJson).forEach((provider) => {
+		let providerOpt = document.createElement("option");
+		providerOpt.value = provider;
+		providerOpt.innerHTML = provider;
+		providerInput.appendChild(providerOpt);
+	});
+}
+
+export function providerChange() {
+	let srInput = document.getElementById("sr");
+	let tspInput = document.getElementById("tsp");
+	let cblPeriodInput = document.getElementById("cblPeriod");
+	let providerInput = document.getElementById("provider");
+	let srValue = srInput.value;
+	let tspValue = tspInput.value;
+	let cblPeriodValue = cblPeriodInput.value;
+	let providerValue = providerInput.value;
+	let printData = {};
+	Object.keys(finalData[srValue][tspValue][cblPeriodValue][providerValue]).forEach((providerCode) => {
+		let tmpData = finalData[srValue][tspValue][cblPeriodValue][providerValue][providerCode];
+		let rhc = tmpData["rhc"];
+		let sc = tmpData["sc"];
+		let vill = tmpData["vill"];
+		let icmvCode = tmpData["icmvCode"];
+		let data = tmpData["data"];
+		if (!(rhc in printData)) {
+			printData[rhc] = {};
+		}
+		if (!(sc in printData[rhc])) {
+			printData[rhc][sc] = {};
+		}
+		if (!(vill in printData[rhc][sc])) {
+			printData[rhc][sc][vill] = {};
+		}
+		if (!(icmvCode in printData[rhc][sc][vill])) {
+			printData[rhc][sc][vill][icmvCode] = data;
+		} else {
+			console.log(`Duplicate data found: ${icmvCode}`);
+		}
+	});
+
+	let reportData = document.getElementById("reportdata");
+	printData = functions.sortJson(printData);
+	let srno = 1;
+	Object.keys(printData).forEach((pRhc) => {
+		let rhcName = pRhc;
+		printData[pRhc] = functions.sortJson(printData[pRhc]);
+		Object.keys(printData[pRhc]).forEach((pSc) => {
+			let scName = pSc;
+			printData[pRhc][pSc] = functions.sortJson(printData[pRhc][pSc]);
+			Object.keys(printData[pRhc][pSc]).forEach((pVill) => {
+				let villName = pVill;
+				printData[pRhc][pSc][pVill] = functions.sortJson(printData[pRhc][pSc][pVill]);
+				Object.keys(printData[pRhc][pSc][pVill]).forEach((pIcmv) => {
+					let icmvCode = pIcmv;
+					let pData = printData[pRhc][pSc][pVill][pIcmv];
+					let descRow = document.createElement("tr");
+					descRow.className = "align-middle";
+					let srnoCell = createDescCell(srno, "text-center");
+					let srCell = createDescCell(srValue, "text-left");
+					let tspCell = createDescCell(tspValue, "text-left");
+					let rhcCell = createDescCell(pRhc, "text-left");
+					let scCell = createDescCell(pSc, "text-left");
+					let villCell = createDescCell(pVill, "text-left");
+					let providerCodeCell = createDescCell(pIcmv, "text-left");
+					let ageGroupCell = createAgeGroupCell("<1");
+					let u1TestM = createDataCell(pData["<1yr"]["testM"]);
+					let u1TestF = createDataCell(pData["<1yr"]["testF"]);
+					let u1PfM = createDataCell(pData["<1yr"]["PFM"]);
+					let u1PfF = createDataCell(pData["<1yr"]["PFF"]);
+					let u1PvM = createDataCell(pData["<1yr"]["PVM"]);
+					let u1PvF = createDataCell(pData["<1yr"]["PVF"]);
+					let u1MixM = createDataCell(pData["<1yr"]["MIXM"]);
+					let u1MixF = createDataCell(pData["<1yr"]["MIXF"]);
+					let u1PosM = createDataCell(pData["<1yr"]["POSM"]);
+					let u1PosF = createDataCell(pData["<1yr"]["POSF"]);
+					let u1GttM = createDataCell(pData["<1yr"]["testM"]);
+					let u1GttF = createDataCell(pData["<1yr"]["testF"]);
+					let u1GtpM = createDataCell(pData["<1yr"]["POSM"]);
+					let u1GtpF = createDataCell(pData["<1yr"]["POSF"]);
+					descRow.appendChild(srnoCell);
+					descRow.appendChild(srCell);
+					descRow.appendChild(tspCell);
+					descRow.appendChild(rhcCell);
+					descRow.appendChild(scCell);
+					descRow.appendChild(villCell);
+					descRow.appendChild(providerCodeCell);
+					descRow.appendChild(ageGroupCell);
+					descRow.appendChild(u1TestM);
+					descRow.appendChild(u1TestF);
+					descRow.appendChild(u1PfM);
+					descRow.appendChild(u1PfF);
+					descRow.appendChild(u1PvM);
+					descRow.appendChild(u1PvF);
+					descRow.appendChild(u1MixM);
+					descRow.appendChild(u1MixF);
+					descRow.appendChild(u1PosM);
+					descRow.appendChild(u1PosF);
+					descRow.appendChild(u1GttM);
+					descRow.appendChild(u1GttF);
+					descRow.appendChild(u1GtpM);
+					descRow.appendChild(u1GtpF);
+					let row1to4 = createDataRow("1-4 Year", pData["1-4yr"]);
+					let row5to9 = createDataRow("5-9 Year", pData["5-9yr"]);
+					let row10to14 = createDataRow("10-14 Year", pData["10-14yr"]);
+					let rowMt15 = createDataRow("15 Years and above", pData[">15yr"]);
+					let rowTotal = createDataRow("Total", pData["total"]);
+					let rowPreg = createDataRow("Pregnant Women", pData["preg"]);
+					reportData.appendChild(descRow);
+					reportData.appendChild(row1to4);
+					reportData.appendChild(row5to9);
+					reportData.appendChild(row10to14);
+					reportData.appendChild(rowMt15);
+					reportData.appendChild(rowTotal);
+					reportData.appendChild(rowPreg);
+					srno += 1;
+				});
+			});
+		});
+	});
+}
+
+function createDescCell(text, cellClass) {
+	let cell = document.createElement("td");
+	cell.rowSpan = 7;
+	cell.className = cellClass;
+	cell.innerHTML = text;
+	return cell;
+}
+
+function createAgeGroupCell(text) {
+	let cell = document.createElement("td");
+	cell.className = "text-left";
+	cell.innerHTML = text;
+	return cell;
+}
+
+function createDataCell(value) {
+	let cell = document.createElement("td");
+	cell.className = "text-right";
+	cell.innerHTML = value;
+	return cell;
+}
+
+function createDataRow(ageGpText, data) {
+	let row = document.createElement("tr");
+	let ageGroupCell = createAgeGroupCell(ageGpText);
+	let testM = createDataCell(data["testM"]);
+	let testF = createDataCell(data["testF"]);
+	let pfM = createDataCell(data["PFM"]);
+	let pfF = createDataCell(data["PFF"]);
+	let pvM = createDataCell(data["PVM"]);
+	let pvF = createDataCell(data["PVF"]);
+	let mixM = createDataCell(data["MIXM"]);
+	let mixF = createDataCell(data["MIXF"]);
+	let posM = createDataCell(data["POSM"]);
+	let posF = createDataCell(data["POSF"]);
+	let gttM = createDataCell(data["testM"]);
+	let gttF = createDataCell(data["testF"]);
+	let gtpM = createDataCell(data["POSM"]);
+	let gtpF = createDataCell(data["POSF"]);
+	row.appendChild(ageGroupCell);
+	row.appendChild(testM);
+	row.appendChild(testF);
+	row.appendChild(pfM);
+	row.appendChild(pfF);
+	row.appendChild(pvM);
+	row.appendChild(pvF);
+	row.appendChild(mixM);
+	row.appendChild(mixF);
+	row.appendChild(posM);
+	row.appendChild(posF);
+	row.appendChild(gttM);
+	row.appendChild(gttF);
+	row.appendChild(gtpM);
+	row.appendChild(gtpF);
+	return row;
 }
