@@ -513,7 +513,7 @@ export function providerChange() {
 					let row5to9 = createDataRow("5-9 Year", pData["5-9yr"]);
 					let row10to14 = createDataRow("10-14 Year", pData["10-14yr"]);
 					let rowMt15 = createDataRow("15 Years and above", pData[">15yr"]);
-					let rowTotal = createDataRow("Total", pData["total"]);
+					let rowTotal = createDataRow("Total", pData["total"], true);
 					let rowPreg = createDataRow("Pregnant Women", pData["preg"]);
 					reportData.appendChild(descRow);
 					reportData.appendChild(row1to4);
@@ -544,30 +544,30 @@ function createAgeGroupCell(text) {
 	return cell;
 }
 
-function createDataCell(value) {
+function createDataCell(value, boldText = false) {
 	let cell = document.createElement("td");
-	cell.className = "text-right";
+	cell.className = boldText ? "text-end fw-bold" : "text-end";
 	cell.innerHTML = value;
 	return cell;
 }
 
-function createDataRow(ageGpText, data) {
+function createDataRow(ageGpText, data, boldText = false) {
 	let row = document.createElement("tr");
 	let ageGroupCell = createAgeGroupCell(ageGpText);
-	let testM = createDataCell(data["testM"]);
-	let testF = createDataCell(data["testF"]);
-	let pfM = createDataCell(data["PFM"]);
-	let pfF = createDataCell(data["PFF"]);
-	let pvM = createDataCell(data["PVM"]);
-	let pvF = createDataCell(data["PVF"]);
-	let mixM = createDataCell(data["MIXM"]);
-	let mixF = createDataCell(data["MIXF"]);
-	let posM = createDataCell(data["POSM"]);
-	let posF = createDataCell(data["POSF"]);
-	let gttM = createDataCell(data["testM"]);
-	let gttF = createDataCell(data["testF"]);
-	let gtpM = createDataCell(data["POSM"]);
-	let gtpF = createDataCell(data["POSF"]);
+	let testM = createDataCell(data["testM"], boldText);
+	let testF = createDataCell(data["testF"], boldText);
+	let pfM = createDataCell(data["PFM"], boldText);
+	let pfF = createDataCell(data["PFF"], boldText);
+	let pvM = createDataCell(data["PVM"], boldText);
+	let pvF = createDataCell(data["PVF"], boldText);
+	let mixM = createDataCell(data["MIXM"], boldText);
+	let mixF = createDataCell(data["MIXF"], boldText);
+	let posM = createDataCell(data["POSM"], boldText);
+	let posF = createDataCell(data["POSF"], boldText);
+	let gttM = createDataCell(data["testM"], boldText);
+	let gttF = createDataCell(data["testF"], boldText);
+	let gtpM = createDataCell(data["POSM"], boldText);
+	let gtpF = createDataCell(data["POSF"], boldText);
 	row.appendChild(ageGroupCell);
 	row.appendChild(testM);
 	row.appendChild(testF);
