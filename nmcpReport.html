@@ -37,22 +37,44 @@
 			<hr class="m-1" />
 			<div id="data"></div>
 			<hr class="m-1" />
-			<div id="ptData-head" style="font-size: 0.85em">
-				<div class="row border rounded bg-secondary text-white px-2 py-1 mx-1 my-1 align-items-center text-center">
-					<div class="col" style="max-width: 4%"><strong>No.</strong></div>
-					<div class="col-1"><strong>Date</strong></div>
-					<div class="col-2"><strong>Name</strong></div>
-					<div class="col" style="max-width: 4%"><strong>Age</strong></div>
-					<div class="col-2"><strong>Address</strong></div>
-					<div class="col-1"><strong>Population Type</strong></div>
-					<div class="col-1"><strong>Sex</strong></div>
-					<div class="col-1"><strong>Pregnancy status</strong></div>
-					<div class="col-1"><strong>Test result</strong></div>
-					<div class="col-1"><strong>Health education</strong></div>
-					<div class="col-1"><strong>URL</strong></div>
-				</div>
-			</div>
-			<div id="ptData"></div>
+			<table class="table table-bordered">
+				<thead>
+					<tr class="text-center">
+						<th class="align-middle" rowspan="3">Sr</th>
+						<th class="align-middle" rowspan="3">State/Region</th>
+						<th class="align-middle" rowspan="3">Township</th>
+						<th class="align-middle" rowspan="3">Age group</th>
+						<th class="align-middle" colspan="10">RDT</th>
+						<th class="align-middle" colspan="4">RDT + Microscopy</th>
+					</tr>
+					<tr class="text-center">
+						<th class="align-middle" colspan="2">Total exam</th>
+						<th class="align-middle" colspan="2">Pf</th>
+						<th class="align-middle" colspan="2">Pv/Non-Pf</th>
+						<th class="align-middle" colspan="2">Mix</th>
+						<th class="align-middle" colspan="2">Total positive</th>
+						<th class="align-middle" colspan="2">Grand Total Exam</th>
+						<th class="align-middle" colspan="2">Grand Total Positive</th>
+					</tr>
+					<tr class="text-center">
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Male</th>
+						<th>Female</th>
+					</tr>
+				</thead>
+				<tbody id="data"></tbody>
+			</table>
 		</div>
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
