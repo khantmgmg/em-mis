@@ -339,7 +339,7 @@ export function srChange() {
 	let cblPeriodInput = document.getElementById("cblPeriod");
 	tspInput.innerHTML = "";
 	cblPeriodInput.innerHTML = "";
-	let srValue = srInput.value();
+	let srValue = srInput.value;
 	let srJson = finalData[srValue];
 	Object.keys(srJson).forEach((tsp) => {
 		let tspOpt = document.createElement("option");
@@ -354,8 +354,8 @@ export function tspChange() {
 	let tspInput = document.getElementById("tsp");
 	let cblPeriodInput = document.getElementById("cblPeriod");
 	cblPeriodInput.innerHTML = "";
-	let srValue = srInput.value();
-	let tspValue = tspInput.value();
+	let srValue = srInput.value;
+	let tspValue = tspInput.value;
 	let tspJson = finalData[srValue][tspValue];
 	Object.keys(tspJson).forEach((cblPeriod) => {
 		let cblPeriodOpt = document.createElement("option");
