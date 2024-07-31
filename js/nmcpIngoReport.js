@@ -261,13 +261,15 @@ export async function execute() {
 					}
 
 					cblPeriod = cblPeriod.toISOString().substring(0, 7);
+					print(cblPeriod);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
 					}
+					console.log(finalData[stateRegion]);
 					if (!(township in finalData[stateRegion])) {
 						finalData[stateRegion][township] = {};
 					}
-
+					console.log(finalData[stateRegion][township]);
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[cblPeriod] = {};
 					}
