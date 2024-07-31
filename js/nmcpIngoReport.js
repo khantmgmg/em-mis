@@ -1,5 +1,5 @@
 import * as functions from "./functions.js";
-
+var finalData = {};
 export async function execute() {
 	functions.showOverlay("Loading data ..................");
 
@@ -132,7 +132,6 @@ export async function execute() {
 		},
 	};
 
-	let finalData = {};
 	let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
 	let storagePapProviderList = JSON.parse(localStorage.getItem("papProviderList"));
 	let storagePapMmwVsIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
@@ -318,5 +317,54 @@ export async function execute() {
 	});
 
 	console.log(finalData);
+	let selectBoxes = document.getElementById("data");
+	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "srChange();"));
+	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "tspChange();"));
+	selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "cblPeriodChange();"));
+
+	let srInput = document.getElementById("sr");
+	Object.keys(finalData).forEach((finalDataSr) => {
+		let srOpt = document.createElement("option");
+		srOpt.value = finalDataSr;
+		srOpt.innerHTML = finalDataSr;
+		srInput.appendChild(srOpt);
+	});
+
 	functions.hideOverlay();
+}
+
+function srChange() {
+	let srInput = document.getElementById("sr");
+	let tspInput = document.getElementById("tsp");
+	let cblPeriodInput = document.getElementById("cblPeriod");
+	tspInput.innerHTML = "";
+	cblPeriodInput.innerHTML = "";
+	let srValue = srInput.value();
+	let srJson = finalData[srValue];
+	Object.keys(srJson).forEach((tsp) => {
+		let tspOpt = document.createElement("option");
+		tspOpt.value = tsp;
+		tspOpt.innerHTML = tsp;
+		tspInput.appendChild(tspOpt);
+	});
+}
+
+function tspChange() {
+	let srInput = document.getElementById("sr");
+	let tspInput = document.getElementById("tsp");
+	let cblPeriodInput = document.getElementById("cblPeriod");
+	cblPeriodInput.innerHTML = "";
+	let srValue = srInput.value();
+	let tspValue = tspInput.value();
+	let tspJson = finalData[srValue][tspValue];
+	Object.keys(tspJson).forEach((cblPeriod) => {
+		let cblPeriod = document.createElement("option");
+		cblPeriod.value = tsp;
+		cblPeriod.innerHTML = tsp;
+		cblPeriodInput.appendChild(cblPeriod);
+	});
+}
+
+function cblPeriodChange() {
+	console.log("CBL change");
 }
