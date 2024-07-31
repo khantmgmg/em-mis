@@ -425,6 +425,7 @@ export function providerChange() {
 	let cblPeriodValue = cblPeriodInput.value;
 	let providerValue = providerInput.value;
 	let printData = {};
+	console.log(finalData[srValue][tspValue][cblPeriodValue][providerValue]);
 	Object.keys(finalData[srValue][tspValue][cblPeriodValue][providerValue]).forEach((providerCode) => {
 		let tmpData = finalData[srValue][tspValue][cblPeriodValue][providerValue][providerCode];
 		let rhc = tmpData["rhc"];
