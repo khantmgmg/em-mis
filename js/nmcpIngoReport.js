@@ -223,11 +223,14 @@ export async function execute() {
 
 						Object.keys(orgUnitData).forEach((orgUnitId) => {
 							let orgUnitVillageCode = orgUnitData[orgUnitId]["code"];
-							switch (orgUnitVillageCode) {
-								case providerVillageCode:
-									orgUnit = orgUnitId;
-									break;
+							if (orgUnitVillageCode == providerVillageCode) {
+								orgUnit = orgUnitId;
 							}
+							// switch (orgUnitVillageCode) {
+							// 	case providerVillageCode:
+							// 		orgUnit = orgUnitId;
+							// 		break;
+							// }
 						});
 						console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}`);
 						console.log(orgUnitData[orgUnit]);
