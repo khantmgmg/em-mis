@@ -57,7 +57,7 @@
       <hr class="m-1" />
       <div id="data"></div>
       <hr class="m-1" />
-      <div id="ptData-head" style="font-size:0.85em;">
+      <div id="ptData-head" style="font-size: 0.85em">
         <div
           class="row border rounded bg-secondary text-white px-2 py-1 mx-1 my-1 align-items-center text-center"
         >
@@ -84,7 +84,7 @@
   </body>
   <script>
     function callFromPatientList(functionName) {
-      import("./js/patientList.js")
+      import("./js/nmcpIngoReport.js")
         .then((module) => {
           if (module[functionName]) {
             module[functionName]();
