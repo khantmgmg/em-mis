@@ -259,13 +259,13 @@ export async function execute() {
 							});
 						}
 					}
-					print("testPrint - before format change");
+					console.log("testPrint - before format change");
 					console.log(cblPeriod);
 					cblPeriod = cblPeriod.toISOString();
-					print("testPrint - after format change");
-					print(cblPeriod);
+					console.log("testPrint - after format change");
+					console.log(cblPeriod);
 					cblPeriod = cblPeriod.substring(0, 7);
-					print("test print - final date");
+					console.log("test print - final date");
 					console.log(cblPeriod);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
