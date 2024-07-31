@@ -449,6 +449,7 @@ export function providerChange() {
 	});
 
 	let reportData = document.getElementById("reportdata");
+	reportData.innerHTML = "";
 	printData = functions.sortJson(printData);
 	let srno = 1;
 	Object.keys(printData).forEach((pRhc) => {
