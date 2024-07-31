@@ -232,7 +232,7 @@ export async function execute() {
               ];
           }
 
-          orgUnitData.forEach((orgUnitId) => {
+          Object.keys(orgUnitData).forEach((orgUnitId) => {
             let orgUnitVillageCode = orgUnitData[orgUnitId]["code"];
             switch (orgUnitVillageCode) {
               case providerVillageCode:
