@@ -35,7 +35,7 @@
 				</div>
 			</form>
 			<hr class="m-1" />
-			<div id="data"></div>
+			<div id="data" class="row"></div>
 			<hr class="m-1" />
 			<table class="table table-bordered">
 				<thead>
@@ -83,7 +83,7 @@
 		></script>
 	</body>
 	<script>
-		function callFromPatientList(functionName) {
+		function callFromModule(functionName) {
 			import("./js/nmcpIngoReport.js")
 				.then((module) => {
 					if (module[functionName]) {

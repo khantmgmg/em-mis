@@ -318,9 +318,9 @@ export async function execute() {
 
 	console.log(finalData);
 	let selectBoxes = document.getElementById("data");
-	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "srChange();"));
-	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "tspChange();"));
-	selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "cblPeriodChange();"));
+	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule(srChange);"));
+	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule(tspChange);"));
+	selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "callFromModule(cblPeriodChange);"));
 
 	let srInput = document.getElementById("sr");
 	Object.keys(finalData).forEach((finalDataSr) => {
