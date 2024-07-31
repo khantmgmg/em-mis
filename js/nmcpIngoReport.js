@@ -259,8 +259,10 @@ export async function execute() {
 							});
 						}
 					}
-
+					print("testPrint - before format change");
+					console.log(cblPeriod);
 					cblPeriod = cblPeriod.toISOString().substring(0, 7);
+					print("testPrint - after format change");
 					print(cblPeriod);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
