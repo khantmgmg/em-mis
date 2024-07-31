@@ -162,6 +162,11 @@ export async function execute() {
         let ageGroup = "";
         let preg = "";
         let testResult = "";
+        let vill = "";
+        let sc = "";
+        let rhc = "";
+        let township = "";
+        let stateRegion = "";
 
         let dataValues = event["dataValues"];
         dataValues.forEach((dataValue) => {
@@ -240,19 +245,43 @@ export async function execute() {
                 break;
             }
           });
+          vill = orgUnitData[orgUnit]["name"];
+          sc = orgUnitData[orgUnit]["parent"]["name"];
+          rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
+          township = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
+          stateRegion =
+            orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
+              "parent"
+            ]["name"];
         } else {
           orgUnit = providerLocation;
+          try {
+            vill = orgUnitData[orgUnit]["name"];
+            sc = orgUnitData[orgUnit]["parent"]["name"];
+            rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
+            township =
+              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
+            stateRegion =
+              orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
+                "parent"
+              ]["name"];
+          } catch {
+            let tspAbb = personCode.substring(0, 3);
+            // console.log(tspAbb);
+            let storagePapTspList = JSON.parse(
+              localStorage.getItem("papTspList")
+            );
+            Object.keys(storagePapTspList).forEach((tsp) => {
+              if (tsp["TSPABB"] == tspAbb) {
+                stateRegion = tsp["StateRegion"];
+                township = tsp["Township"];
+                rhc = "Not defined";
+                sc = "Not defined";
+                vill = "Not defined";
+              }
+            });
+          }
         }
-
-        let vill = orgUnitData[orgUnit]["name"];
-        let sc = orgUnitData[orgUnit]["parent"]["name"];
-        let rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
-        let township =
-          orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
-        let stateRegion =
-          orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"][
-            "parent"
-          ]["name"];
 
         cblPeriod = cblPeriod.toISOString().substring(0, 7);
         if (!(cblPeriod in finalData)) {
