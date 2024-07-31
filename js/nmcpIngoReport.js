@@ -292,17 +292,38 @@ export async function execute() {
           }
 
           cblPeriod = cblPeriod.toISOString().substring(0, 7);
-          if (!(cblPeriod in finalData)) {
+          if (!(stateRegion in finalData)) {
+            finalData[stateRegion] = {};
+          }
+          if (!(township in finalData[stateRegion])) {
+            finalData[stateRegion][township] = {};
+          }
+
+          if (!(cblPeriod in finalData[stateRegion][township])) {
             finalData[cblPeriod] = {};
           }
-          if (!(finalPersonCode in finalData[cblPeriod])) {
-            finalData[cblPeriod][finalPersonCode] = dataTemplate;
-            finalData[cblPeriod][finalPersonCode]["icmvCode"] = finalPersonCode;
-            finalData[cblPeriod][finalPersonCode]["stateRegion"] = stateRegion;
-            finalData[cblPeriod][finalPersonCode]["township"] = township;
-            finalData[cblPeriod][finalPersonCode]["rhc"] = rhc;
-            finalData[cblPeriod][finalPersonCode]["sc"] = sc;
-            finalData[cblPeriod][finalPersonCode]["vill"] = vill;
+          if (
+            !(finalPersonCode in finalData[stateRegion][township][cblPeriod])
+          ) {
+            finalData[stateRegion][township][cblPeriod][finalPersonCode] =
+              dataTemplate;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode][
+              "icmvCode"
+            ] = finalPersonCode;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode][
+              "stateRegion"
+            ] = stateRegion;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode][
+              "township"
+            ] = township;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode][
+              "rhc"
+            ] = rhc;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode]["sc"] =
+              sc;
+            finalData[stateRegion][township][cblPeriod][finalPersonCode][
+              "vill"
+            ] = vill;
           }
           console.log({
             personCode: finalPersonCode,
@@ -322,5 +343,7 @@ export async function execute() {
       });
     });
   });
+
+  console.log(finalData);
   functions.hideOverlay();
 }
