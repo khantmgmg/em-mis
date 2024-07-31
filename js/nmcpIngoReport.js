@@ -132,7 +132,7 @@ export async function execute() {
     },
   };
 
-  finalData = {};
+  let finalData = {};
   let orgUnitData = JSON.parse(localStorage.getItem("orgUnits"));
   let storagePapProviderList = JSON.parse(
     localStorage.getItem("papProviderList")
