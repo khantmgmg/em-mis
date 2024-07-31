@@ -91,7 +91,12 @@ export function showOverlay(displayText) {
     // text.innerHTML = "Building the app ..................";
     text.innerHTML = displayText;
 
+    let info = document.createElement("p");
+    info.style.fontSize = "0.3em";
+    info.id = "overlay-info";
+
     overlaySubDiv.appendChild(text);
+    overlaySubDiv.appendChild(info);
     overlay.appendChild(overlaySubDiv);
     document.body.appendChild(overlay);
   } else {
@@ -114,6 +119,8 @@ export async function login(token) {
   try {
     const data = await makeGetRequest(url, headers);
     console.log(data);
+    let overlayInfo = document.getElementById("overlay-info");
+    overlayInfo.innerHTML = "Info: getting data from server...."
     // document.getElementById("data").innerText = `${token} ||| ${data["name"]}`;
     localStorage.setItem("domain", domain);
     localStorage.setItem("token", token);

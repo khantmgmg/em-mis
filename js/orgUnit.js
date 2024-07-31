@@ -15,6 +15,8 @@ export async function checkOrgUnit() {
     localStorage.setItem("orgUnits", JSON.stringify(finalOrgUnit));
     localStorage.setItem("OrgUnitToRefreshDate", toRefreshDate);
     localStorage.setItem("villageList", JSON.stringify(villageJson));
+    let overlayInfo = document.getElementById("overlay-info");
+    overlayInfo.innerHTML = "Info: Loading google spreadsheet data ....";
     await gs.syncGs();
     return true;
   }
@@ -29,13 +31,19 @@ export async function getOrgUnit() {
   let cnt = true;
   let orgUnitData = [];
   let page = 1;
+  let loadedData = 0;
   while (cnt) {
     let finalUrl = `${url}&page=${page}`;
     console.log(finalUrl);
     const orgUnits = await functions.makeGetRequest(finalUrl, headers);
     if (orgUnits["organisationUnits"].length > 0) {
+      let overlayInfo = document.getElementById("overlay-info");
+      let totalData = orgUnits["pager"]["total"];
       orgUnitData = orgUnitData.concat(orgUnits["organisationUnits"]);
       page = page + 1;
+      loadedData = loadedData + Number(orgUnits["pager"]["pageSize"]);
+      let infoText = `Info: Loading orgUnit data.... (${loadedData} of ${totalData} loaded)`;
+      overlayInfo.innerHTML = infoText;
     } else {
       cnt = false;
     }

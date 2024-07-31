@@ -16,13 +16,25 @@ export async function execute() {
   let cnt = true;
   let ptData = [];
   let page = 1;
+  let loadedData = 0;
+
+  
   while (cnt) {
     let teiUrl = `${url}&page=${page}`;
     console.log(teiUrl);
     let teis = await functions.makeGetRequest(teiUrl, headers);
     if (teis["instances"].length > 0) {
+      let totalData = teis["total"];
+      let dataLength = Number(teis["pageSize"]);
       ptData = ptData.concat(teis["instances"]);
       page = page + 1;
+      loadedData = loadedData + dataLength;
+      let infoText = `Info: Loading patient data.... (${loadedData} of ${totalData} loaded)`;
+      let overlay = document.getElementById("overlay");
+      console.log(overlay);
+      let overlayInfo = document.getElementById("overlay-info");
+      console.log(overlayInfo);
+      overlayInfo.innerHTML = infoText;
     } else {
       cnt = false;
     }
@@ -222,7 +234,6 @@ export async function execute() {
     let rpMthOption = document.createElement("option");
     rpMthOption.value = rpMth;
     rpMthOption.innerText = rpMth;
-    rpMthOption.style.fontSize = "0.85em";
     rpMthSelect.appendChild(rpMthOption);
   });
   functions.hideOverlay();
@@ -247,7 +258,6 @@ export function rpMthChange() {
     let orgOption = document.createElement("option");
     orgOption.value = org;
     orgOption.innerText = org;
-    orgOption.style.fontSize = "0.85em";
     orgSelect.appendChild(orgOption);
   });
 }
@@ -270,7 +280,6 @@ export function orgChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
-    opt.style.fontSize = "0.85em";
     srSelect.appendChild(opt);
   });
 }
@@ -292,7 +301,6 @@ export function srChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
-    opt.style.fontSize = "0.85em";
     tspSelect.appendChild(opt);
   });
 }
@@ -313,7 +321,6 @@ export function tspChange() {
     let opt = document.createElement("option");
     opt.value = key;
     opt.innerText = key;
-    opt.style.fontSize = "0.85em";
     personCodeSelect.appendChild(opt);
   });
 }
@@ -335,7 +342,6 @@ export function personCodeChange() {
     let cblPeriodOption = document.createElement("option");
     cblPeriodOption.value = cblPeriod;
     cblPeriodOption.innerText = cblPeriod;
-    cblPeriodOption.style.fontSize = "0.85em";
     cblPeriodSelect.appendChild(cblPeriodOption);
 
     let cblPages = Object.keys(
@@ -367,7 +373,6 @@ export function cblPeriodChange() {
     let cblPageOptions = document.createElement("option");
     cblPageOptions.value = cblPage;
     cblPageOptions.innerText = cblPage;
-    cblPageOptions.style.fontSize = "0.85em";
     cblPageSelect.appendChild(cblPageOptions);
     let jsonData =
       finaldata[rpMth][org][sr][tsp][personCode][cblPeriod][cblPage];
@@ -525,33 +530,33 @@ function createPatientRowDiv(
   let colSrno = createPatientDataCellDiv(
     srno,
     "col text-center",
-    "max-width:4%;"
+    "max-width:4%; font-size:0.75em"
   );
-  let colTestDate = createPatientDataCellDiv(testDate, "col-1 text-end", "");
-  let colPtName = createPatientDataCellDiv(ptName, "col-2 text-start", "");
+  let colTestDate = createPatientDataCellDiv(testDate, "col-1 text-end", "font-size:0.75em");
+  let colPtName = createPatientDataCellDiv(ptName, "col-2 text-start", "font-size:0.75em");
   let colPtAge = createPatientDataCellDiv(
     ptAge,
     "col text-end",
-    "max-width:4%;"
+    "max-width:4%; font-size:0.75em"
   );
   let colPtAddress = createPatientDataCellDiv(
     ptAddress,
     "col-2 text-start",
-    ""
+    "font-size:0.75em"
   );
   let colPtPopType = createPatientDataCellDiv(
     ptPopType,
     "col-1 text-center",
-    ""
+    "font-size:0.75em"
   );
-  let colPtSex = createPatientDataCellDiv(ptSex, "col-1 text-center", "");
-  let colPtPreg = createPatientDataCellDiv(ptPreg, "col-1 text-center", "");
+  let colPtSex = createPatientDataCellDiv(ptSex, "col-1 text-center", "font-size:0.75em");
+  let colPtPreg = createPatientDataCellDiv(ptPreg, "col-1 text-center", "font-size:0.75em");
   let colTestResult = createPatientDataCellDiv(
     testResult,
     "col-1 text-center",
-    ""
+    "font-size:0.75em"
   );
-  let colPtHe = createPatientDataCellDiv(ptHe, "col-1 text-center", "");
+  let colPtHe = createPatientDataCellDiv(ptHe, "col-1 text-center", "font-size:0.75em");
 
   ptRowDiv.appendChild(colSrno);
   ptRowDiv.appendChild(colTestDate);
@@ -570,9 +575,7 @@ function createPatientDataCellDiv(info, classname, style) {
   let ptDataCellDiv = document.createElement("div");
   ptDataCellDiv.className = classname;
   ptDataCellDiv.style = style;
-  let small = document.createElement("small");
-  small.innerHTML = info;
-  ptDataCellDiv.appendChild(small);
+  ptDataCellDiv.innerHTML = info;
   //   ptDataCellDiv.innerText = info;
   return ptDataCellDiv;
 }
@@ -589,6 +592,7 @@ function createSelectBox(id, labelText, jsFunction) {
   select.id = id;
   select.size = 7;
   select.className = "row form-select mx-1 my-0 px-1 py-0";
+  select.style.fontSize = "0.85em";
   select.setAttribute("onChange", jsFunction);
   let blankOpt = document.createElement("option");
   blankOpt.value = "";
