@@ -446,6 +446,7 @@ export function providerChange() {
 		} else {
 			console.log(`Duplicate data found: ${icmvCode}`);
 		}
+		console.log(printData);
 	});
 
 	let reportData = document.getElementById("reportdata");
