@@ -440,14 +440,27 @@ export function cblPeriodChange() {
 	let tspValue = tspInput.value;
 	let cblPeriodValue = cblPeriodInput.value;
 	let cblJson = finalData[srValue][tspValue][cblPeriodValue];
+	let srno = 1;
+	let reportData = document.getElementById("reportdata");
+	reportData.innerHTML = "";
 	Object.keys(cblJson).forEach((provider) => {
 		if (provider != "total"){
 			let providerOpt = document.createElement("option");
 			providerOpt.value = provider;
 			providerOpt.innerHTML = provider;
 			providerInput.appendChild(providerOpt);
+			let dataBlock = createDataBlock(false, 0, 0, cblJson[provider]["total"], srno, srValue, tspValue, provider);
+			Array.from(dataBlock.children).forEach(child => {
+				reportData.appendChild(child);
+			})
+			srno += 1;
 		}
 	});
+	let grandTotal = cblJson["total"];
+	let grandTotalBlock = createDataBlock(true, 4, 7, grandTotal);
+	Array.from(grandTotalBlock.children).forEach(gtChild => {
+		reportData.appendChild(gtChild);
+	})
 }
 
 export function providerChange() {
