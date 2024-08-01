@@ -442,7 +442,10 @@ export function cblPeriodChange() {
 	let cblJson = finalData[srValue][tspValue][cblPeriodValue];
 	let srno = 1;
 	let reportData = document.getElementById("reportdata");
+	let reportHeading = document.getElementById("reportheading");
 	reportData.innerHTML = "";
+	reportHeading.innerHTML = "";
+	generateHeading(true);
 	Object.keys(cblJson).forEach((provider) => {
 		if (provider != "total"){
 			let providerOpt = document.createElement("option");
@@ -501,7 +504,10 @@ export function providerChange() {
 	});
 
 	let reportData = document.getElementById("reportdata");
+	let reportHeading = document.getElementById("reportheading");
 	reportData.innerHTML = "";
+	reportHeading.innerHTML = "";
+	generateHeading(false);
 	printData = functions.sortJson(printData);
 	let srno = 1;
 	Object.keys(printData).forEach((pRhc) => {
@@ -685,4 +691,85 @@ function createDataRow(ageGpText, data, boldText = false) {
 
 function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
+}
+
+
+function generateHeading(tspLevel = false){
+	let reportHeading = document.getElementById("reportheading");
+
+	let row1 = document.createElement("tr");
+	let row2 = document.createElement("tr");
+	let row3 = document.createElement("tr");
+	let srnoCell = createHeadCell("Sr", "align-middle", 3, null);
+	row1.appendChild(srnoCell);
+	let srCell = createHeadCell("State / Region", "align-middle", 3, null);
+	row1.appendChild(srCell);
+	let tspnoCell = createHeadCell("Township", "align-middle", 3, null);
+	row1.appendChild(tspnoCell);
+
+	if (tspLevel){
+		let providerTypeCell = createHeadCell ("Provider type", "align-middle", 3, null);
+		row1.appendChild(providerTypeCell)
+	}
+	else{
+		let rhcCell = createHeadCell("RHC", "align-middle", 3, null);
+		row1.appendChild(rhcCell);
+		let scCell = createHeadCell("Subcenter", "align-middle", 3, null);
+		row1.appendChild(scCell);
+		let villCell = createHeadCell("Village", "align-middle", 3, null);
+		row1.appendChild(villCell);
+		let providerCell = createHeadCell("Provider code", "align-middle", 3, null);
+		row1.appendChild(providerCell);
+	}
+	let ageGpCell = createHeadCell("Age group", "align-middle", 3, null);
+	row1.appendChild(ageGpCell);
+	let rdtCell = createHeadCell("RDT", "align-middle", null, 10);
+	row1.appendChild(rdtCell);
+	let rdtMicroCell = createHeadCell("RDT + Microscopy", "align-middle", null, 4);
+	row1.appendChild(rdtMicroCell);
+
+	let testCell = createHeadCell("Total exam", "align-middle", null, 2);
+	row2.appendChild(testCell);
+	let pfCell = createHeadCell("Pf", "align-middle", null, 2);
+	row2.appendChild(pfCell);
+	let pvCell = createHeadCell("Pv/Non-Pf", "align-middle", null, 2);
+	row2.appendChild(pvCell);
+	let mixCell = createHeadCell("Mix", "align-middle", null, 2);
+	row2.appendChild(mixCell);
+	let posCell = createHeadCell("Total positive", "align-middle", null, 2);
+	row2.appendChild(posCell);
+	let gttCell = createHeadCell("Grand Total Exam", "align-middle", null, 2);
+	row2.appendChild(gttCell);
+	let gtpCell = createHeadCell("Grand Total Positive", "align-middle", null, 2);
+	row2.appendChild(gtpCell);
+
+	let maleCell = createHeadCell("Male", "align-middle", null, null);
+	let femaleCell = createHeadCell("Female", "align-middle", null, null);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+	row3.appendChild(maleCell);
+	row3.appendChild(femaleCell);
+
+	reportHeading.appendChild(row1);
+	reportHeading.appendChild(row2);
+	reportHeading.appendChild(row3);
+}
+
+function createHeadCell(text, hClass = null, hRowSpan = null, hColSpan = null){
+	let th = document.createElement("th");
+	th.innerHTML = text;
+	th.className = hClass;
+	th.rowSpan = hRowSpan;
+	th.colSpan = hColSpan;
+	return th;
 }
