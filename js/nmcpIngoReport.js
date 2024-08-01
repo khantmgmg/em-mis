@@ -200,7 +200,7 @@ export async function execute() {
 					let providerAbb = personCode.substring(3, 4);
 					let providerVillageCode = "";
 					let finalPersonCode = "";
-					// console.log(`${personCode}`);
+					console.log(`${personCode}`);
 					// console.log(event);
 					if (providerAbb != "T" && providerAbb != "G" && providerAbb != "P" && providerAbb != "R") {
 						if (providerAbb == "M") {
@@ -254,8 +254,8 @@ export async function execute() {
 							});
 						}
 					}
-					console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}`);
-					console.log(`${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
+					console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}, ${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
+					// console.log(`${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
 					cblPeriod = cblPeriod.toISOString();
 					cblPeriod = cblPeriod.substring(0, 7);
 					if (!(stateRegion in finalData)) {
