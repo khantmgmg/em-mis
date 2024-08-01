@@ -457,7 +457,7 @@ export function cblPeriodChange() {
 		}
 	});
 	let grandTotal = cblJson["total"];
-	let grandTotalBlock = createDataBlock(true, 4, 7, grandTotal);
+	let grandTotalBlock = createDataBlock(true, 7, 4, grandTotal);
 	Array.from(grandTotalBlock.children).forEach(gtChild => {
 		reportData.appendChild(gtChild);
 	})
