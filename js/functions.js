@@ -199,6 +199,7 @@ export function createSelectBox(id, labelText, jsFunction) {
 	select.className = "row form-select mx-1 my-0 px-1 py-0";
 	select.style.fontSize = "0.85em";
 	select.setAttribute("onChange", jsFunction);
+	select.setAttribute("onClick", jsFunction);
 	let blankOpt = document.createElement("option");
 	blankOpt.value = "";
 	blankOpt.innerText = "";
