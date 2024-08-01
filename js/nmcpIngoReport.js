@@ -153,264 +153,269 @@ export async function execute() {
 	let storagePapProviderList = JSON.parse(localStorage.getItem("papProviderList"));
 	let storagePapMmwVsIcmv = JSON.parse(localStorage.getItem("papMMWvsICMV"));
 	let storagePapVillageList = JSON.parse(localStorage.getItem("papVillageList"));
-	ptData.forEach((tei) => {
-		let enrollments = tei["enrollments"];
-		enrollments.forEach((enrollment) => {
-			let sex = "";
-			let attributes = enrollment["attributes"];
-			attributes.forEach((attribute) => {
-				if (attribute["attribute"] == "oindugucx72") {
-					// print(`Sex: ${attribute["value"]}`)
-					sex = attribute["value"].substring(0, 1);
-				}
-			});
-
-			let events = enrollment["events"];
-			events.forEach((event) => {
-				if (event["programStage"] == "hYyB7FUS5eR") {
-					let orgUnit = "";
-					let cblMth = "";
-					let cblYr = "";
-					let personCode = "";
-					let providerLocation = "";
-					let ageGroup = "";
-					let preg = "";
-					let testResult = "";
-					let vill = "";
-					let sc = "";
-					let rhc = "";
-					let township = "";
-					let stateRegion = "";
-
-					let dataValues = event["dataValues"];
-					dataValues.forEach((dataValue) => {
-						let deId = dataValue["dataElement"];
-						switch (deId) {
-							case "vGxpKVMkmaW":
-								testResult = dataValue["value"];
-								break;
-							case "n3Bkq0yjIa7":
-								cblMth = dataValue["value"];
-								break;
-							case "mHmqOLqzXB2":
-								cblYr = dataValue["value"];
-								break;
-							case "AS3g1pCXG7z":
-								personCode = dataValue["value"];
-								break;
-							case "oeXoBvaL8B8":
-								providerLocation = dataValue["value"];
-								break;
-							case "LMdJwJW68yO":
-								preg = dataValue["value"].substring(0, 1);
-								break;
-							case "ECVGASvuHV3":
-								let ptAge = Number(dataValue["value"]);
-								if (ptAge >= 15) {
-									ageGroup = ">15yr";
-								} else if (ptAge >= 10) {
-									ageGroup = "10-14yr";
-								} else if (ptAge >= 5) {
-									ageGroup = "5-9yr";
-								} else if (ptAge >= 1) {
-									ageGroup = "1-4yr";
-								} else {
-									ageGroup = "<1yr";
-								}
-								break;
-						}
-					});
-					let cblPeriod = new Date(`${cblMth}-${cblYr} UTC`);
-
-					let providerAbb = personCode.substring(3, 4);
-					let providerVillageCode = "";
-					let finalPersonCode = "";
-					console.log(`${personCode}`);
-					// console.log(event);
-					if (providerAbb != "T" && providerAbb != "G" && providerAbb != "P" && providerAbb != "R") {
-						if (providerAbb == "M") {
-							finalPersonCode = storagePapMmwVsIcmv[personCode];
-							let icmvCode = `${finalPersonCode}01`;
-							let icmvCodeAbb = icmvCode.substring(3, 4);
-							providerVillageCode = storagePapProviderList[icmvCodeAbb][icmvCode]["Assigned_village_code"];
-						} else if (providerAbb == "V" || providerAbb == "W" || providerAbb == "O") {
-							finalPersonCode = personCode.substring(0, 7);
-							providerVillageCode = storagePapProviderList[providerAbb][personCode]["Assigned_village_code"];
-						}
-
-						Object.keys(orgUnitData).forEach((orgUnitId) => {
-							let orgUnitVillageCode = orgUnitData[orgUnitId]["code"];
-							if (orgUnitVillageCode == providerVillageCode) {
-								orgUnit = orgUnitId;
+	try{
+		ptData.forEach((tei) => {
+			let enrollments = tei["enrollments"];
+			enrollments.forEach((enrollment) => {
+				let sex = "";
+				let attributes = enrollment["attributes"];
+				attributes.forEach((attribute) => {
+					if (attribute["attribute"] == "oindugucx72") {
+						// print(`Sex: ${attribute["value"]}`)
+						sex = attribute["value"].substring(0, 1);
+					}
+				});
+	
+				let events = enrollment["events"];
+				events.forEach((event) => {
+					if (event["programStage"] == "hYyB7FUS5eR") {
+						let orgUnit = "";
+						let cblMth = "";
+						let cblYr = "";
+						let personCode = "";
+						let providerLocation = "";
+						let ageGroup = "";
+						let preg = "";
+						let testResult = "";
+						let vill = "";
+						let sc = "";
+						let rhc = "";
+						let township = "";
+						let stateRegion = "";
+	
+						let dataValues = event["dataValues"];
+						dataValues.forEach((dataValue) => {
+							let deId = dataValue["dataElement"];
+							switch (deId) {
+								case "vGxpKVMkmaW":
+									testResult = dataValue["value"];
+									break;
+								case "n3Bkq0yjIa7":
+									cblMth = dataValue["value"];
+									break;
+								case "mHmqOLqzXB2":
+									cblYr = dataValue["value"];
+									break;
+								case "AS3g1pCXG7z":
+									personCode = dataValue["value"];
+									break;
+								case "oeXoBvaL8B8":
+									providerLocation = dataValue["value"];
+									break;
+								case "LMdJwJW68yO":
+									preg = dataValue["value"].substring(0, 1);
+									break;
+								case "ECVGASvuHV3":
+									let ptAge = Number(dataValue["value"]);
+									if (ptAge >= 15) {
+										ageGroup = ">15yr";
+									} else if (ptAge >= 10) {
+										ageGroup = "10-14yr";
+									} else if (ptAge >= 5) {
+										ageGroup = "5-9yr";
+									} else if (ptAge >= 1) {
+										ageGroup = "1-4yr";
+									} else {
+										ageGroup = "<1yr";
+									}
+									break;
 							}
-							// switch (orgUnitVillageCode) {
-							// 	case providerVillageCode:
-							// 		orgUnit = orgUnitId;
-							// 		break;
-							// }
 						});
-
-						// console.log(orgUnitData[orgUnit]);
-						vill = orgUnitData[orgUnit]["name"];
-						sc = orgUnitData[orgUnit]["parent"]["name"];
-						rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
-						township = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
-						stateRegion = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"]["parent"]["name"];
-					} else {
-						orgUnit = providerLocation;
-						try {
+						let cblPeriod = new Date(`${cblMth}-${cblYr} UTC`);
+	
+						let providerAbb = personCode.substring(3, 4);
+						let providerVillageCode = "";
+						let finalPersonCode = "";
+						console.log(`${personCode}`);
+						// console.log(event);
+						if (providerAbb != "T" && providerAbb != "G" && providerAbb != "P" && providerAbb != "R") {
+							if (providerAbb == "M") {
+								finalPersonCode = storagePapMmwVsIcmv[personCode];
+								let icmvCode = `${finalPersonCode}01`;
+								let icmvCodeAbb = icmvCode.substring(3, 4);
+								providerVillageCode = storagePapProviderList[icmvCodeAbb][icmvCode]["Assigned_village_code"];
+							} else if (providerAbb == "V" || providerAbb == "W" || providerAbb == "O") {
+								finalPersonCode = personCode.substring(0, 7);
+								providerVillageCode = storagePapProviderList[providerAbb][personCode]["Assigned_village_code"];
+							}
+	
+							Object.keys(orgUnitData).forEach((orgUnitId) => {
+								let orgUnitVillageCode = orgUnitData[orgUnitId]["code"];
+								if (orgUnitVillageCode == providerVillageCode) {
+									orgUnit = orgUnitId;
+								}
+								// switch (orgUnitVillageCode) {
+								// 	case providerVillageCode:
+								// 		orgUnit = orgUnitId;
+								// 		break;
+								// }
+							});
+	
+							// console.log(orgUnitData[orgUnit]);
 							vill = orgUnitData[orgUnit]["name"];
 							sc = orgUnitData[orgUnit]["parent"]["name"];
 							rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
 							township = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
 							stateRegion = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"]["parent"]["name"];
-						} catch {
-							let tspAbb = personCode.substring(0, 3);
-							// console.log(tspAbb);
-							let storagePapTspList = JSON.parse(localStorage.getItem("papTspList"));
-							Object.keys(storagePapTspList).forEach((tsp) => {
-								if (tsp["TSPABB"] == tspAbb) {
-									stateRegion = tsp["StateRegion"];
-									township = tsp["Township"];
-									rhc = "Not defined";
-									sc = "Not defined";
-									vill = "Not defined";
-								}
-							});
+						} else {
+							orgUnit = providerLocation;
+							try {
+								vill = orgUnitData[orgUnit]["name"];
+								sc = orgUnitData[orgUnit]["parent"]["name"];
+								rhc = orgUnitData[orgUnit]["parent"]["parent"]["name"];
+								township = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["name"];
+								stateRegion = orgUnitData[orgUnit]["parent"]["parent"]["parent"]["parent"]["parent"]["name"];
+							} catch {
+								let tspAbb = personCode.substring(0, 3);
+								// console.log(tspAbb);
+								let storagePapTspList = JSON.parse(localStorage.getItem("papTspList"));
+								Object.keys(storagePapTspList).forEach((tsp) => {
+									if (tsp["TSPABB"] == tspAbb) {
+										stateRegion = tsp["StateRegion"];
+										township = tsp["Township"];
+										rhc = "Not defined";
+										sc = "Not defined";
+										vill = "Not defined";
+									}
+								});
+							}
 						}
-					}
-					console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}, ${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
-					// console.log(`${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
-					cblPeriod = cblPeriod.toISOString();
-					cblPeriod = cblPeriod.substring(0, 7);
-					if (!(stateRegion in finalData)) {
-						finalData[stateRegion] = {};
-						finalData[stateRegion]["total"] = deepCopy(dataTemplate);
-					}
-					if (!(township in finalData[stateRegion])) {
-						finalData[stateRegion][township] = {};
-						finalData[stateRegion][township]["total"] = deepCopy(dataTemplate);
-					}
-					if (!(cblPeriod in finalData[stateRegion][township])) {
-						finalData[stateRegion][township][cblPeriod] = {};
-						finalData[stateRegion][township][cblPeriod]["total"] = deepCopy(dataTemplate);
-					}
-
-					let finalPersonCodeAbb = finalPersonCode.substring(3, 4);
-					let finalPersonCodeAbbKey = "";
-					switch (finalPersonCodeAbb) {
-						case "V":
-							finalPersonCodeAbbKey = "ICMV";
-							break;
-						case "W":
-							finalPersonCodeAbbKey = "ICMV";
-							break;
-						case "T":
-							finalPersonCodeAbbKey = "Mobile";
-							break;
-						case "G":
-							finalPersonCodeAbbKey = "Private";
-							break;
-						case "O":
-							finalPersonCodeAbbKey = "Private";
-							break;
-						default:
-							finalPersonCodeAbbKey = "Other";
-							break;
-					}
-					if (!(finalPersonCodeAbbKey in finalData[stateRegion][township][cblPeriod])) {
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey] = {};
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"] = deepCopy(dataTemplate);
-					}
-
-					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey])) {
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode] = {};
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["icmvCode"] = finalPersonCode;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["stateRegion"] = stateRegion;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["township"] = township;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["rhc"] = rhc;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["sc"] = sc;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"] = deepCopy(dataTemplate);
-					}
-					let srTotal = finalData[stateRegion]["total"];
-					let tspTotal = finalData[stateRegion][township]["total"];
-					let periodTotal = finalData[stateRegion][township][cblPeriod]["total"];
-					let providerTypeTotal = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"];
-					let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"];
-					dataContent[ageGroup][`test${sex}`] += 1;
-					dataContent["total"][`test${sex}`] += 1;
-					periodTotal[ageGroup][`test${sex}`] += 1;
-					periodTotal["total"][`test${sex}`] += 1;
-					providerTypeTotal[ageGroup][`test${sex}`] += 1;
-					providerTypeTotal["total"][`test${sex}`] += 1;
-					tspTotal[ageGroup][`test${sex}`] += 1;
-					tspTotal["total"][`test${sex}`] += 1;
-					srTotal[ageGroup][`test${sex}`] += 1;
-					srTotal["total"][`test${sex}`] += 1;
-
-					if (preg == "Y") {
-						dataContent["preg"][`test${sex}`] += 1;
-						periodTotal["preg"][`test${sex}`] += 1;
-						providerTypeTotal["preg"][`test${sex}`] += 1;
+						console.log(`${finalPersonCode}, ${personCode}, ${providerVillageCode}, ${orgUnit}, ${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
+						// console.log(`${stateRegion}, ${township}, ${rhc}, ${sc}, ${vill}`);
+						cblPeriod = cblPeriod.toISOString();
+						cblPeriod = cblPeriod.substring(0, 7);
+						if (!(stateRegion in finalData)) {
+							finalData[stateRegion] = {};
+							finalData[stateRegion]["total"] = deepCopy(dataTemplate);
+						}
+						if (!(township in finalData[stateRegion])) {
+							finalData[stateRegion][township] = {};
+							finalData[stateRegion][township]["total"] = deepCopy(dataTemplate);
+						}
+						if (!(cblPeriod in finalData[stateRegion][township])) {
+							finalData[stateRegion][township][cblPeriod] = {};
+							finalData[stateRegion][township][cblPeriod]["total"] = deepCopy(dataTemplate);
+						}
+	
+						let finalPersonCodeAbb = finalPersonCode.substring(3, 4);
+						let finalPersonCodeAbbKey = "";
+						switch (finalPersonCodeAbb) {
+							case "V":
+								finalPersonCodeAbbKey = "ICMV";
+								break;
+							case "W":
+								finalPersonCodeAbbKey = "ICMV";
+								break;
+							case "T":
+								finalPersonCodeAbbKey = "Mobile";
+								break;
+							case "G":
+								finalPersonCodeAbbKey = "Private";
+								break;
+							case "O":
+								finalPersonCodeAbbKey = "Private";
+								break;
+							default:
+								finalPersonCodeAbbKey = "Other";
+								break;
+						}
+						if (!(finalPersonCodeAbbKey in finalData[stateRegion][township][cblPeriod])) {
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey] = {};
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"] = deepCopy(dataTemplate);
+						}
+	
+						if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey])) {
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode] = {};
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["icmvCode"] = finalPersonCode;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["stateRegion"] = stateRegion;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["township"] = township;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["rhc"] = rhc;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["sc"] = sc;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
+							finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"] = deepCopy(dataTemplate);
+						}
+						let srTotal = finalData[stateRegion]["total"];
+						let tspTotal = finalData[stateRegion][township]["total"];
+						let periodTotal = finalData[stateRegion][township][cblPeriod]["total"];
+						let providerTypeTotal = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"];
+						let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"];
+						dataContent[ageGroup][`test${sex}`] += 1;
+						dataContent["total"][`test${sex}`] += 1;
+						periodTotal[ageGroup][`test${sex}`] += 1;
+						periodTotal["total"][`test${sex}`] += 1;
+						providerTypeTotal[ageGroup][`test${sex}`] += 1;
+						providerTypeTotal["total"][`test${sex}`] += 1;
+						tspTotal[ageGroup][`test${sex}`] += 1;
+						tspTotal["total"][`test${sex}`] += 1;
+						srTotal[ageGroup][`test${sex}`] += 1;
+						srTotal["total"][`test${sex}`] += 1;
+	
+						if (preg == "Y") {
+							dataContent["preg"][`test${sex}`] += 1;
+							periodTotal["preg"][`test${sex}`] += 1;
+							providerTypeTotal["preg"][`test${sex}`] += 1;
+							if (testResult != "Negative") {
+								dataContent["preg"][`${testResult}${sex}`] += 1;
+								dataContent["preg"][`POS${sex}`] += 1;
+								periodTotal["preg"][`${testResult}${sex}`] += 1;
+								periodTotal["preg"][`POS${sex}`] += 1;
+								providerTypeTotal["preg"][`${testResult}${sex}`] += 1;
+								providerTypeTotal["preg"][`POS${sex}`] += 1;
+								tspTotal["preg"][`${testResult}${sex}`] += 1;
+								tspTotal["preg"][`POS${sex}`] += 1;
+								srTotal["preg"][`${testResult}${sex}`] += 1;
+								srTotal["preg"][`POS${sex}`] += 1;
+							}
+						}
 						if (testResult != "Negative") {
-							dataContent["preg"][`${testResult}${sex}`] += 1;
-							dataContent["preg"][`POS${sex}`] += 1;
-							periodTotal["preg"][`${testResult}${sex}`] += 1;
-							periodTotal["preg"][`POS${sex}`] += 1;
-							providerTypeTotal["preg"][`${testResult}${sex}`] += 1;
-							providerTypeTotal["preg"][`POS${sex}`] += 1;
-							tspTotal["preg"][`${testResult}${sex}`] += 1;
-							tspTotal["preg"][`POS${sex}`] += 1;
-							srTotal["preg"][`${testResult}${sex}`] += 1;
-							srTotal["preg"][`POS${sex}`] += 1;
+							dataContent[ageGroup][`${testResult}${sex}`] += 1;
+							dataContent[ageGroup][`POS${sex}`] += 1;
+							dataContent["total"][`${testResult}${sex}`] += 1;
+							dataContent["total"][`POS${sex}`] += 1;
+							
+							periodTotal[ageGroup][`${testResult}${sex}`] += 1;
+							periodTotal[ageGroup][`POS${sex}`] += 1;
+							periodTotal["total"][`${testResult}${sex}`] += 1;
+							periodTotal["total"][`POS${sex}`] += 1;
+							
+							providerTypeTotal[ageGroup][`${testResult}${sex}`] += 1;
+							providerTypeTotal[ageGroup][`POS${sex}`] += 1;
+							providerTypeTotal["total"][`${testResult}${sex}`] += 1;
+							providerTypeTotal["total"][`POS${sex}`] += 1;
+							
+							tspTotal[ageGroup][`${testResult}${sex}`] += 1;
+							tspTotal[ageGroup][`POS${sex}`] += 1;
+							tspTotal["total"][`${testResult}${sex}`] += 1;
+							tspTotal["total"][`POS${sex}`] += 1;
+							
+							srTotal[ageGroup][`${testResult}${sex}`] += 1;
+							srTotal[ageGroup][`POS${sex}`] += 1;
+							srTotal["total"][`${testResult}${sex}`] += 1;
+							srTotal["total"][`POS${sex}`] += 1;
 						}
 					}
-					if (testResult != "Negative") {
-						dataContent[ageGroup][`${testResult}${sex}`] += 1;
-						dataContent[ageGroup][`POS${sex}`] += 1;
-						dataContent["total"][`${testResult}${sex}`] += 1;
-						dataContent["total"][`POS${sex}`] += 1;
-						
-						periodTotal[ageGroup][`${testResult}${sex}`] += 1;
-						periodTotal[ageGroup][`POS${sex}`] += 1;
-						periodTotal["total"][`${testResult}${sex}`] += 1;
-						periodTotal["total"][`POS${sex}`] += 1;
-						
-						providerTypeTotal[ageGroup][`${testResult}${sex}`] += 1;
-						providerTypeTotal[ageGroup][`POS${sex}`] += 1;
-						providerTypeTotal["total"][`${testResult}${sex}`] += 1;
-						providerTypeTotal["total"][`POS${sex}`] += 1;
-						
-						tspTotal[ageGroup][`${testResult}${sex}`] += 1;
-						tspTotal[ageGroup][`POS${sex}`] += 1;
-						tspTotal["total"][`${testResult}${sex}`] += 1;
-						tspTotal["total"][`POS${sex}`] += 1;
-						
-						srTotal[ageGroup][`${testResult}${sex}`] += 1;
-						srTotal[ageGroup][`POS${sex}`] += 1;
-						srTotal["total"][`${testResult}${sex}`] += 1;
-						srTotal["total"][`POS${sex}`] += 1;
-					}
-				}
+				});
 			});
 		});
-	});
-
-	console.log(finalData);
-	let selectBoxes = document.getElementById("data");
-	selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule('srChange');"));
-	selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule('tspChange');"));
-	selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "callFromModule('cblPeriodChange');"));
-	selectBoxes.appendChild(functions.createSelectBox("provider", "Provider type", "callFromModule('providerChange');"));
-
-	let srInput = document.getElementById("sr");
-	Object.keys(finalData).forEach((finalDataSr) => {
-		let srOpt = document.createElement("option");
-		srOpt.value = finalDataSr;
-		srOpt.innerHTML = finalDataSr;
-		srInput.appendChild(srOpt);
-	});
+	
+		console.log(finalData);
+		let selectBoxes = document.getElementById("data");
+		selectBoxes.appendChild(functions.createSelectBox("sr", "State/Region", "callFromModule('srChange');"));
+		selectBoxes.appendChild(functions.createSelectBox("tsp", "Township", "callFromModule('tspChange');"));
+		selectBoxes.appendChild(functions.createSelectBox("cblPeriod", "Carbonless period", "callFromModule('cblPeriodChange');"));
+		selectBoxes.appendChild(functions.createSelectBox("provider", "Provider type", "callFromModule('providerChange');"));
+	
+		let srInput = document.getElementById("sr");
+		Object.keys(finalData).forEach((finalDataSr) => {
+			let srOpt = document.createElement("option");
+			srOpt.value = finalDataSr;
+			srOpt.innerHTML = finalDataSr;
+			srInput.appendChild(srOpt);
+		});
+	}
+	catch{
+		alert("Somethin strange happened duing preparing the dataset. Maybe inconsistent data between MIS data and google sheet village list and provider list.\nPlease contact central MEL team for further instruction and bug fixes.")
+	}
 
 	functions.hideOverlay();
 }
