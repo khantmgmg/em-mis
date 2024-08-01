@@ -37,7 +37,8 @@
 			<hr class="m-1" />
 			<div id="data" class="row"></div>
 			<hr class="m-1" />
-			<table class="table table-bordered" style="font-size:0.5em;">
+			<button onclick="exportTableToExcel('nmcpreport', 'NMCP report')">Export to Excel</button>
+			<table class="table table-bordered" style="font-size:0.5em;" id="nmcpreport">
 				<thead id="reportheading">
 					<!-- <tr class="text-center">
 						<th class="align-middle" rowspan="3">Sr</th>
@@ -100,5 +101,35 @@
 					console.error("Error importing module:", error);
 				});
 		}
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	<script>
+		function exportTableToExcel(tableID, filename = '') {
+		// Get the HTML table
+		var table = document.getElementById(tableID);
+
+		// Convert the HTML table to a workbook
+		var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+		// Generate a binary string from the workbook
+		var wbout = XLSX.write(wb, {
+			bookType: 'xlsx',
+			type: 'binary'
+		});
+
+		// Function to convert a binary string to an array buffer
+		function s2ab(s) {
+			var buf = new ArrayBuffer(s.length);
+			var view = new Uint8Array(buf);
+			for (var i = 0; i < s.length; i++) {
+				view[i] = s.charCodeAt(i) & 0xFF;
+			}
+			return buf;
+		}
+
+		// Save the generated Excel file
+		saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), filename + '.xlsx');
+	}
+
 	</script>
 </html>
