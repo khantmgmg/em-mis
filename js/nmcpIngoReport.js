@@ -769,7 +769,11 @@ function createHeadCell(text, hClass = null, hRowSpan = null, hColSpan = null){
 	let th = document.createElement("th");
 	th.innerHTML = text;
 	th.className = hClass;
-	th.rowSpan = hRowSpan;
-	th.colSpan = hColSpan;
+	if (hRowSpan != null){
+		th.rowSpan = hRowSpan;
+	}
+	if (hColSpan != null){
+		th.colSpan = hColSpan;
+	}
 	return th;
 }
