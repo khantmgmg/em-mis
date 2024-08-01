@@ -21,6 +21,11 @@
 			<form id="misForm">
 				<div class="row">
 					<div class="col-5 form-group">
+						<label>Select township</label>
+						<select id="slttsp"><option value="" selected></option></select>
+						<sele type="date" class="form-control" name="sdate" id="sdate" value="2024-01-01" required />
+					</div>
+					<div class="col-5 form-group">
 						<label>Data entry date (Start):</label>
 						<input type="date" class="form-control" name="sdate" id="sdate" value="2024-01-01" required />
 					</div>
@@ -88,6 +93,7 @@
 		></script>
 	</body>
 	<script>
+		callFromModule('populateTsp');
 		function callFromModule(functionName) {
 			import("./js/nmcpIngoReport.js")
 				.then((module) => {

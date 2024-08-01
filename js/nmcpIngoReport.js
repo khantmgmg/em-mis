@@ -1,15 +1,40 @@
 import * as functions from "./functions.js";
 var finalData = {};
+
+export function populateTsp(){
+	let assignedOrgUnits = localStorage.getItem("assignedOrgUnits").split(";");
+	let orgUnitVillageList = JSON.parse(localStorage.getItem("villageList"));
+	let sltOpts = [];
+	assignedOrgUnits.forEach(assignedOrgUnit => {
+		Object.keys(orgUnitVillageList).forEach(sr => {
+			Object.keys(orgUnitVillageList[sr]["children"]).forEach(tsp => {
+				let tspId = orgUnitVillageList[sr]["children"][tsp]["id"];
+				let tspName = orgUnitVillageList[sr]["children"][tsp]["name"];
+				if (tspId == assignedOrgUnit){
+					sltOpts.push({"id": tspId, "name": tspName});
+				}
+			})
+		})
+	})
+	let tspSlt = document.getElementById("slttsp");
+	sltOpts.forEach(sltOpt => {
+		let opt = document.createElement("option");
+		opt.value = sltOpt["id"];
+		opt.innerHTML = sltOpt["name"];
+		tspSlt.appendChild(opt);
+	})
+}
+
 export async function execute() {
 	functions.showOverlay("Loading data ..................");
-
+	const sltTsp = document.getElementById("slttsp").value;
 	const sdate = document.getElementById("sdate").value;
 	const edate = document.getElementById("edate").value;
 	const domain = localStorage.getItem("domain");
 	const token = localStorage.getItem("token");
 	const headers = functions.generateHeaders(token);
-	const assignedOrgUnits = localStorage.getItem("assignedOrgUnits");
-	const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=${assignedOrgUnits}&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,programStage,dataValues[dataElement,value]]]&totalPages=true&pageSize=1000`;
+	// const assignedOrgUnits = localStorage.getItem("assignedOrgUnits");
+	const url = `${domain}/api/tracker/trackedEntities.json?enrollmentEnrolledAfter=${sdate}&enrollmentEnrolledBefore=${edate}&program=qDkgAbB5Jlk&orgUnit=${sltTsp}&ouMode=DESCENDANTS&fields=trackedEntity,enrollments[enrollment,attributes[attribute,displayName,value],events[event,status,orgUnit,orgUnitName,occurredAt,programStage,dataValues[dataElement,value]]]&totalPages=true&pageSize=1000`;
 	let cnt = true;
 	let ptData = [];
 	let page = 1;
