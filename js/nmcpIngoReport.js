@@ -541,7 +541,7 @@ function createDataBlock(grandTotal = false, gttrowSpan = 7, gttcolSpan = 7, pDa
 		}
 		
 		if (township != "" && township != null && township != "defaultTownship"){
-			let tspCell = createDescCell(tspValue, "text-left px-1 py-1");
+			let tspCell = createDescCell(township, "text-left px-1 py-1");
 			descRow.appendChild(tspCell);
 		}
 	
