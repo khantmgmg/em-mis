@@ -260,12 +260,15 @@ export async function execute() {
 					cblPeriod = cblPeriod.substring(0, 7);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
+						finalData[stateRegion]["total"] = dataTemplate;
 					}
 					if (!(township in finalData[stateRegion])) {
 						finalData[stateRegion][township] = {};
+						finalData[stateRegion][township]["total"] = dataTemplate;
 					}
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[stateRegion][township][cblPeriod] = {};
+						finalData[stateRegion][township][cblPeriod]["total"] = dataTemplate;
 					}
 
 					let finalPersonCodeAbb = finalPersonCode.substring(3, 4);
@@ -292,6 +295,7 @@ export async function execute() {
 					}
 					if (!(finalPersonCodeAbbKey in finalData[stateRegion][township][cblPeriod])) {
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey] = {};
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"] = dataTemplate;
 					}
 
 					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey])) {
@@ -306,30 +310,37 @@ export async function execute() {
 					} else {
 						console.log("Duplicated data found");
 					}
-
-					// console.log({
-					// 	personCode: finalPersonCode,
-					// 	finalPersonCode: personCode,
-					// 	stateRegion: stateRegion,
-					// 	township: township,
-					// 	rhc: rhc,
-					// 	sc: sc,
-					// 	vill: vill,
-					// 	cblPeriod: cblPeriod,
-					// 	sex: sex,
-					// 	preg: preg,
-					// 	testResult: testResult,
-					// 	ageGroup: ageGroup,
-					// });
+					let srTotal = finalData[stateRegion]["total"];
+					let tspTotal = finalData[stateRegion][township]["total"];
+					let periodTotal = finalData[stateRegion][township][cblPeriod]["total"];
+					let providerTypeTotal = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"];
 					let dataContent = finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"];
 					dataContent[ageGroup][`test${sex}`] += 1;
 					dataContent["total"][`test${sex}`] += 1;
+					periodTotal[ageGroup][`test${sex}`] += 1;
+					periodTotal["total"][`test${sex}`] += 1;
+					providerTypeTotal[ageGroup][`test${sex}`] += 1;
+					providerTypeTotal["total"][`test${sex}`] += 1;
+					tspTotal[ageGroup][`test${sex}`] += 1;
+					tspTotal["total"][`test${sex}`] += 1;
+					srTotal[ageGroup][`test${sex}`] += 1;
+					srTotal["total"][`test${sex}`] += 1;
 
 					if (preg == "Y") {
 						dataContent["preg"][`test${sex}`] += 1;
+						periodTotal["preg"][`test${sex}`] += 1;
+						providerTypeTotal["preg"][`test${sex}`] += 1;
 						if (testResult != "Negative") {
 							dataContent["preg"][`${testResult}${sex}`] += 1;
 							dataContent["preg"][`POS${sex}`] += 1;
+							periodTotal["preg"][`${testResult}${sex}`] += 1;
+							periodTotal["preg"][`POS${sex}`] += 1;
+							providerTypeTotal["preg"][`${testResult}${sex}`] += 1;
+							providerTypeTotal["preg"][`POS${sex}`] += 1;
+							tspTotal["preg"][`${testResult}${sex}`] += 1;
+							tspTotal["preg"][`POS${sex}`] += 1;
+							srTotal["preg"][`${testResult}${sex}`] += 1;
+							srTotal["preg"][`POS${sex}`] += 1;
 						}
 					}
 					if (testResult != "Negative") {
@@ -337,6 +348,26 @@ export async function execute() {
 						dataContent[ageGroup][`POS${sex}`] += 1;
 						dataContent["total"][`${testResult}${sex}`] += 1;
 						dataContent["total"][`POS${sex}`] += 1;
+						
+						periodTotal[ageGroup][`${testResult}${sex}`] += 1;
+						periodTotal[ageGroup][`POS${sex}`] += 1;
+						periodTotal["total"][`${testResult}${sex}`] += 1;
+						periodTotal["total"][`POS${sex}`] += 1;
+						
+						providerTypeTotal[ageGroup][`${testResult}${sex}`] += 1;
+						providerTypeTotal[ageGroup][`POS${sex}`] += 1;
+						providerTypeTotal["total"][`${testResult}${sex}`] += 1;
+						providerTypeTotal["total"][`POS${sex}`] += 1;
+						
+						tspTotal[ageGroup][`${testResult}${sex}`] += 1;
+						tspTotal[ageGroup][`POS${sex}`] += 1;
+						tspTotal["total"][`${testResult}${sex}`] += 1;
+						tspTotal["total"][`POS${sex}`] += 1;
+						
+						srTotal[ageGroup][`${testResult}${sex}`] += 1;
+						srTotal[ageGroup][`POS${sex}`] += 1;
+						srTotal["total"][`${testResult}${sex}`] += 1;
+						srTotal["total"][`POS${sex}`] += 1;
 					}
 				}
 			});
@@ -455,82 +486,126 @@ export function providerChange() {
 	printData = functions.sortJson(printData);
 	let srno = 1;
 	Object.keys(printData).forEach((pRhc) => {
-		let rhcName = pRhc;
 		printData[pRhc] = functions.sortJson(printData[pRhc]);
 		Object.keys(printData[pRhc]).forEach((pSc) => {
-			let scName = pSc;
 			printData[pRhc][pSc] = functions.sortJson(printData[pRhc][pSc]);
 			Object.keys(printData[pRhc][pSc]).forEach((pVill) => {
-				let villName = pVill;
 				printData[pRhc][pSc][pVill] = functions.sortJson(printData[pRhc][pSc][pVill]);
 				Object.keys(printData[pRhc][pSc][pVill]).forEach((pIcmv) => {
-					let icmvCode = pIcmv;
 					let pData = printData[pRhc][pSc][pVill][pIcmv];
-					let descRow = document.createElement("tr");
-					descRow.className = "align-middle";
-					let srnoCell = createDescCell(srno, "text-center px-1 py-1");
-					let srCell = createDescCell(srValue, "text-left px-1 py-1");
-					let tspCell = createDescCell(tspValue, "text-left px-1 py-1");
-					let rhcCell = createDescCell(pRhc, "text-left px-1 py-1");
-					let scCell = createDescCell(pSc, "text-left px-1 py-1");
-					let villCell = createDescCell(pVill, "text-left px-1 py-1");
-					let providerCodeCell = createDescCell(pIcmv, "text-left px-1 py-1");
-					let ageGroupCell = createAgeGroupCell("<1");
-					let u1TestM = createDataCell(pData["<1yr"]["testM"]);
-					let u1TestF = createDataCell(pData["<1yr"]["testF"]);
-					let u1PfM = createDataCell(pData["<1yr"]["PFM"]);
-					let u1PfF = createDataCell(pData["<1yr"]["PFF"]);
-					let u1PvM = createDataCell(pData["<1yr"]["PVM"]);
-					let u1PvF = createDataCell(pData["<1yr"]["PVF"]);
-					let u1MixM = createDataCell(pData["<1yr"]["MIXM"]);
-					let u1MixF = createDataCell(pData["<1yr"]["MIXF"]);
-					let u1PosM = createDataCell(pData["<1yr"]["POSM"]);
-					let u1PosF = createDataCell(pData["<1yr"]["POSF"]);
-					let u1GttM = createDataCell(pData["<1yr"]["testM"]);
-					let u1GttF = createDataCell(pData["<1yr"]["testF"]);
-					let u1GtpM = createDataCell(pData["<1yr"]["POSM"]);
-					let u1GtpF = createDataCell(pData["<1yr"]["POSF"]);
-					descRow.appendChild(srnoCell);
-					descRow.appendChild(srCell);
-					descRow.appendChild(tspCell);
-					descRow.appendChild(rhcCell);
-					descRow.appendChild(scCell);
-					descRow.appendChild(villCell);
-					descRow.appendChild(providerCodeCell);
-					descRow.appendChild(ageGroupCell);
-					descRow.appendChild(u1TestM);
-					descRow.appendChild(u1TestF);
-					descRow.appendChild(u1PfM);
-					descRow.appendChild(u1PfF);
-					descRow.appendChild(u1PvM);
-					descRow.appendChild(u1PvF);
-					descRow.appendChild(u1MixM);
-					descRow.appendChild(u1MixF);
-					descRow.appendChild(u1PosM);
-					descRow.appendChild(u1PosF);
-					descRow.appendChild(u1GttM);
-					descRow.appendChild(u1GttF);
-					descRow.appendChild(u1GtpM);
-					descRow.appendChild(u1GtpF);
-					let row1to4 = createDataRow("1-4 Year", pData["1-4yr"]);
-					let row5to9 = createDataRow("5-9 Year", pData["5-9yr"]);
-					let row10to14 = createDataRow("10-14 Year", pData["10-14yr"]);
-					let rowMt15 = createDataRow("15 Years and above", pData[">15yr"]);
-					let rowTotal = createDataRow("Total", pData["total"], true);
-					let rowPreg = createDataRow("Pregnant Women", pData["preg"]);
-					reportData.appendChild(descRow);
-					reportData.appendChild(row1to4);
-					reportData.appendChild(row5to9);
-					reportData.appendChild(row10to14);
-					reportData.appendChild(rowMt15);
-					reportData.appendChild(rowTotal);
-					reportData.appendChild(rowPreg);
+					let blockData = createDataBlock(false, 0, 0, pData, srno, srValue, tspValue, pRhc, pSc, pVill, pIcmv);
+					Array.from(blockData.children).forEach(child => {
+						reportData.appendChild(child);
+					})
 					srno += 1;
 				});
 			});
 		});
 	});
+	let grandTotal = finalData[srValue][tspValue][cblPeriodValue][providerValue]["total"];
+	let gtBlock = createDataBlock(true, 7 , 7, grandTotal);
+	Array.from(gtBlock.children).forEach(gtChild => {
+		reportData.appendChild(gtChild);
+	})
 }
+
+function createDataBlock(grandTotal = false, gttrowSpan = 7, gttcolSpan = 7, pData, srNo = "defaultSrNo", stateRegion = "defaultSr", township = "defaultTownship", rhc = "defaultRhc", sc = "defaultSc", vill = "defaultVill", pCode = "defaultPcode"){
+	let block = document.createElement("table");
+
+	let descRow = document.createElement("tr");
+	descRow.className = "align-middle";
+
+	if (grandTotal){
+		let gtTd = document.createElement("td");
+		gtTd.rowSpan = gttrowSpan;
+		gtTd.colSpan = gttcolSpan;
+		gtTd.className = "text-center px-1 py-1";
+		gtTd.innerHTML = "Grand total";
+		descRow.appendChild(gtTd);
+	}
+	else{
+		if (srNo != "" && srNo != null && srNo != "defaultSrNo"){
+			let srnoCell = createDescCell(srNo, "text-center px-1 py-1");
+			descRow.appendChild(srnoCell);
+		}
+		
+		if (stateRegion != "" && stateRegion != null && stateRegion != "defaultSr"){
+			let srCell = createDescCell(stateRegion, "text-left px-1 py-1");
+			descRow.appendChild(srCell);
+		}
+		
+		if (township != "" && township != null && township != "defaultTownship"){
+			let tspCell = createDescCell(tspValue, "text-left px-1 py-1");
+			descRow.appendChild(tspCell);
+		}
+	
+		if (rhc != "" && rhc != null && rhc != "defaultRhc"){
+			let rhcCell = createDescCell(rhc, "text-left px-1 py-1");
+			descRow.appendChild(rhcCell);
+		}
+	
+		if (sc != "" && sc != null && sc != "defaultSc"){
+			let scCell = createDescCell(sc, "text-left px-1 py-1");
+			descRow.appendChild(scCell);
+		}
+		
+		if (vill != "" && vill != null && vill != "defaultVill"){
+			let villCell = createDescCell(vill, "text-left px-1 py-1");
+			descRow.appendChild(villCell);
+		}
+		
+		if (pCode != "" && pCode != null && pCode != "defaultPcode"){
+			let providerCodeCell = createDescCell(pCode, "text-left px-1 py-1");
+			descRow.appendChild(providerCodeCell);
+		}
+	}
+
+	let ageGroupCell = createAgeGroupCell("<1");
+	let u1TestM = createDataCell(pData["<1yr"]["testM"]);
+	let u1TestF = createDataCell(pData["<1yr"]["testF"]);
+	let u1PfM = createDataCell(pData["<1yr"]["PFM"]);
+	let u1PfF = createDataCell(pData["<1yr"]["PFF"]);
+	let u1PvM = createDataCell(pData["<1yr"]["PVM"]);
+	let u1PvF = createDataCell(pData["<1yr"]["PVF"]);
+	let u1MixM = createDataCell(pData["<1yr"]["MIXM"]);
+	let u1MixF = createDataCell(pData["<1yr"]["MIXF"]);
+	let u1PosM = createDataCell(pData["<1yr"]["POSM"]);
+	let u1PosF = createDataCell(pData["<1yr"]["POSF"]);
+	let u1GttM = createDataCell(pData["<1yr"]["testM"]);
+	let u1GttF = createDataCell(pData["<1yr"]["testF"]);
+	let u1GtpM = createDataCell(pData["<1yr"]["POSM"]);
+	let u1GtpF = createDataCell(pData["<1yr"]["POSF"]);
+	descRow.appendChild(ageGroupCell);
+	descRow.appendChild(u1TestM);
+	descRow.appendChild(u1TestF);
+	descRow.appendChild(u1PfM);
+	descRow.appendChild(u1PfF);
+	descRow.appendChild(u1PvM);
+	descRow.appendChild(u1PvF);
+	descRow.appendChild(u1MixM);
+	descRow.appendChild(u1MixF);
+	descRow.appendChild(u1PosM);
+	descRow.appendChild(u1PosF);
+	descRow.appendChild(u1GttM);
+	descRow.appendChild(u1GttF);
+	descRow.appendChild(u1GtpM);
+	descRow.appendChild(u1GtpF);
+	let row1to4 = createDataRow("1-4 Year", pData["1-4yr"]);
+	let row5to9 = createDataRow("5-9 Year", pData["5-9yr"]);
+	let row10to14 = createDataRow("10-14 Year", pData["10-14yr"]);
+	let rowMt15 = createDataRow("15 Years and above", pData[">15yr"]);
+	let rowTotal = createDataRow("Total", pData["total"], true);
+	let rowPreg = createDataRow("Pregnant Women", pData["preg"]);
+	block.appendChild(descRow);
+	block.appendChild(row1to4);
+	block.appendChild(row5to9);
+	block.appendChild(row10to14);
+	block.appendChild(rowMt15);
+	block.appendChild(rowTotal);
+	block.appendChild(rowPreg);
+	return block;
+}
+
 
 function createDescCell(text, cellClass) {
 	let cell = document.createElement("td");
