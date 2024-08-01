@@ -468,13 +468,13 @@ export function providerChange() {
 					let pData = printData[pRhc][pSc][pVill][pIcmv];
 					let descRow = document.createElement("tr");
 					descRow.className = "align-middle";
-					let srnoCell = createDescCell(srno, "text-center");
-					let srCell = createDescCell(srValue, "text-left");
-					let tspCell = createDescCell(tspValue, "text-left");
-					let rhcCell = createDescCell(pRhc, "text-left");
-					let scCell = createDescCell(pSc, "text-left");
-					let villCell = createDescCell(pVill, "text-left");
-					let providerCodeCell = createDescCell(pIcmv, "text-left");
+					let srnoCell = createDescCell(srno, "text-center px-1 py-1");
+					let srCell = createDescCell(srValue, "text-left px-1 py-1");
+					let tspCell = createDescCell(tspValue, "text-left px-1 py-1");
+					let rhcCell = createDescCell(pRhc, "text-left px-1 py-1");
+					let scCell = createDescCell(pSc, "text-left px-1 py-1");
+					let villCell = createDescCell(pVill, "text-left px-1 py-1");
+					let providerCodeCell = createDescCell(pIcmv, "text-left px-1 py-1");
 					let ageGroupCell = createAgeGroupCell("<1");
 					let u1TestM = createDataCell(pData["<1yr"]["testM"]);
 					let u1TestF = createDataCell(pData["<1yr"]["testF"]);
@@ -542,14 +542,14 @@ function createDescCell(text, cellClass) {
 
 function createAgeGroupCell(text) {
 	let cell = document.createElement("td");
-	cell.className = "text-left";
+	cell.className = "text-left px-1 py-1";
 	cell.innerHTML = text;
 	return cell;
 }
 
 function createDataCell(value, boldText = false) {
 	let cell = document.createElement("td");
-	cell.className = boldText ? "text-end fw-bold" : "text-end";
+	cell.className = boldText ? "text-end fw-bold px-1 py-1" : "text-end px-1 py-1";
 	cell.innerHTML = value;
 	return cell;
 }
