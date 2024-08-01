@@ -26,6 +26,7 @@ export function populateTsp(){
 }
 
 export async function execute() {
+	finalData = {};
 	functions.showOverlay("Loading data ..................");
 	const sltTsp = document.getElementById("slttsp").value;
 	const sdate = document.getElementById("sdate").value;
