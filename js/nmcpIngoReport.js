@@ -464,27 +464,29 @@ export function providerChange() {
 	let printData = {};
 	console.log(finalData[srValue][tspValue][cblPeriodValue][providerValue]);
 	Object.keys(finalData[srValue][tspValue][cblPeriodValue][providerValue]).forEach((providerCode) => {
-		let tmpData = finalData[srValue][tspValue][cblPeriodValue][providerValue][providerCode];
-		let rhc = tmpData["rhc"];
-		let sc = tmpData["sc"];
-		let vill = tmpData["vill"];
-		let icmvCode = tmpData["icmvCode"];
-		let data = tmpData["data"];
-		if (!(rhc in printData)) {
-			printData[rhc] = {};
+		if (providerCode != "total"){
+			let tmpData = finalData[srValue][tspValue][cblPeriodValue][providerValue][providerCode];
+			let rhc = tmpData["rhc"];
+			let sc = tmpData["sc"];
+			let vill = tmpData["vill"];
+			let icmvCode = tmpData["icmvCode"];
+			let data = tmpData["data"];
+			if (!(rhc in printData)) {
+				printData[rhc] = {};
+			}
+			if (!(sc in printData[rhc])) {
+				printData[rhc][sc] = {};
+			}
+			if (!(vill in printData[rhc][sc])) {
+				printData[rhc][sc][vill] = {};
+			}
+			if (!(icmvCode in printData[rhc][sc][vill])) {
+				printData[rhc][sc][vill][icmvCode] = data;
+			} else {
+				console.log(`Duplicate data found: ${icmvCode}`);
+			}
+			console.log(printData);
 		}
-		if (!(sc in printData[rhc])) {
-			printData[rhc][sc] = {};
-		}
-		if (!(vill in printData[rhc][sc])) {
-			printData[rhc][sc][vill] = {};
-		}
-		if (!(icmvCode in printData[rhc][sc][vill])) {
-			printData[rhc][sc][vill][icmvCode] = data;
-		} else {
-			console.log(`Duplicate data found: ${icmvCode}`);
-		}
-		console.log(printData);
 	});
 
 	let reportData = document.getElementById("reportdata");
