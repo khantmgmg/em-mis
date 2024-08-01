@@ -403,10 +403,12 @@ export function srChange() {
 	let srValue = srInput.value;
 	let srJson = finalData[srValue];
 	Object.keys(srJson).forEach((tsp) => {
-		let tspOpt = document.createElement("option");
-		tspOpt.value = tsp;
-		tspOpt.innerHTML = tsp;
-		tspInput.appendChild(tspOpt);
+		if (tsp != "total"){
+			let tspOpt = document.createElement("option");
+			tspOpt.value = tsp;
+			tspOpt.innerHTML = tsp;
+			tspInput.appendChild(tspOpt);
+		}
 	});
 }
 
@@ -421,10 +423,12 @@ export function tspChange() {
 	let tspValue = tspInput.value;
 	let tspJson = finalData[srValue][tspValue];
 	Object.keys(tspJson).forEach((cblPeriod) => {
-		let cblPeriodOpt = document.createElement("option");
-		cblPeriodOpt.value = cblPeriod;
-		cblPeriodOpt.innerHTML = cblPeriod;
-		cblPeriodInput.appendChild(cblPeriodOpt);
+		if (cblPeriod != "total"){
+			let cblPeriodOpt = document.createElement("option");
+			cblPeriodOpt.value = cblPeriod;
+			cblPeriodOpt.innerHTML = cblPeriod;
+			cblPeriodInput.appendChild(cblPeriodOpt);
+		}
 	});
 }
 
@@ -439,10 +443,12 @@ export function cblPeriodChange() {
 	let cblPeriodValue = cblPeriodInput.value;
 	let cblJson = finalData[srValue][tspValue][cblPeriodValue];
 	Object.keys(cblJson).forEach((provider) => {
-		let providerOpt = document.createElement("option");
-		providerOpt.value = provider;
-		providerOpt.innerHTML = provider;
-		providerInput.appendChild(providerOpt);
+		if (provider != "total"){
+			let providerOpt = document.createElement("option");
+			providerOpt.value = provider;
+			providerOpt.innerHTML = provider;
+			providerInput.appendChild(providerOpt);
+		}
 	});
 }
 
