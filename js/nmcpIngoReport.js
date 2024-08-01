@@ -260,15 +260,15 @@ export async function execute() {
 					cblPeriod = cblPeriod.substring(0, 7);
 					if (!(stateRegion in finalData)) {
 						finalData[stateRegion] = {};
-						finalData[stateRegion]["total"] = dataTemplate;
+						finalData[stateRegion]["total"] = deepCopy(dataTemplate);
 					}
 					if (!(township in finalData[stateRegion])) {
 						finalData[stateRegion][township] = {};
-						finalData[stateRegion][township]["total"] = dataTemplate;
+						finalData[stateRegion][township]["total"] = deepCopy(dataTemplate);
 					}
 					if (!(cblPeriod in finalData[stateRegion][township])) {
 						finalData[stateRegion][township][cblPeriod] = {};
-						finalData[stateRegion][township][cblPeriod]["total"] = dataTemplate;
+						finalData[stateRegion][township][cblPeriod]["total"] = deepCopy(dataTemplate);
 					}
 
 					let finalPersonCodeAbb = finalPersonCode.substring(3, 4);
@@ -295,7 +295,7 @@ export async function execute() {
 					}
 					if (!(finalPersonCodeAbbKey in finalData[stateRegion][township][cblPeriod])) {
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey] = {};
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"] = dataTemplate;
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey]["total"] = deepCopy(dataTemplate);
 					}
 
 					if (!(finalPersonCode in finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey])) {
@@ -306,9 +306,7 @@ export async function execute() {
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["rhc"] = rhc;
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["sc"] = sc;
 						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["vill"] = vill;
-						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"] = dataTemplate;
-					} else {
-						console.log("Duplicated data found");
+						finalData[stateRegion][township][cblPeriod][finalPersonCodeAbbKey][finalPersonCode]["data"] = deepCopy(dataTemplate);
 					}
 					let srTotal = finalData[stateRegion]["total"];
 					let tspTotal = finalData[stateRegion][township]["total"];
@@ -670,4 +668,8 @@ function createDataRow(ageGpText, data, boldText = false) {
 	row.appendChild(gtpM);
 	row.appendChild(gtpF);
 	return row;
+}
+
+function deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj));
 }
